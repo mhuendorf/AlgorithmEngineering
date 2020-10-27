@@ -9,10 +9,9 @@
 #include <iomanip>
 
 
-Point2D::Point2D(int x, int y, Box* box) {
-    this->x = x;
-    this->y = y;
-    this->box = box;
+Point2D::Point2D(int x, int y, std::unique_ptr<Box> boxParam) : x(x), y(y), box(std::move(boxParam)) 
+{
+
 }
 
 std::ostream &operator<<(std::ostream &ostream, const Point2D &point2D) {
