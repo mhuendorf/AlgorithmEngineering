@@ -2,7 +2,7 @@
 // Created by Marcel Hündorf on 26.10.20.
 //
 
-#include "Box.hpp"
+#include <representations/Box.hpp>
 
 #include <iostream>
 #include <iomanip>

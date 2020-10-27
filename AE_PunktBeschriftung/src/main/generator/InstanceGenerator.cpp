@@ -2,8 +2,8 @@
 // Created by Marcel Hündorf on 26.10.20.
 //
 
-#include "InstanceGenerator.hpp"
-#include "../representations/Instance.hpp"
+#include <generator/InstanceGenerator.hpp>
+#include <representations/Instance.hpp>
 
 #include <cstdlib>
 #include <iostream>

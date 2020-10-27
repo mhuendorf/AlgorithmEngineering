@@ -1,8 +1,8 @@
 #include <iostream>
-#include "../main/representations/Box.hpp"
-#include "../main/representations/Point2D.hpp"
-#include "../main/representations/Instance.hpp"
-#include "../main/generator/InstanceGenerator.hpp"
+#include <representations/Box.hpp>
+#include <representations/Point2D.hpp>
+#include <representations/Instance.hpp>
+#include <generator/InstanceGenerator.hpp>
 
 int main() {
     Instance instance = InstanceGenerator::generateInstance(100, 50,  20, 10, 5, 10);

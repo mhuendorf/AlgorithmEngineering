@@ -2,9 +2,10 @@
 // Created by Marcel Hündorf on 26.10.20.
 //
 
+#include <representations/Instance.hpp>
+#include <representations/Point2D.hpp>
+
 #include <iostream>
-#include "Instance.hpp"
-#include "Point2D.hpp"
 #include <memory>
 
 Instance::Instance() {
