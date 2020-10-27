@@ -2,8 +2,8 @@
 // Created by Marcel Hündorf on 26.10.20.
 //
 
-#include "Point2D.hpp"
-#include "Box.hpp"
+#include "../../include/representations/Point2D.hpp"
+#include "../../include/representations/Box.hpp"
 
 #include <iostream>
 #include <iomanip>

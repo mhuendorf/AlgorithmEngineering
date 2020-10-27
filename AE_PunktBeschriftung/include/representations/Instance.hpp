@@ -16,7 +16,8 @@ private:
 
 public:
     Instance();
-
+    int size();
+    std::unique_ptr<std::vector<Point2D>> getPoints();
     void operator+(Point2D &point2D);
 };
 
