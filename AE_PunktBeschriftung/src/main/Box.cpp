@@ -3,7 +3,6 @@
 //
 
 #include <representations/Box.hpp>
-
 #include <iostream>
 #include <iomanip>
 

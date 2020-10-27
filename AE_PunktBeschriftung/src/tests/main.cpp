@@ -1,5 +1,5 @@
 #include <iostream>
-#include <representations/Box.hpp>
+#include "representations/Box.hpp"
 #include <representations/Point2D.hpp>
 #include <representations/Instance.hpp>
 #include <generator/InstanceGenerator.hpp>
