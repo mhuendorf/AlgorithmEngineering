@@ -2,8 +2,8 @@
 // Created by Marcel Hündorf on 26.10.20.
 //
 
-#include "../../include/representations/Instance.hpp"
-#include "../../include/generator/InstanceGenerator.hpp"
+#include <generator/InstanceGenerator.hpp>
+#include <representations/Instance.hpp>
 
 #include <cstdlib>
 #include <iostream>
@@ -11,9 +11,11 @@
 #include <mach/mach_types.h>
 #include <sstream>
 #include <string>
+#include <memory>
+#include <utility>
 
 Instance
-InstanceGenerator::generateInstance(int numPoints,  int fieldWidth, int fieldHeight, int maxBoxWidth ,int maxBoxHeight,
+InstanceGenerator::generateInstance(int numPoints,  int fieldWidth, int fieldHeight, int maxBoxWidth, int maxBoxHeight,
                                     unsigned int seed) {
     std::ifstream infile("../res/city_names.txt");
     std::vector<std::string> labels;
@@ -26,11 +28,11 @@ InstanceGenerator::generateInstance(int numPoints,  int fieldWidth, int fieldHei
     srand(seed);
 
     int labelSize = labels.size();
-    Instance instance = Instance();
+    Instance instance;
     for (int i = 0; i < numPoints; ++i) {
-        Box* box = new Box(rand()%maxBoxWidth+1, rand()%fieldHeight+1, labels.at(rand()%labelSize));
-        Point2D point2D(rand()%fieldWidth+1, rand()%fieldHeight+1, box);
-        instance + point2D;
+        std::unique_ptr<Box> box = std::make_unique<Box>(rand()%maxBoxWidth+1, rand()%fieldHeight+1, labels.at(rand()%labelSize));
+        std::unique_ptr<Point2D> point2D = std::make_unique<Point2D>(rand()%fieldWidth+1, rand()%fieldHeight+1, std::move(box));
+        instance + std::move(point2D);
     }
 
     srand(1);
