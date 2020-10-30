@@ -8,16 +8,17 @@
 #include <stack>
 #include <vector>
 #include "Point2D.hpp"
+#include <memory>
 
 class Instance {
 private:
-    std::vector<Point2D> points;
+    std::vector< std::unique_ptr<Point2D> > points;
     friend std::ostream& operator<<(std::ostream& ostream, const Instance& instance);
 
 public:
     Instance();
 
-    void operator+(Point2D &point2D);
+    void operator+(std::unique_ptr<Point2D> point2D);
 };
 
 

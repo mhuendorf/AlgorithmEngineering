@@ -5,18 +5,18 @@
 #ifndef UNTITLED_POINT2D_HPP
 #define UNTITLED_POINT2D_HPP
 
-
+#include <memory>
 #include "Box.hpp"
 
 class Point2D {
 private:
-    Box* box;
     int x;
     int y;
+    std::unique_ptr<Box> box;
     friend std::ostream& operator<<(std::ostream&, const Point2D&);
 
 public:
-    Point2D(int x, int y, Box *box);
+    Point2D(int x, int y, std::unique_ptr<Box> boxParam);
 };
 
 
