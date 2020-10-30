@@ -18,8 +18,11 @@ private:
 public:
     Instance();
 
+    Instance(std::string filename);
+
     void operator+(std::unique_ptr<Point2D> point2D);
 };
 
+std::unique_ptr<Point2D> parseLine(std::string const& line);
 
 #endif //UNTITLED_INSTANCE_HPP
