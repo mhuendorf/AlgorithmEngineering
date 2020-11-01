@@ -17,6 +17,8 @@ private:
 
 public:
     Box(int width, int height, std::string label);
+    int getHeight();
+    int getWidth();
 };
 
 

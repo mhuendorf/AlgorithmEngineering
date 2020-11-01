@@ -3,7 +3,7 @@
 //
 
 #include <representations/Instance.hpp>
-#include <representations/Point2D.hpp>
+#include <representations/PointWithLabel.hpp>
 
 #include <iostream>
 #include <memory>
@@ -11,7 +11,7 @@
 Instance::Instance() {
 }
 
-void Instance::operator+(std::unique_ptr<Point2D> point2D) {
+void Instance::operator+(std::shared_ptr<PointWithLabel> point2D) {
     this->points.push_back(std::move(point2D));
 }
 
@@ -26,6 +26,6 @@ int Instance::size() {
     return this->points.size();
 }
 
-std::unique_ptr<std::vector<Point2D>> Instance::getPoints() {
-    return std::unique_ptr<std::vector<Point2D>>(&this->points);
+std::shared_ptr<PointWithLabel> Instance::getPoint(int idx) {
+    return points.at(idx);
 }

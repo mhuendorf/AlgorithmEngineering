@@ -7,19 +7,19 @@
 
 #include <stack>
 #include <vector>
-#include "Point2D.hpp"
+#include <representations/PointWithLabel.hpp>
 
 class Instance {
 private:
-    std::vector< std::unique_ptr<Point2D> > points;
+    std::vector< std::shared_ptr<PointWithLabel> > points;
     friend std::ostream& operator<<(std::ostream& ostream, const Instance& instance);
 
 public:
     Instance();
 
-    void operator+(std::unique_ptr<Point2D> point2D);
+    void operator+(std::shared_ptr<PointWithLabel> point2D);
     int size();
-    std::unique_ptr<std::vector<Point2D>> getPoints();
+    std::shared_ptr<PointWithLabel> getPoint(int idx);
 };
 
 

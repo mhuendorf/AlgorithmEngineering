@@ -7,18 +7,20 @@
 
 
 #include <iostream>
-#include "Instance.hpp"
+#include <representations/Instance.hpp>
+#include <representations/PlacedRectangle.hpp>
+#include <representations/Rectangle.hpp>
 
-enum corner{notPLaced = 0, topRight, topLeft, bottomRight, bottomLeft};
 
 class Solution {
 private:
-    std::unique_ptr<Instance> instance;
-    std::vector<corner> boxPlacements;
+    std::shared_ptr<Instance> instance;
+    std::vector<PlacedRectangle> labelBoxes;
 
 public:
-    Solution(Instance &instance);
+    explicit Solution(Instance &instance);
     bool isFeasible();
+    void placeLabel(int pointIdx, Defs::Corner cornerPlacement);
 };
 
 

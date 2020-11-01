@@ -8,33 +8,31 @@
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
-#include <mach/mach_types.h>
-#include <sstream>
-#include <string>
 #include <memory>
 #include <utility>
 
+using namespace std;
 Instance
 InstanceGenerator::generateInstance(int numPoints,  int fieldWidth, int fieldHeight, int maxBoxWidth, int maxBoxHeight,
                                     unsigned int seed) {
-    std::ifstream infile("../res/city_names.txt");
-    std::vector<std::string> labels;
+    ifstream infile("../res/city_names.txt");
+    vector<string> labels;
 
-    std::string city;
-    while (std::getline(infile, city)) {
+    string city;
+    while (getline(infile, city)) {
         labels.push_back(city);
     }
+    infile.close();
 
     srand(seed);
 
     int labelSize = labels.size();
     Instance instance;
     for (int i = 0; i < numPoints; ++i) {
-        std::unique_ptr<Box> box = std::make_unique<Box>(rand()%maxBoxWidth+1, rand()%fieldHeight+1, labels.at(rand()%labelSize));
-        std::unique_ptr<Point2D> point2D = std::make_unique<Point2D>(rand()%fieldWidth+1, rand()%fieldHeight+1, std::move(box));
-        instance + std::move(point2D);
+        shared_ptr<Box> box = make_shared<Box>(rand()%maxBoxWidth+1, rand()%maxBoxHeight+1, labels.at(rand()%labelSize));
+        shared_ptr<PointWithLabel> point2D = make_shared<PointWithLabel>(rand() % fieldWidth + 1, rand() % fieldHeight + 1, move(box));
+        instance + move(point2D);
     }
-
     srand(1);
     return instance;
 }
