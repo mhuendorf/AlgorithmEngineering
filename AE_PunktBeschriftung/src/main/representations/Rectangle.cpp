@@ -4,42 +4,46 @@
 
 #include <representations/Rectangle.hpp>
 
-Rectangle::Rectangle(Point2D &topLeft, Point2D &bottomRight) {
-    this->topLeft = make_shared<Point2D>(topLeft);
-    this->bottomRight = make_shared<Point2D>(bottomRight);
-    int width = bottomRight.x - topLeft.x;
-    int height = topLeft.y - bottomRight.y;
-
-    Point2D rightTop(topLeft.x + width, topLeft.y);
-    Point2D leftBottom(topLeft.x, topLeft.y+height);
-    this->topRight = shared_ptr<Point2D>(&rightTop);
-    this->bottomLeft = shared_ptr<Point2D>(&leftBottom);
+Rectangle::Rectangle(int x1, int y1, int x2, int y2) :
+        topLeft(x1, y1), topRight(x2, y1), bottomLeft(x1, y2), bottomRight(x2, y2) {
+    if (topLeft.y <= bottomLeft.y) throw -1;
+    if (topLeft.x >= topRight.x) throw -2;
 }
 
-bool Rectangle::isOverlapping(Rectangle &rectangle) {
+bool Rectangle::isOverlapping(const Rectangle &rectangle) const {
     // If one rectangle is on left side of other
-    if (topLeft->x >= rectangle.bottomRight->x || bottomRight->x <= rectangle.topLeft->x)
+    if (topLeft.x >= rectangle.bottomRight.x || bottomRight.x <= rectangle.topLeft.x) {
         return false;
+    }
 
     // If one rectangle is above other
-    if (topLeft->y <= rectangle.bottomRight->y || bottomRight->y >= rectangle.topLeft->y)
+    if (topLeft.y <= rectangle.bottomRight.y || bottomRight.y >= rectangle.topLeft.y) {
         return false;
+    }
     return true;
 }
 
 Point2D Rectangle::getTopLeft() {
-    return *this->topLeft;
+    return this->topLeft;
 }
 
 Point2D Rectangle::getTopRight() {
-    return *this->topRight;
+    return this->topRight;
 }
 
 Point2D Rectangle::getBottomLeft() {
-    return *this->bottomLeft;
+    return this->bottomLeft;
 }
 
 Point2D Rectangle::getBottomRight() {
-    return *this->bottomRight;
+    return this->bottomRight;
+}
+
+std::ostream &operator<<(ostream &stream, const Rectangle &rectangle) {
+    stream << "top left: " << rectangle.topLeft << " | "
+           << "top right: " << rectangle.topRight << " | "
+           << "bottom left: " << rectangle.bottomLeft << " | "
+           << "bottom right: " << rectangle.bottomRight << " | ";
+    return stream;
 }
 

@@ -5,12 +5,11 @@
 #ifndef UNTITLED_SOLVER_HPP
 #define UNTITLED_SOLVER_HPP
 
-#include <Solution.hpp>
+#include <representations/Solution.hpp>
 
 class Solver {
 public:
-    virtual Solution solve();
+    virtual shared_ptr<Solution> solve(Instance instance) = 0;
 };
-
 
 #endif //UNTITLED_SOLVER_HPP

@@ -12,18 +12,25 @@ using namespace std;
 
 class Rectangle {
 private:
-    shared_ptr<Point2D> topLeft;
-    shared_ptr<Point2D> topRight;
-    shared_ptr<Point2D> bottomRight;
-    shared_ptr<Point2D> bottomLeft;
+    const Point2D topLeft;
+    const Point2D topRight;
+    const Point2D bottomLeft;
+    const Point2D bottomRight;
 
 public:
-    Rectangle(Point2D &topLeft, Point2D &bottomRight);
-    bool isOverlapping(Rectangle &rectangle);
+    Rectangle(int x1, int y1, int x2, int y2);
+
+    [[nodiscard]] bool isOverlapping(const Rectangle &rectangle) const;
+
     Point2D getTopLeft();
+
     Point2D getTopRight();
+
     Point2D getBottomLeft();
+
     Point2D getBottomRight();
+
+    friend std::ostream &operator<<(std::ostream &stream, const Rectangle &rectangle);
 };
 
 

@@ -5,10 +5,15 @@
 #ifndef UNTITLED_DEFS_HPP
 #define UNTITLED_DEFS_HPP
 
+#include <string>
 
 class Defs {
 public:
-    enum Corner{NOT_PLACED = 0, TOP_RIGHT, TOP_LEFT, BOTTOM_LEFT, BOTTOM_RIGHT};
+    enum Corner {
+        NOT_PLACED = 0, TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT
+    };
+
+    static std::string cornerToString(Corner corner);
 };
 
 
