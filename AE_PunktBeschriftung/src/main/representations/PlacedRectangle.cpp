@@ -1,7 +1,3 @@
-//
-// Created by Marcel Hündorf on 01.11.20.
-//
-
 #include <representations/PlacedRectangle.hpp>
 
 

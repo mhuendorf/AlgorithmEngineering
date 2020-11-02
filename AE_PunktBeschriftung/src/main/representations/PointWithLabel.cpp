@@ -1,14 +1,9 @@
-//
-// Created by Marcel Hündorf on 26.10.20.
-//
-
 #include <representations/PointWithLabel.hpp>
 #include <representations/Box.hpp>
 #include <iomanip>
 
 
-PointWithLabel::PointWithLabel(int x, int y, std::shared_ptr<Box> boxParam) : x(x), y(y), box(std::move(boxParam))
-{
+PointWithLabel::PointWithLabel(int x, int y, std::shared_ptr<Box> boxParam) : x(x), y(y), box(std::move(boxParam)) {
 
 }
 

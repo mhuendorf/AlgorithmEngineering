@@ -1,7 +1,3 @@
-//
-// Created by Marcel Hündorf on 27.10.20.
-//
-
 #include <representations/Solution.hpp>
 
 Solution::Solution(Instance &instance) : labelBoxes() {

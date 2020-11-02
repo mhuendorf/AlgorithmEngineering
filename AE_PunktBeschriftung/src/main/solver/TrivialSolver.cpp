@@ -1,7 +1,3 @@
-//
-// Created by Marcel Hündorf on 02.11.20.
-//
-
 #include "solver/TrivialSolver.hpp"
 
 shared_ptr<Solution> TrivialSolver::solve(Instance instance) {

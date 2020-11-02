@@ -1,7 +1,3 @@
-//
-// Created by Marcel Hündorf on 02.11.20.
-//
-
 #include <representations/Defs.hpp>
 
 

@@ -1,7 +1,3 @@
-//
-// Created by Marcel Hündorf on 27.10.20.
-//
-
 #ifndef UNTITLED_RECTANGLE_HPP
 #define UNTITLED_RECTANGLE_HPP
 

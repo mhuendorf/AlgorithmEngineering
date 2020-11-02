@@ -1,7 +1,3 @@
-//
-// Created by Marcel Hündorf on 01.11.20.
-//
-
 #ifndef UNTITLED_DEFS_HPP
 #define UNTITLED_DEFS_HPP
 

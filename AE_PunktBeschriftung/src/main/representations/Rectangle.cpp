@@ -1,7 +1,3 @@
-//
-// Created by Marcel Hündorf on 27.10.20.
-//
-
 #include <representations/Rectangle.hpp>
 
 Rectangle::Rectangle(int x1, int y1, int x2, int y2) :
