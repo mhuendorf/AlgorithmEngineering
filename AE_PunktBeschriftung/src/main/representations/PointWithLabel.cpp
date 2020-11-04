@@ -8,7 +8,7 @@ PointWithLabel::PointWithLabel(int x, int y, std::shared_ptr<Box> boxParam) : x(
 }
 
 std::ostream &operator<<(std::ostream &ostream, const PointWithLabel &point2D) {
-    return ostream << std::setw(6) << point2D.x << std::setw(6) << point2D.y << *point2D.box;
+    return ostream << point2D.x << "\t" << point2D.y << "\t" << *point2D.box;
 }
 
 int PointWithLabel::getBoxHeight() {

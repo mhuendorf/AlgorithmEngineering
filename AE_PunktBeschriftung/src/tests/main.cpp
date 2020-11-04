@@ -7,8 +7,8 @@
 using namespace std;
 
 int main() {
-    int numPoints = 100;
-    Instance instance = InstanceGenerator::generateInstance(numPoints, 50, 50, 10, 5, 10);
+    int numPoints = 10000;
+    Instance instance = InstanceGenerator::generateInstance(numPoints, 500000, 500000, 10, 5, 10);
     cout << instance << endl;
 
     TrivialSolver trivialSolver;
