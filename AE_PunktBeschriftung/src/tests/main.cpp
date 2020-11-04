@@ -1,11 +1,19 @@
 #include <iostream>
-#include <representations/Box.hpp>
-#include <representations/Point2D.hpp>
 #include <representations/Instance.hpp>
 #include <generator/InstanceGenerator.hpp>
+#include <representations/Solution.hpp>
+#include <solver/TrivialSolver.hpp>
+
+using namespace std;
 
 int main() {
-    Instance instance = InstanceGenerator::generateInstance(100, 50,  20, 10, 5, 10);
-    std::cout << instance << std::endl;
+    int numPoints = 100;
+    Instance instance = InstanceGenerator::generateInstance(numPoints, 50, 50, 10, 5, 10);
+    cout << instance << endl;
+
+    TrivialSolver trivialSolver;
+    Solution sol = *trivialSolver.solve(instance);
+    cout << (sol.isFeasible() ? "true" : "false") << endl;
+    cout << sol;
     return 0;
 }
