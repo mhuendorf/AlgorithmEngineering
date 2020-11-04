@@ -3,12 +3,18 @@ project(labelpoints)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(labelpoints src/tests/main.cpp 
-        src/main/generator/InstanceGenerator.cpp 
-        src/main/representations/Instance.cpp 
-        src/main/representations/Point2D.cpp 
-        src/main/representations/Box.cpp)
+add_executable(test src/tests/main.cpp
+        src/main/generator/InstanceGenerator.cpp
+        src/main/representations/Instance.cpp
+        src/main/representations/PointWithLabel.cpp
+        src/main/representations/Box.cpp
+        src/main/representations/Point2D.cpp
+        src/main/representations/Solution.cpp
+        src/main/representations/Rectangle.cpp
+        src/main/representations/PlacedRectangle.cpp
+        src/main/representations/Defs.cpp src/main/solver/TrivialSolver.cpp include/solver/TrivialSolver.hpp
+        src/main/io/InstanceReader.cpp)
 
-target_include_directories(labelpoints PUBLIC include)
+target_include_directories(test PUBLIC include)
 
-target_compile_options(labelpoints PRIVATE -Wall -Werror)
+target_compile_options(test PRIVATE -Wall -Werror)
