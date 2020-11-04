@@ -4,7 +4,7 @@
 #include <representations/Instance.hpp>
 #include <generator/InstanceGenerator.hpp>
 
-int main() {
+int test() {
     Instance instance = InstanceGenerator::generateInstance(100, 50,  20, 10, 5, 10);
     std::cout << instance << std::endl;
     return 0;
