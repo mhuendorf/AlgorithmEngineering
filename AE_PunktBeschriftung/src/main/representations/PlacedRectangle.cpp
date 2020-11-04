@@ -7,7 +7,7 @@ PlacedRectangle::PlacedRectangle(int x1, int y1, int x2, int y2, Defs::Corner pl
           pointIdx(pointIdx) {
 }
 
-PlacedRectangle::PlacedRectangle(PointWithLabel &pointWithLabel, Defs::Corner placement, int pointIdx)
+PlacedRectangle::PlacedRectangle(PointWithLabel& pointWithLabel, Defs::Corner placement, int pointIdx)
         : Rectangle(getX1(pointWithLabel, placement), getY1(pointWithLabel, placement),
                     getX2(pointWithLabel, placement), getY2(pointWithLabel, placement)),
           placement(placement),

@@ -56,18 +56,12 @@ void readInstanceAndSolution(Instance& instance, Solution& solution, const strin
         instance.reserve(numOfPoints);
         solution.reserve(numOfPoints);
 
-        solution.status();
-
         int i = 0;
         while(getline(file, line)) {
 
             std::istringstream iss(line);
             vector<string> tokens{std::istream_iterator<std::string>{iss},
                             std::istream_iterator<std::string>{}};
-
-            for(auto s : tokens) {
-                std::cout << s << std::endl;
-            }
 
             int x = stoi(tokens[0]);
             int y = stoi(tokens[1]);
@@ -83,7 +77,6 @@ void readInstanceAndSolution(Instance& instance, Solution& solution, const strin
 
             instance + std::make_shared<PointWithLabel>(x, y, box);
 
-            std::cout << "Size here: " << instance.size() << std::endl;
             // TODO check validity
             if(isSet) {
                 if(upperLeftX < x) {

@@ -18,8 +18,8 @@ int main() {
     Solution testSol(test2);
     readInstanceAndSolution(test2, testSol, "../res/tinyInstanceAndSolution.txt");
 
-    // cout << test2 << endl;
-    // cout << testSol << endl;
+    cout << test2 << endl;
+    cout << testSol << endl;
 
     // int numPoints = 100;
     // Instance instance = InstanceGenerator::generateInstance(numPoints, 50, 50, 10, 5, 10);
