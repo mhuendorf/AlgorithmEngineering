@@ -29,10 +29,10 @@ unbedingt Bibliotheken zu benötigen, sprechen Sie mit mir.
 
 ### Ablaufplan
 #### Phase 1. Benchmark-Instanzen & Framework Deadline: Woche vom 9. Nov.
-(A) Sammeln bzw. generieren Sie Testinstanzen unterschiedlicher Größe, die in der Realität interessant sind. (Dies sollte mehr Zeit und Aufmerksamkeit in Anspruch nehmen als (B)!)
+**(A)** Sammeln bzw. generieren Sie Testinstanzen unterschiedlicher Größe, die in der Realität interessant sind. (Dies sollte mehr Zeit und Aufmerksamkeit in Anspruch nehmen als (B)!)
 und
 
-(B) Erstellen Sie einen funktionierenden Prototypen ihres Programms. Hier werden die Spezifikationen nun (im Gegensatz zu den meisten anderen Spezifikationen des Projekts) sehr genau angegeben, damit wir in weiterer Folge die Algorithmen der verschiedenen Gruppen leicht untereinander austauschen werden können.
+**(B)** Erstellen Sie einen funktionierenden Prototypen ihres Programms. Hier werden die Spezifikationen nun (im Gegensatz zu den meisten anderen Spezifikationen des Projekts) sehr genau angegeben, damit wir in weiterer Folge die Algorithmen der verschiedenen Gruppen leicht untereinander austauschen werden können.
 Sei progname ein beliebiger Name für ihr Programm:
 
 * Der Aufruf „progname“ (ohne Parameter) gibt auf der Konsole eine Meldung
