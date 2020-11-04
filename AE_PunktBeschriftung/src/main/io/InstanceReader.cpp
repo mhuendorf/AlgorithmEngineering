@@ -81,15 +81,15 @@ void readInstanceAndSolution(Instance& instance, Solution& solution, const strin
             if(isSet) {
                 if(upperLeftX < x) {
                     if(upperLeftY == y) {
-                        solution.placeLabel(i, Defs::BOTTOM_LEFT);
+                        solution.placeLabel(i, Defs::TOP_RIGHT);
                     } else { // y is larger
-                        solution.placeLabel(i, Defs::TOP_LEFT);
+                        solution.placeLabel(i, Defs::BOTTOM_RIGHT);
                     }
                 } else {
                     if(upperLeftY == y) {
-                        solution.placeLabel(i, Defs::BOTTOM_RIGHT);
+                        solution.placeLabel(i, Defs::TOP_LEFT);
                     } else {
-                        solution.placeLabel(i, Defs::TOP_RIGHT);
+                        solution.placeLabel(i, Defs::BOTTOM_LEFT);
                     }
                 }
             }
