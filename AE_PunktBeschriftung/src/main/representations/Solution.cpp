@@ -1,7 +1,6 @@
 #include <representations/Solution.hpp>
 
-Solution::Solution(Instance &instance) : labelBoxes() {
-    this->instance = std::make_shared<Instance>(instance);
+Solution::Solution(Instance& instance) : instance(instance), labelBoxes{} {
 }
 
 bool Solution::isFeasible() {
@@ -16,8 +15,12 @@ bool Solution::isFeasible() {
     return true;
 }
 
+void Solution::reserve(int num) {
+    this->labelBoxes.reserve(num);
+}
+
 void Solution::placeLabel(int pointIdx, Defs::Corner cornerPlacement) {
-    std::shared_ptr<PointWithLabel> pwl = instance->getPoint(pointIdx);
+    const auto& pwl = instance.getPoint(pointIdx);
     switch (cornerPlacement) {
         case Defs::TOP_LEFT: {
             int x1 = pwl->getX();
@@ -69,7 +72,7 @@ std::tuple<int, int> Solution::getBottomRight(const Point2D &topLeft, int width,
 }
 
 bool Solution::wouldFit(int pointIdx, Defs::Corner placement) {
-    PlacedRectangle pr(*instance->getPoint(pointIdx), placement, pointIdx);
+    PlacedRectangle pr(*instance.getPoint(pointIdx), placement, pointIdx);
     for (auto rect : labelBoxes) {
         if (rect.isOverlapping(pr)) {
             return false;
@@ -79,12 +82,12 @@ bool Solution::wouldFit(int pointIdx, Defs::Corner placement) {
 }
 
 std::ostream &operator<<(ostream &stream, Solution &solution) {
-    stream << solution.instance->size() << endl;
-    for (int i = 0; i < solution.instance->size(); ++i) {
+    stream << solution.instance.size() << endl;
+    for (int i = 0; i < solution.instance.size(); ++i) {
         bool isSet = false;
         for (int j = 0; j < solution.labelBoxes.size(); ++j) {
             if (solution.labelBoxes.at(j).getPointIdx() == i) {
-                stream << *solution.instance->getPoint(i) << "  \t1\t" << solution.labelBoxes.at(j).getTopLeft().x
+                stream << *solution.instance.getPoint(i) << "  \t1\t" << solution.labelBoxes.at(j).getTopLeft().x
                        << "\t"
                        << solution.labelBoxes.at(j).getTopLeft().y << std::endl;
                 isSet = true;
@@ -92,7 +95,7 @@ std::ostream &operator<<(ostream &stream, Solution &solution) {
             }
         }
         if (!isSet)
-            stream << *solution.instance->getPoint(i) << "  \t0\t0\t0" << std::endl;
+            stream << *solution.instance.getPoint(i) << "  \t0\t0\t0" << std::endl;
     }
     return stream;
 }

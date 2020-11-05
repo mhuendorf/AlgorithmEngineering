@@ -13,8 +13,12 @@
  * A class that represents a Solution of any Instance.
  */
 class Solution {
+
 private:
-    std::shared_ptr<Instance> instance;
+    
+    const Instance& instance;
+    //std::shared_ptr<Instance> instance;
+
     std::vector<PlacedRectangle> labelBoxes;
 
     std::tuple<int, int> getTopRight(const Point2D &topLeft, int width);
@@ -26,9 +30,12 @@ private:
     friend std::ostream &operator<<(std::ostream &stream, Solution &solution);
 
 public:
-    explicit Solution(Instance &instance);
+
+    explicit Solution(Instance& instance);
 
     bool isFeasible();
+
+    void reserve(int num);
 
     void placeLabel(int pointIdx, Defs::Corner cornerPlacement);
 

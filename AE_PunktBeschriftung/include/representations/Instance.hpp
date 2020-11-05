@@ -14,12 +14,13 @@ private:
 public:
     Instance();
 
+    void reserve(int num);
+
     void operator+(std::shared_ptr<PointWithLabel> point2D);
 
-    int size();
+    int size() const;
 
-    std::shared_ptr<PointWithLabel> getPoint(int idx);
+    const std::shared_ptr<PointWithLabel>& getPoint(int idx) const;
 };
-
 
 #endif //UNTITLED_INSTANCE_HPP

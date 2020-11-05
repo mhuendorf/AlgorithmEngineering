@@ -15,13 +15,13 @@ private:
 public:
     PointWithLabel(int x, int y, std::shared_ptr<Box> boxParam);
 
-    int getX();
+    int getX() const;
 
-    int getY();
+    int getY() const;
 
-    int getBoxHeight();
+    int getBoxHeight() const;
 
-    int getBoxWidth();
+    int getBoxWidth() const;
 };
 
 

@@ -11,18 +11,18 @@ std::ostream &operator<<(std::ostream &ostream, const PointWithLabel &point2D) {
     return ostream << point2D.x << "\t" << point2D.y << "\t" << *point2D.box;
 }
 
-int PointWithLabel::getBoxHeight() {
+int PointWithLabel::getBoxHeight() const {
     return box.get()->getHeight();
 }
 
-int PointWithLabel::getBoxWidth() {
+int PointWithLabel::getBoxWidth() const {
     return box.get()->getWidth();
 }
 
-int PointWithLabel::getX() {
+int PointWithLabel::getX() const {
     return x;
 }
 
-int PointWithLabel::getY() {
+int PointWithLabel::getY() const {
     return y;
 }

@@ -23,7 +23,7 @@ private:
 public:
     PlacedRectangle(int x1, int y1, int x2, int y2, Defs::Corner placement, int pointIdx);
 
-    PlacedRectangle(PointWithLabel &pointWithLabel, Defs::Corner placement, int pointIdx);
+    PlacedRectangle(PointWithLabel& pointWithLabel, Defs::Corner placement, int pointIdx);
 
     bool isOverlapping(const PlacedRectangle &placedRectangle) const;
 

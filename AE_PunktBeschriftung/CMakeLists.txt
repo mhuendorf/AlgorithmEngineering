@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.17)
-project(untitled)
+project(labelpoints)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -12,7 +12,8 @@ add_executable(test src/tests/main.cpp
         src/main/representations/Solution.cpp
         src/main/representations/Rectangle.cpp
         src/main/representations/PlacedRectangle.cpp
-        src/main/representations/Defs.cpp src/main/solver/TrivialSolver.cpp include/solver/TrivialSolver.hpp)
+        src/main/representations/Defs.cpp src/main/solver/TrivialSolver.cpp include/solver/TrivialSolver.hpp
+        src/main/io/InstanceReader.cpp)
 
 target_include_directories(test PUBLIC include)
 
