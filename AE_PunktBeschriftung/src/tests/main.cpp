@@ -10,9 +10,9 @@ using std::endl;
 
 int main() {
 
-    // Instance test;
-    // readInstance(test, "../res/tinyInstance.txt");
-    // cout << test << endl;
+    Instance test;
+    readInstance(test, "../res/tinyInstance.txt");
+    cout << test << endl;
 
     Instance test2;
     Solution testSol(test2);
