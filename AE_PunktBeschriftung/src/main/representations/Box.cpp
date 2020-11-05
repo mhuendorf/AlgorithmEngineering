@@ -9,7 +9,7 @@ Box::Box(int width, int height, std::string label) {
 }
 
 std::ostream &operator<<(std::ostream &ostream, const Box &box) {
-    return ostream << std::setw(6) << box.width << std::setw(6) << box.height << std::setw(40) << box.label;
+    return ostream << box.width << "\t" << box.height << "\t" << std::setw(40) << box.label;
 }
 
 int Box::getWidth() {

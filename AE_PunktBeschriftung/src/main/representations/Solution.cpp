@@ -82,6 +82,7 @@ bool Solution::wouldFit(int pointIdx, Defs::Corner placement) {
 }
 
 std::ostream &operator<<(ostream &stream, Solution &solution) {
+    stream << solution.instance.size() << endl;
     for (int i = 0; i < solution.instance.size(); ++i) {
         bool isSet = false;
         for (int j = 0; j < solution.labelBoxes.size(); ++j) {

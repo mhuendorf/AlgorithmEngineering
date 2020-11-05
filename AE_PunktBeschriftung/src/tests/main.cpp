@@ -9,6 +9,9 @@ using std::endl;
 #include <io/InstanceReader.hpp>
 
 int main() {
+    int numPoints = 10000;
+    Instance instance = InstanceGenerator::generateInstance(numPoints, 500000, 500000, 10, 5, 10);
+    cout << instance << endl;
 
     Instance test;
     readInstance(test, "../res/tinyInstance.txt");
