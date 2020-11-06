@@ -7,7 +7,7 @@ class TrivialSolver : Solver {
 public:
     TrivialSolver() = default;
 
-    shared_ptr<Solution> solve(Instance instance) override;
+    shared_ptr<Solution> solve(const Instance& instance) override;
 };
 
 

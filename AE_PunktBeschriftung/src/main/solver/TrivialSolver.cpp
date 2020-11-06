@@ -1,6 +1,6 @@
 #include "solver/TrivialSolver.hpp"
 
-shared_ptr<Solution> TrivialSolver::solve(Instance instance) {
+shared_ptr<Solution> TrivialSolver::solve(const Instance& instance) {
     Solution sol(instance);
     for (int i = 0; i < instance.size(); ++i) {
         if (sol.wouldFit(i, Defs::TOP_LEFT)) {

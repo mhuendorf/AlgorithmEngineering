@@ -31,9 +31,11 @@ private:
 
 public:
 
-    explicit Solution(Instance& instance);
+    explicit Solution(const Instance& instance);
 
     bool isFeasible();
+
+    int countLabelledPoints();
 
     void reserve(int num);
 

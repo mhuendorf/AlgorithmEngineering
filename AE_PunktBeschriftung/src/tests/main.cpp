@@ -8,7 +8,7 @@ using std::endl;
 #include <solver/TrivialSolver.hpp>
 #include <io/InstanceReader.hpp>
 
-int main() {
+int test() {
     int numPoints = 10000;
     Instance instance = InstanceGenerator::generateInstance(numPoints, 500000, 500000, 10, 5, 10);
     cout << instance << endl;

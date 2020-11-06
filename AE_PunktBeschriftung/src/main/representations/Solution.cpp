@@ -1,6 +1,6 @@
 #include <representations/Solution.hpp>
 
-Solution::Solution(Instance& instance) : instance(instance), labelBoxes{} {
+Solution::Solution(const Instance& instance) : instance(instance), labelBoxes{} {
 }
 
 bool Solution::isFeasible() {
@@ -17,6 +17,10 @@ bool Solution::isFeasible() {
 
 void Solution::reserve(int num) {
     this->labelBoxes.reserve(num);
+}
+
+int Solution::countLabelledPoints() {
+    return this->labelBoxes.size();
 }
 
 void Solution::placeLabel(int pointIdx, Defs::Corner cornerPlacement) {

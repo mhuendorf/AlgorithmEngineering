@@ -3,7 +3,7 @@ project(labelpoints)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(test src/tests/main.cpp
+add_executable(label_map src/main/main.cpp
         src/main/generator/InstanceGenerator.cpp
         src/main/representations/Instance.cpp
         src/main/representations/PointWithLabel.cpp
@@ -15,6 +15,6 @@ add_executable(test src/tests/main.cpp
         src/main/representations/Defs.cpp src/main/solver/TrivialSolver.cpp include/solver/TrivialSolver.hpp
         src/main/io/InstanceReader.cpp)
 
-target_include_directories(test PUBLIC include)
+target_include_directories(label_map PUBLIC include)
 
-target_compile_options(test PRIVATE -Wall -Werror)
+target_compile_options(label_map PRIVATE -Wall -Werror)

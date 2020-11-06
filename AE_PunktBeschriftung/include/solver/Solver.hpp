@@ -5,7 +5,7 @@
 
 class Solver {
 public:
-    virtual shared_ptr<Solution> solve(Instance instance) = 0;
+    virtual shared_ptr<Solution> solve(const Instance& instance) = 0;
 };
 
 #endif //UNTITLED_SOLVER_HPP
