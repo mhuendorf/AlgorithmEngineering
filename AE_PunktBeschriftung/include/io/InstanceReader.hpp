@@ -12,4 +12,7 @@ void readInstanceAndSolution(Instance& instance, Solution& solution, const std::
 
 std::shared_ptr<PointWithLabel> parseLine(std::string const& line);
 
+int parsePositiveInteger(const std::string& line);
+
+void checkBoxConsistency(int x, int y, int width, int height, int upperLeftX, int upperLeftY);
 #endif //INSTANCE_READER_HPP
