@@ -40,6 +40,10 @@ void Point::setPlacement(Corner placement) {
 
 }
 
+const Point::Corner& Point::getPlacement() const {
+    return placement;
+}
+
 std::ostream& operator<<(std::ostream& ostream, const Point& point) {
 
     ostream << point.getX() << " " 
@@ -74,6 +78,10 @@ std::tuple< Point2D, Point2D > Point::getCoordsForPlacement(Corner corner) const
     Point2D lowerRight = std::tuple< int, int >(lRX, lRY);
 
     return std::tuple< Point2D, Point2D >(upperLeft, lowerRight);
+}
+
+bool Point::checkCollision(const Point& other) const {
+    return this->checkCollision(other, other.getPlacement());
 }
 
 // two rectangles do not collide if either one is above the other or besides the other

@@ -17,7 +17,7 @@ bool fexists(const string& filename) {
   return (bool) ifile;
 }
 
-// didn't no this, but abort() is an internal name
+// didn't know this, but abort() is an internal name
 void abortProgram() {
     cout << "Could not parse command line arguments!\n" 
         << "Make sure that all cmd arguments were spelled correctly and that files exist." << endl;
@@ -27,7 +27,9 @@ void checkFeasibility(const string& filename) {
 
     Instance instance = readInstance(filename);
 
-    cout << instance.countLabelledPoints() << endl;
+    if(instance.isFeasible()) {
+        cout << instance.countLabelledPoints() << endl;
+    } 
 
 }
 

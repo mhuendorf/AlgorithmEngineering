@@ -12,4 +12,4 @@ add_executable(label_map src/main/main.cpp
 
 target_include_directories(label_map PUBLIC include)
 
-# target_compile_options(label_map PRIVATE -Wall -Werror)
+target_compile_options(label_map PRIVATE -Wall -Werror)

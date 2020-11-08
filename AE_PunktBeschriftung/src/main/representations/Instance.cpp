@@ -59,3 +59,17 @@ std::vector<int>& Instance::getLabelledPoints() {
 int Instance::countLabelledPoints() const {
     return this->labelled_points.size();
 }
+
+bool Instance::isFeasible() const {
+    for(int i = 0; i < labelled_points.size(); i++) {
+        Point p = this->getPoint(labelled_points[i]);
+        for(int j = i+1; j < labelled_points.size(); j++) {
+            Point other = this->getPoint(labelled_points[j]);
+        
+            if(p.checkCollision(other)) {
+                throw std::runtime_error("Points " + p.getName() + " and " + other.getName() + " overlap!");
+            }
+        }
+    }
+    return true;
+}

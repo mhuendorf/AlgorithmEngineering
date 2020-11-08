@@ -39,7 +39,11 @@ public:
 
     void setPlacement(Corner placement);
 
+    const Corner& getPlacement() const;
+
     bool checkCollision(const Point& other, Corner corner) const;
+
+    bool checkCollision(const Point& other) const;
 
     std::tuple< Point2D, Point2D > getCoordsForPlacement(Corner corner) const;
 

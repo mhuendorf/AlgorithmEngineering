@@ -31,5 +31,7 @@ public:
     std::vector<int>& getLabelledPoints();
 
     int countLabelledPoints() const;
+
+    bool isFeasible() const;
 };
 
