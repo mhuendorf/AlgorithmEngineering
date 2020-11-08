@@ -1,26 +1,35 @@
-#ifndef UNTITLED_INSTANCE_HPP
-#define UNTITLED_INSTANCE_HPP
+#pragma once
 
-#include <stack>
+#include <representations/Point.hpp>
+
 #include <vector>
-#include <representations/PointWithLabel.hpp>
 
 class Instance {
-private:
-    std::vector<std::shared_ptr<PointWithLabel> > points;
 
-    friend std::ostream &operator<<(std::ostream &ostream, const Instance &instance);
+private:
+
+    std::vector<Point> points; // contains all points of the instance
+
+    std::vector<int> labelled_points; // contains all indices of points with actual labels
+
+    friend std::ostream& operator<<(std::ostream &ostream, const Instance &instance);
 
 public:
-    Instance();
+
+    Instance(int size);
 
     void reserve(int num);
 
-    void operator+(std::shared_ptr<PointWithLabel> point2D);
+    void add(const Point& point);
 
     int size() const;
 
-    const std::shared_ptr<PointWithLabel>& getPoint(int idx) const;
+    void setLabel(int idx, Point::Corner corner);
+
+    const Point& getPoint(int idx) const;
+
+    std::vector<int>& getLabelledPoints();
+
+    int countLabelledPoints() const;
 };
 
-#endif //UNTITLED_INSTANCE_HPP

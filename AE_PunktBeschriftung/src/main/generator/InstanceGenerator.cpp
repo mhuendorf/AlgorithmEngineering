@@ -1,11 +1,9 @@
 #include <generator/InstanceGenerator.hpp>
 #include <representations/Instance.hpp>
 
-#include <cstdlib>
 #include <iostream>
 #include <fstream>
-#include <memory>
-#include <utility>
+#include <stdexcept>
 
 using namespace std;
 
@@ -13,7 +11,7 @@ Instance
 InstanceGenerator::generateInstance(int numPoints, int fieldWidth, int fieldHeight, int maxBoxWidth, int maxBoxHeight,
                                     unsigned int seed) {
     if (numPoints > fieldHeight * fieldWidth) {
-        throw std::exception();
+        throw std::invalid_argument("Too many points for the given area!");
     }
     if ((double) numPoints / (fieldHeight * fieldWidth) > 0.95) {
         cout << "Very crowded space... Instance generation might take a while" << endl;
@@ -30,25 +28,30 @@ InstanceGenerator::generateInstance(int numPoints, int fieldWidth, int fieldHeig
     srand(seed);
 
     int labelSize = labels.size();
-    Instance instance;
+    Instance instance(numPoints);
     for (int i = 0; i < numPoints; ++i) {
         bool doesExist;
         do {
-            shared_ptr<Box> box = make_shared<Box>(rand() % maxBoxWidth + 1, rand() % maxBoxHeight + 1,
-                                                   labels.at(rand() % labelSize));
-            shared_ptr<PointWithLabel> point2D = make_shared<PointWithLabel>(rand() % fieldWidth + 1,
-                                                                             rand() % fieldHeight + 1, move(box));
+            int x = rand() % maxBoxWidth + 1;
+            int y = rand() % maxBoxHeight + 1;
+            int width = rand() % fieldWidth + 1;
+            int height = rand() % fieldHeight + 1;
+            std::string label = labels.at(rand() % labelSize);
+
+            Point point(x, y, width, height, label);
+
             bool isDuplicate = false;
+
             for (int j = 0; j < instance.size(); ++j) {
-                shared_ptr<PointWithLabel> point = instance.getPoint(j);
-                if (point2D->getX() == point->getX() && point2D->getY() == point->getY()) {
+                Point existing = instance.getPoint(j);
+                if (x == point.getX() && y == point.getY()) {
                     isDuplicate = true;
                     break;
                 }
             }
             doesExist = isDuplicate;
             if (!isDuplicate) {
-                instance + move(point2D);
+                instance.add(point);
             }
         } while (doesExist);
     }

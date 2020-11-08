@@ -9,7 +9,6 @@ using std::string;
 #include <chrono>
 
 #include <representations/Instance.hpp>
-#include <representations/Solution.hpp>
 #include <io/InstanceReader.hpp>
 #include <solver/TrivialSolver.hpp>
 
@@ -19,45 +18,45 @@ bool fexists(const string& filename) {
 }
 
 // didn't no this, but abort() is an internal name
-void abortMyProgram() {
+void abortProgram() {
     cout << "Could not parse command line arguments!\n" 
         << "Make sure that all cmd arguments were spelled correctly and that files exist." << endl;
 }
 
 void checkFeasibility(const string& filename) {
 
-    Instance instance;
-    Solution solution(instance);
-    readInstanceAndSolution(instance, solution, filename);
+    Instance instance = readInstance(filename);
 
-    if(!solution.isFeasible()) {
-        throw std::runtime_error("Solution was not feasible!");
-    }
+    cout << instance.countLabelledPoints() << endl;
 
 }
 
 void solve(const string& infile, const string& outfile) {
 
-    Instance instance;
-    readInstance(instance, infile);
+    Instance instance = readInstance(infile);
 
     auto start = std::chrono::high_resolution_clock::now();
     TrivialSolver trivialSolver;
-    Solution sol = *trivialSolver.solve(instance);
+    trivialSolver.solve(instance);
     auto finish = std::chrono::high_resolution_clock::now();
 
     std::chrono::duration<double> elapsed = finish - start;
 
-    std::cout << sol.countLabelledPoints() << "\t" << elapsed.count() << std::endl;
+    std::cout << instance.countLabelledPoints() << "\t" << elapsed.count() << std::endl;
 
     std::ofstream out(outfile);
-    out << sol << std::endl;
+    out << instance << std::endl;
     out.close();
 
 }
 
 int main(int argc, char* argv[]) {
 
+    argc = 5;
+    char* args[]={
+       "name","-in","../res/tinyInstance.txt","-out", "../res/someResult3.txt", nullptr
+    };
+    argv = args;
     try {
     
         if(argc == 3) {
@@ -65,7 +64,7 @@ int main(int argc, char* argv[]) {
             if(eval.compare("-eval") == 0 && fexists(argv[2])) {
                 checkFeasibility(argv[2]);
             } else {
-                abortMyProgram();
+                abortProgram();
                 return 0;
             }
         } else if(argc == 5) {
@@ -76,7 +75,7 @@ int main(int argc, char* argv[]) {
                 solve(argv[2], argv[4]);
 
             } else {
-                abortMyProgram();
+                abortProgram();
                 return 0;
             }
 

@@ -1,36 +1,60 @@
 #include <representations/Instance.hpp>
-#include <representations/PointWithLabel.hpp>
 
 #include <iostream>
-#include <memory>
+
 #include <string>
 using std::string;
 
 #include <vector>
 using std::vector;
 
-Instance::Instance() {
+// Constructor: initializes points and reserves memory
+Instance::Instance(int size) : points{}, labelled_points{} {
+    reserve(size);
 }
 
+// reserves the needed space in memory for the vector of points and indices
 void Instance::reserve(int num) {
     this->points.reserve(num);
+    this->labelled_points.reserve(num);
 }
 
-void Instance::operator+(std::shared_ptr<PointWithLabel> point2D) {
-    this->points.push_back(std::move(point2D));
+// adds a point to this instance
+void Instance::add(const Point& point) {
+    this->points.push_back(point);
 }
 
-std::ostream &operator<<(std::ostream &ostream, const Instance& instance) {
+// sets the label for point at idx at the given Corner
+void Instance::setLabel(int idx, Point::Corner corner) {
+
+    // mark this point as labelled
+    this->labelled_points.push_back(idx);
+    this->points.at(idx).setPlacement(corner);
+
+}
+
+// prints every point of this instance to the stream
+std::ostream& operator<<(std::ostream& ostream, const Instance& instance) {
     for (auto const &point : instance.points) {
-        ostream << *point << std::endl;
+        ostream << point << std::endl;
     }
     return ostream;
 }
 
+// returns the number of points
 int Instance::size() const {
     return this->points.size();
 }
 
-const std::shared_ptr<PointWithLabel>& Instance::getPoint(int idx) const {
+// returns a reference to the point at a given index
+const Point& Instance::getPoint(int idx) const {
     return points.at(idx);
+}
+
+std::vector<int>& Instance::getLabelledPoints() {
+    return this->labelled_points;
+}
+
+int Instance::countLabelledPoints() const {
+    return this->labelled_points.size();
 }
