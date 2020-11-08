@@ -35,6 +35,7 @@ void Instance::setLabel(int idx, Point::Corner corner) {
 
 // prints every point of this instance to the stream
 std::ostream& operator<<(std::ostream& ostream, const Instance& instance) {
+    ostream << instance.size() << "\n";
     for (auto const &point : instance.points) {
         ostream << point << std::endl;
     }

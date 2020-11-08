@@ -45,7 +45,7 @@ void solve(const string& infile, const string& outfile) {
     std::cout << instance.countLabelledPoints() << "\t" << elapsed.count() << std::endl;
 
     std::ofstream out(outfile);
-    out << instance << std::endl;
+    out << instance;
     out.close();
 
 }
