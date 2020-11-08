@@ -52,11 +52,6 @@ void solve(const string& infile, const string& outfile) {
 
 int main(int argc, char* argv[]) {
 
-    argc = 5;
-    char* args[]={
-       "name","-in","../res/tinyInstance.txt","-out", "../res/someResult3.txt", nullptr
-    };
-    argv = args;
     try {
     
         if(argc == 3) {
