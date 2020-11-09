@@ -1,7 +1,6 @@
 #pragma once
 
 #include <representations/Point.hpp>
-
 #include <vector>
 
 class Instance {

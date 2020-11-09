@@ -67,12 +67,12 @@ std::ostream& operator<<(std::ostream& ostream, const Point& point) {
 std::tuple< Point2D, Point2D > Point::getCoordsForPlacement(Corner corner) const {
 
     // calculating coords of upper left corner of box
-    int uLX = corner == TOP_LEFT || corner == BOTTOM_LEFT ? x : x - width;
-    int uLY = corner == TOP_LEFT || corner == TOP_RIGHT ? y : y + height;
+    int uLX = (corner == TOP_LEFT || corner == BOTTOM_LEFT) ? x : x - width;
+    int uLY = (corner == TOP_LEFT || corner == TOP_RIGHT) ? y : y + height;
 
     // calculating coords of lower right corner of box
-    int lRX = corner == BOTTOM_LEFT || corner == TOP_RIGHT ? x : x + width;
-    int lRY = corner == BOTTOM_LEFT || corner == BOTTOM_RIGHT ? y : y - height;
+    int lRX = (corner == BOTTOM_RIGHT || corner == TOP_RIGHT) ? x : x + width;
+    int lRY = (corner == BOTTOM_RIGHT || corner == BOTTOM_LEFT) ? y : y - height;
 
     Point2D upperLeft = std::tuple< int, int >(uLX, uLY);
     Point2D lowerRight = std::tuple< int, int >(lRX, lRY);
