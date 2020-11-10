@@ -1,18 +1,16 @@
-#ifndef INSTANCE_READER_HPP
-#define INSTANCE_READER_HPP
+#pragma once
+
+#include <representations/Instance.hpp>
+#include <representations/Point.hpp>
 
 #include <string>
 
-#include <representations/Instance.hpp>
-#include <representations/Solution.hpp>
+Instance readInstance(const std::string& filename);
 
-void readInstance(Instance& instance, const std::string& filename);
-
-void readInstanceAndSolution(Instance& instance, Solution& solution, const std::string& filename);
-
-std::shared_ptr<PointWithLabel> parseLine(std::string const& line);
+void parseLine(Instance& instance, const std::string& line);
 
 int parsePositiveInteger(const std::string& line);
 
 void checkBoxConsistency(int x, int y, int width, int height, int upperLeftX, int upperLeftY);
-#endif //INSTANCE_READER_HPP
+
+Point::Corner parseCornerPlacement(int x, int y, int upperLeftX, int upperLeftY);

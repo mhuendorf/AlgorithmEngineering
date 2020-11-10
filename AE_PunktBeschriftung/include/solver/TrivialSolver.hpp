@@ -1,14 +1,10 @@
-#ifndef UNTITLED_TRIVIALSOLVER_HPP
-#define UNTITLED_TRIVIALSOLVER_HPP
+#pragma once
 
-#include <solver/Solver.hpp>
+#include <representations/Instance.hpp>
 
-class TrivialSolver : Solver {
+class TrivialSolver {
 public:
     TrivialSolver() = default;
 
-    shared_ptr<Solution> solve(const Instance& instance) override;
+    void solve(Instance& instance) const;
 };
-
-
-#endif //UNTITLED_TRIVIALSOLVER_HPP

@@ -1,8 +1,8 @@
-#ifndef UNTITLED_INSTANCEGENERATOR_HPP
-#define UNTITLED_INSTANCEGENERATOR_HPP
+#pragma once 
+
+#include <representations/Instance.hpp>
 
 #include <iostream>
-#include "../representations/Instance.hpp"
 
 class InstanceGenerator {
 
@@ -11,4 +11,3 @@ public:
                                      unsigned int seed);
 };
 
-#endif //UNTITLED_INSTANCEGENERATOR_HPP

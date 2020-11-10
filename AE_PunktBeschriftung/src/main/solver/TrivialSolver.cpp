@@ -1,17 +1,42 @@
 #include "solver/TrivialSolver.hpp"
 
-shared_ptr<Solution> TrivialSolver::solve(const Instance& instance) {
-    Solution sol(instance);
+
+// Walk over all points of the instance.
+// For each, walk over all possible Corner placements
+// For each, walk over all already set points and check for collisions
+void TrivialSolver::solve(Instance& instance) const {
+
+    // walking over all points
     for (int i = 0; i < instance.size(); ++i) {
-        if (sol.wouldFit(i, Defs::TOP_LEFT)) {
-            sol.placeLabel(i, Defs::TOP_LEFT);
-        } else if (sol.wouldFit(i, Defs::TOP_RIGHT)) {
-            sol.placeLabel(i, Defs::TOP_RIGHT);
-        } else if (sol.wouldFit(i, Defs::BOTTOM_LEFT)) {
-            sol.placeLabel(i, Defs::BOTTOM_LEFT);
-        } else if (sol.wouldFit(i, Defs::BOTTOM_RIGHT)) {
-            sol.placeLabel(i, Defs::BOTTOM_RIGHT);
+
+        Point p = instance.getPoint(i);
+
+        if(instance.getLabelledPoints().empty()) {
+            instance.setLabel(i, Point::TOP_LEFT);
+            continue;
+        }
+
+        // walking over all corner placements
+        for(int corner = Point::TOP_LEFT; corner != Point::BOTTOM_RIGHT; corner++) {
+
+            // tracking whether we collided with one of them
+            bool collided = false;
+
+            // walking over all set points
+            for(int otherIdx : instance.getLabelledPoints()) {
+
+                // if they collide, note that and stop checking the others
+                if(instance.getPoint(otherIdx).checkCollision(p, static_cast<Point::Corner>(corner))) {
+                    collided = true;
+                    break;
+                } 
+            }
+            
+            // if we never collided, set the label
+            if(!collided) {
+                instance.setLabel(i, static_cast<Point::Corner>(corner));
+                break; // no need to look at the remaining corner placements
+            }
         }
     }
-    return make_shared<Solution>(sol);
 }
