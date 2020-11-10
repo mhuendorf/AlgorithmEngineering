@@ -61,9 +61,9 @@ int Instance::countLabelledPoints() const {
 }
 
 bool Instance::isFeasible() const {
-    for(int i = 0; i < labelled_points.size(); i++) {
+    for(std::size_t i = 0; i < labelled_points.size(); i++) {
         Point p = this->getPoint(labelled_points[i]);
-        for(int j = i+1; j < labelled_points.size(); j++) {
+        for(std::size_t j = i+1; j < labelled_points.size(); j++) {
             Point other = this->getPoint(labelled_points[j]);
         
             if(p.checkCollision(other)) {
