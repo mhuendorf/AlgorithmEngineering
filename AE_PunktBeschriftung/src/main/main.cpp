@@ -11,6 +11,7 @@ using std::string;
 #include <chrono>
 
 #include <representations/Instance.hpp>
+#include <representations/Solution.hpp>
 #include <io/InstanceReader.hpp>
 #include <solver/TrivialSolver.hpp>
 
@@ -27,29 +28,33 @@ void abortProgram() {
 
 void checkFeasibility(const string &filename) {
 
-    Instance instance = readInstance(filename);
+    Instance instance;
+    Solution solution(instance);
+    readInstance(filename, instance, solution);
 
-    if (instance.isFeasible()) {
-        cout << instance.countLabelledPoints() << endl;
+    if (solution.isFeasible()) {
+        cout << solution.size() << endl;
     }
 
 }
 
 void solve(const string &infile, const string &outfile) {
 
-    Instance instance = readInstance(infile);
+    Instance instance;
+    Solution sol(instance);
+    readInstance(infile, instance, sol);
 
     auto start = std::chrono::high_resolution_clock::now();
     TrivialSolver trivialSolver;
-    trivialSolver.solve(instance);
+    Solution solution = trivialSolver.solve(instance);
     auto finish = std::chrono::high_resolution_clock::now();
 
     std::chrono::duration<double> elapsed = finish - start;
 
-    std::cout << instance.countLabelledPoints() << "\t" << elapsed.count() << std::endl;
+    std::cout << solution.size() << "\t" << elapsed.count() << std::endl;
 
     std::ofstream out(outfile);
-    out << instance;
+    out << solution;
     out.close();
 
 }

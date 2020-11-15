@@ -38,7 +38,7 @@ InstanceGenerator::generateInstance(int numPoints, int fieldWidth, int fieldHeig
             int height = rand() % fieldHeight + 1;
             std::string label = labels.at(rand() % labelSize);
 
-            Point point(x, y, width, height, label);
+            Point point(i, x, y, width, height, label);
 
             bool isDuplicate = false;
 

@@ -9,12 +9,14 @@ using std::string;
 #include <vector>
 using std::vector;
 
-using Point2D = std::tuple< int, int >; // contains the X and Y coordinate of a point in 2D space
-
 // Constructor: initializes points and reserves memory
 // initializing coordinates to 0,0, which is meaningless anyway as long as the placement is 0 as well
-Point::Point(int x, int y, int width, int height, string label) 
-        : x(x), y(y), width(width), height(height), label(label), placement(NOT_PLACED), upperLeft{0,0}, lowerRight{0,0} {
+Point::Point(int idx, int x, int y, int width, int height, string label) 
+        : idx(idx), x(x), y(y), width(width), height(height), label(label) {
+}
+
+int Point::getIdx() const {
+    return idx;
 }
 
 int Point::getX() const {
@@ -29,19 +31,12 @@ string Point::getName() const {
     return label;
 }
 
-void Point::setPlacement(Corner placement) {
-
-    this->placement = placement;
-
-    std::tuple<Point2D, Point2D> coords = this->getCoordsForPlacement(placement);
-
-    this->upperLeft = std::get<0>(coords);
-    this->lowerRight = std::get<1>(coords);
-
+const std::vector<Point>& Point::getNeighbours() const {
+    return neighbours;
 }
 
-const Point::Corner& Point::getPlacement() const {
-    return placement;
+void Point::addNeighbour(Point& other) {
+    neighbours.push_back(other);
 }
 
 std::ostream& operator<<(std::ostream& ostream, const Point& point) {
@@ -52,19 +47,24 @@ std::ostream& operator<<(std::ostream& ostream, const Point& point) {
             << point.height << " " 
             << point.getName() << " ";
 
-    if(point.placement != Point::NOT_PLACED) {
-        ostream << "1 "
-                << std::get<0>(point.upperLeft) << " "
-                << std::get<1>(point.upperLeft) << " ";
-    } else {
-        ostream << "0 0 0";
-    }
-    
     return ostream;
 }
 
+Rectangle Point::getBigRectangle() const {
 
-std::tuple< Point2D, Point2D > Point::getCoordsForPlacement(Corner corner) const {
+    int uLX = x-width;
+    int uLY = y+height;
+    int lRX = x+width; 
+    int lRY = y-height;
+
+    return Rectangle(Point2D(uLX, uLY), Point2D(lRX, lRY));
+}
+
+bool Point::couldCollide(const Point& other) const {
+    return checkCollision(getBigRectangle(), other.getBigRectangle());
+}
+
+Rectangle Point::getCoordsForPlacement(Corner corner) const {
 
     // calculating coords of upper left corner of box
     int uLX = (corner == TOP_LEFT || corner == BOTTOM_LEFT) ? x : x - width;
@@ -77,36 +77,29 @@ std::tuple< Point2D, Point2D > Point::getCoordsForPlacement(Corner corner) const
     Point2D upperLeft = std::tuple< int, int >(uLX, uLY);
     Point2D lowerRight = std::tuple< int, int >(lRX, lRY);
 
-    return std::tuple< Point2D, Point2D >(upperLeft, lowerRight);
+    return Rectangle(upperLeft, lowerRight);
 }
 
-bool Point::checkCollision(const Point& other) const {
-    return this->checkCollision(other, other.getPlacement());
-}
+bool Point::checkCollision(Rectangle rect1, Rectangle rect2) {
 
-// two rectangles do not collide if either one is above the other or besides the other
-bool Point::checkCollision(const Point& other, Corner corner) const {
+    // extract the points of upper Left and lower Right from the rectangles
+    Point2D a_uL = std::get<0>(rect1);
+    Point2D a_lR = std::get<1>(rect1);
+    Point2D b_uL = std::get<0>(rect2);
+    Point2D b_lR = std::get<1>(rect2);
 
-    if(this->placement == NOT_PLACED) throw std::invalid_argument("Cannot check collision against unlabeled point");
-
-    std::tuple< Point2D, Point2D > coords = other.getCoordsForPlacement(corner);
-
-    Point2D other_uL = std::get<0>(coords);
-    Point2D other_lR = std::get<1>(coords);
-
-    // in both directions, check if one is above the other
-    if(std::get<1>(other_lR) >= std::get<1>(this->upperLeft)
-            || std::get<1>(this->lowerRight) >= std::get<1>(other_uL)) {
+    // in both directions, check if one is besides the other
+    if(std::get<0>(a_lR) <= std::get<0>(b_uL)
+            || std::get<0>(b_lR) <= std::get<0>(a_uL)) {
         return false;
     }
 
-    // in both directions, check if one is besides the other
-    if(std::get<0>(other_lR) <= std::get<0>(this->upperLeft)
-            || std::get<0>(this->lowerRight) <= std::get<0>(other_uL)) {
+    // in both directions, check if one is above the other
+    if(std::get<1>(a_lR) >= std::get<1>(b_uL)
+            || std::get<1>(b_lR) >= std::get<1>(a_uL)) {
         return false;
     }
 
     // if none of that was the case, they do overlap somehow
     return true;
-
 }
