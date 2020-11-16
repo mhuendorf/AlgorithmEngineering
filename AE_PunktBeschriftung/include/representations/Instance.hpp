@@ -9,28 +9,19 @@ private:
 
     std::vector<Point> points; // contains all points of the instance
 
-    std::vector<int> labelled_points; // contains all indices of points with actual labels
-
-    friend std::ostream& operator<<(std::ostream &ostream, const Instance &instance);
+    friend std::ostream &operator<<(std::ostream &ostream, const Instance &instance);
 
 public:
 
-    Instance(int size);
+    explicit Instance(int size);
 
     void reserve(int num);
 
-    void add(const Point& point);
+    void add(const Point &point);
 
-    int size() const;
+    [[nodiscard]] int size() const;
 
-    void setLabel(int idx, Point::Corner corner);
+    [[nodiscard]] const Point &getPoint(int idx) const;
 
-    const Point& getPoint(int idx) const;
-
-    std::vector<int>& getLabelledPoints();
-
-    int countLabelledPoints() const;
-
-    bool isFeasible() const;
 };
 

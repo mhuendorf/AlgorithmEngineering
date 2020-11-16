@@ -13,6 +13,7 @@ using std::string;
 #include <representations/Instance.hpp>
 #include <io/InstanceReader.hpp>
 #include <solver/TrivialSolver.hpp>
+#include <representations/SimpleSolution.hpp>
 
 bool fexists(const string &filename) {
     std::ifstream ifile(filename.c_str());
@@ -28,9 +29,10 @@ void abortProgram() {
 void checkFeasibility(const string &filename) {
 
     Instance instance = readInstance(filename);
+    SimpleSolution solution(instance);
 
-    if (instance.isFeasible()) {
-        cout << instance.countLabelledPoints() << endl;
+    if (solution.isFeasible()) {
+        cout << solution.size() << endl;
     }
 
 }
@@ -41,12 +43,12 @@ void solve(const string &infile, const string &outfile) {
 
     auto start = std::chrono::high_resolution_clock::now();
     TrivialSolver trivialSolver;
-    trivialSolver.solve(instance);
+    auto solution = trivialSolver.solve(instance);
     auto finish = std::chrono::high_resolution_clock::now();
 
     std::chrono::duration<double> elapsed = finish - start;
 
-    std::cout << instance.countLabelledPoints() << "\t" << elapsed.count() << std::endl;
+    std::cout << solution.countLabelledPoints() << "\t" << elapsed.count() << std::endl;
 
     std::ofstream out(outfile);
     out << instance;

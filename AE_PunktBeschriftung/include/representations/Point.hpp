@@ -31,20 +31,20 @@ public:
 
     Point(int x, int y, int width, int height, std::string label);
 
-    int getX() const;
+    [[nodiscard]] int getX() const;
 
-    int getY() const;
+    [[nodiscard]] int getY() const;
 
-    std::string getName() const;
+    [[nodiscard]] std::string getName() const;
 
-    void setPlacement(Corner placement);
+    void setPlacement(Corner placement) const;
 
-    const Corner& getPlacement() const;
+    [[nodiscard]] const Corner &getPlacement() const;
 
-    bool checkCollision(const Point& other, Corner corner) const;
+    [[nodiscard]] bool checkCollision(const Point &other, Corner corner) const;
 
-    bool checkCollision(const Point& other) const;
+    [[nodiscard]] bool checkCollision(const Point &other) const;
 
-    std::tuple< Point2D, Point2D > getCoordsForPlacement(Corner corner) const;
+    [[nodiscard]] std::tuple<Point2D, Point2D> getCoordsForPlacement(Corner corner) const;
 
 };
