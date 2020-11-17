@@ -40,6 +40,10 @@ void checkFeasibility(const string &filename) {
 void solve(const string &infile, const string &outfile) {
 
     Instance instance = readInstance(infile);
+    std::cout << instance << endl;
+    for (int i = 0; i < instance.size(); ++i) {
+        cout << instance.getPoint(i) << endl;
+    }
 
     auto start = std::chrono::high_resolution_clock::now();
     TrivialSolver trivialSolver;
@@ -48,7 +52,7 @@ void solve(const string &infile, const string &outfile) {
 
     std::chrono::duration<double> elapsed = finish - start;
 
-    std::cout << solution.countLabelledPoints() << "\t" << elapsed.count() << std::endl;
+    std::cout << solution.size() << "\t" << elapsed.count() << std::endl;
 
     std::ofstream out(outfile);
     out << instance;

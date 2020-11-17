@@ -21,7 +21,7 @@ public:
 
     virtual void setLabel(int idx, Point::Corner corner) = 0;
 
-    [[nodiscard]] virtual Point getPoint(int idx) const;
+    [[nodiscard]] const Point& getPoint(int idx) const;
 
     virtual std::vector<int> &getLabelledPoints() = 0;
 

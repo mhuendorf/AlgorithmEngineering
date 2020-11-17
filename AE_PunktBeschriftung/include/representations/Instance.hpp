@@ -17,11 +17,13 @@ public:
 
     void reserve(int num);
 
+    void setLabel(int idx, Point::Corner corner);
+
     void add(const Point &point);
 
     [[nodiscard]] int size() const;
 
-    [[nodiscard]] const Point &getPoint(int idx) const;
+    [[nodiscard]] const Point& getPoint(int idx) const;
 
 };
 

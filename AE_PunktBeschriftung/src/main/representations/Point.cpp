@@ -32,15 +32,15 @@ string Point::getName() const {
     return label;
 }
 
-void Point::setPlacement(Corner placement) const {
+void Point::setPlacement(Corner placement1) {
 
-    this->placement = placement;
+    this->placement = placement1;
 
-    std::tuple<Point2D, Point2D> coords = this->getCoordsForPlacement(placement);
+    std::tuple<Point2D, Point2D> coords = this->getCoordsForPlacement(placement1);
 
     this->upperLeft = std::get<0>(coords);
     this->lowerRight = std::get<1>(coords);
-
+    std::cout << *this << std::endl;
 }
 
 const Point::Corner &Point::getPlacement() const {
@@ -77,10 +77,10 @@ std::tuple<Point2D, Point2D> Point::getCoordsForPlacement(Corner corner) const {
     int lRX = (corner == BOTTOM_RIGHT || corner == TOP_RIGHT) ? x : x + width;
     int lRY = (corner == BOTTOM_RIGHT || corner == BOTTOM_LEFT) ? y : y - height;
 
-    Point2D upperLeft = std::tuple<int, int>(uLX, uLY);
-    Point2D lowerRight = std::tuple<int, int>(lRX, lRY);
+    Point2D upperLeft1 = std::tuple<int, int>(uLX, uLY);
+    Point2D lowerRight1 = std::tuple<int, int>(lRX, lRY);
 
-    return std::tuple<Point2D, Point2D>(upperLeft, lowerRight);
+    return std::tuple<Point2D, Point2D>(upperLeft1, lowerRight1);
 }
 
 bool Point::checkCollision(const Point &other) const {

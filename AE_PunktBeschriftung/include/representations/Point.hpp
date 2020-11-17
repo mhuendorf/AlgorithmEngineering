@@ -37,7 +37,7 @@ public:
 
     [[nodiscard]] std::string getName() const;
 
-    void setPlacement(Corner placement) const;
+    void setPlacement(Corner placement);
 
     [[nodiscard]] const Corner &getPlacement() const;
 

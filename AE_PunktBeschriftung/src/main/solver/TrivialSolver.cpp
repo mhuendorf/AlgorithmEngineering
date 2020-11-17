@@ -1,13 +1,15 @@
 #include <representations/SimpleSolution.hpp>
+#include <iostream>
 #include "solver/TrivialSolver.hpp"
 
 
 // Walk over all points of the instance.
 // For each, walk over all possible Corner placements
 // For each, walk over all already set points and check for collisions
-SimpleSolution &TrivialSolver::solve(Instance &instance) const {
+SimpleSolution TrivialSolver::solve(Instance &instance) const {
 
     SimpleSolution solution(instance);
+    solution << std::cout;
     // walking over all points
     for (int i = 0; i < instance.size(); ++i) {
 
@@ -15,6 +17,7 @@ SimpleSolution &TrivialSolver::solve(Instance &instance) const {
 
         if (solution.getLabelledPoints().empty()) {
             solution.setLabel(i, Point::TOP_LEFT);
+            std::cout << solution.getPoint(solution.getLabelledPoints().at(solution.size()-1));
             continue;
         }
 

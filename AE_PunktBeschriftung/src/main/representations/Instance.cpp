@@ -6,8 +6,6 @@
 
 using std::string;
 
-#include <vector>
-
 using std::vector;
 
 // Constructor: initializes points and reserves memory
@@ -34,12 +32,20 @@ std::ostream &operator<<(std::ostream &ostream, const Instance &instance) {
     return ostream;
 }
 
+// sets the label for point at idx at the given Corner
+void Instance::setLabel(int idx, Point::Corner corner) {
+
+    // mark this point as labelled
+    this->points.at(idx).setPlacement(corner);
+
+}
+
 // returns the number of points
 int Instance::size() const {
     return this->points.size();
 }
 
 // returns a reference to the point at a given index
-const Point &Instance::getPoint(int idx) const {
+Point& Instance::getPoint(int idx) const {
     return points.at(idx);
 }

@@ -89,7 +89,7 @@ void parseLine(Instance& instance, const std::string& line) {
         Point point(x, y, width, height, name);
         instance.add(point);
 
-        if(tokens.size() == 8) {
+        /*if(tokens.size() == 8) {
             int isSet = stoi(tokens[5]);
 
             if(isSet != 0 && isSet != 1) throw std::runtime_error("Could not parse boolean, expected 0 or 1 but was " + std::to_string(isSet));
@@ -104,7 +104,7 @@ void parseLine(Instance& instance, const std::string& line) {
 
                 instance.setLabel(instance.size()-1, corner);
             }
-        }
+        }*/
 
 
     } catch(const std::exception& e) {
