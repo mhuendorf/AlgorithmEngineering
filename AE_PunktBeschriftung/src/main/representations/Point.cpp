@@ -31,11 +31,11 @@ string Point::getName() const {
     return label;
 }
 
-const std::vector<Point>& Point::getNeighbours() const {
+const std::vector<Point::Ptr>& Point::getNeighbours() const {
     return neighbours;
 }
 
-void Point::addNeighbour(Point& other) {
+void Point::addNeighbour(Point::Ptr other) {
     neighbours.push_back(other);
 }
 
@@ -50,7 +50,7 @@ std::ostream& operator<<(std::ostream& ostream, const Point& point) {
     return ostream;
 }
 
-Rectangle Point::getBigRectangle() const {
+Point::Rectangle Point::getBigRectangle() const {
 
     int uLX = x-width;
     int uLY = y+height;
@@ -64,7 +64,7 @@ bool Point::couldCollide(const Point& other) const {
     return checkCollision(getBigRectangle(), other.getBigRectangle());
 }
 
-Rectangle Point::getCoordsForPlacement(Corner corner) const {
+Point::Rectangle Point::getCoordsForPlacement(Corner corner) const {
 
     // calculating coords of upper left corner of box
     int uLX = (corner == TOP_LEFT || corner == BOTTOM_LEFT) ? x : x - width;

@@ -5,7 +5,7 @@
 #include <sstream>
 #include <iterator>
 #include <stdexcept>
-
+#include <memory>
 #include <vector>
 using std::vector;
 
@@ -81,8 +81,7 @@ void parseLine(Instance& instance, const std::string& line, Solution& solution, 
         }
         std::string name = tokens[4];
 
-        Point point(counter, x, y, width, height, name);
-        instance.add(point);
+        instance.add( std::make_shared<Point>(counter, x, y, width, height, name));
 
         if(tokens.size() == 8) {
             int isSet = stoi(tokens[5]);

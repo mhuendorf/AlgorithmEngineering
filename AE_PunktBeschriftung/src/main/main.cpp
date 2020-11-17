@@ -10,8 +10,8 @@ using std::string;
 #include <fstream>
 #include <chrono>
 
-#include <representations/Instance.hpp>
 #include <representations/Solution.hpp>
+#include <representations/Instance.hpp>
 #include <io/InstanceReader.hpp>
 #include <solver/TrivialSolver.hpp>
 
@@ -43,6 +43,8 @@ void solve(const string &infile, const string &outfile) {
     Instance instance;
     Solution sol(instance);
     readInstance(infile, instance, sol);
+
+    // instance.showPoints();
 
     auto start = std::chrono::high_resolution_clock::now();
     TrivialSolver trivialSolver;

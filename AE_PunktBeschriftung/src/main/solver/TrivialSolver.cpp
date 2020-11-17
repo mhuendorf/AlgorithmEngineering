@@ -23,10 +23,10 @@ Solution TrivialSolver::solve(Instance& instance) const {
             bool collided = false;
 
             // walking over all neighbours of the point to check for collisions
-            for(const Point& other : p.getNeighbours()) {
+            for(const Point::Ptr& other : p.getNeighbours()) {
 
                 // if they collide, note that and stop checking the others
-                if(solution.checkCollision(p, static_cast<Point::Corner>(corner), other.getIdx())) {
+                if(solution.checkCollision(p, static_cast<Point::Corner>(corner), (*other).getIdx())) {
                     collided = true;
                     break;
                 } 

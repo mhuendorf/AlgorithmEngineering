@@ -51,7 +51,7 @@ InstanceGenerator::generateInstance(int numPoints, int fieldWidth, int fieldHeig
             }
             doesExist = isDuplicate;
             if (!isDuplicate) {
-                instance.add(point);
+                instance.add(std::make_shared<Point>(point));
             }
         } while (doesExist);
     }

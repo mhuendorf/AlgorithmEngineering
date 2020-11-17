@@ -3,14 +3,15 @@
 #include <string>
 #include <tuple>
 #include <vector>
-
-// TODO figure out where to put these, header file seems wrong 
-using Point2D = std::tuple<int, int>;
-using Rectangle = std::tuple<Point2D, Point2D>;
+#include <memory>
 
 class Point {
 
 public:
+
+    using Ptr = std::shared_ptr<Point>;
+    using Point2D = std::tuple<int, int>;
+    using Rectangle = std::tuple<Point2D, Point2D>;
 
     enum Corner {
         NOT_PLACED = 0, TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT
@@ -25,7 +26,7 @@ private:
     int height;
     std::string label;
 
-    std::vector<Point> neighbours;
+    std::vector<Point::Ptr> neighbours;
 
     friend std::ostream &operator<<(std::ostream &ostream, const Point &point);
 
@@ -45,9 +46,9 @@ public:
 
     bool couldCollide(const Point& other) const;
 
-    void addNeighbour(Point& other);
+    void addNeighbour(Point::Ptr other);
 
-    const std::vector<Point>& getNeighbours() const;
+    const std::vector<Point::Ptr>& getNeighbours() const;
 
     Rectangle getCoordsForPlacement(Corner corner) const;
 

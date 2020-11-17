@@ -11,7 +11,7 @@ private:
 
     const Instance& instance;
 
-    std::map<int, Rectangle> placements;
+    std::map<int, Point::Rectangle> placements;
 
     friend std::ostream& operator<<(std::ostream &ostream, const Solution &solution);
 

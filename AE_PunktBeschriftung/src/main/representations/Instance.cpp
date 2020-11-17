@@ -1,7 +1,7 @@
 #include <representations/Instance.hpp>
 
 #include <iostream>
-
+#include <memory>
 #include <string>
 using std::string;
 
@@ -22,16 +22,26 @@ void Instance::reserve(int num) {
 }
 
 // adds a point to this instance
-void Instance::add(Point& point) {
+void Instance::add(const Point::Ptr& point) {
 
-    for(Point& p : points) {
+    for(Point::Ptr& p : points) {
 
-        if(point.couldCollide(p)) {
-            p.addNeighbour(point);
-            point.addNeighbour(p);
+        if((*point).couldCollide(*p)) {
+            (*p).addNeighbour( point );
+            (*point).addNeighbour( p );
         }
     }
     this->points.push_back(point);
+}
+
+void Instance::showPoints() {
+    for(const Point::Ptr& p : points) {
+        std::cout << "Point " << (*p).getName() << " hat Adresse " << &(*p) << std::endl;
+
+        for(const Point::Ptr& ptr : (*p).getNeighbours()) {
+            std::cout << "Neighbour " << (*ptr).getName() << " hat Adresse " << &(*ptr) << std::endl;
+        }
+    }
 }
 
 // prints every point of this instance to the stream
@@ -50,5 +60,5 @@ int Instance::size() const {
 
 // returns a reference to the point at a given index
 const Point& Instance::getPoint(int idx) const {
-    return points.at(idx);
+    return *points.at(idx);
 }
