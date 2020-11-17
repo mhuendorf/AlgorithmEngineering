@@ -62,3 +62,7 @@ int Instance::size() const {
 const Point& Instance::getPoint(int idx) const {
     return *points.at(idx);
 }
+
+const std::vector<Point::Ptr>& Instance::getPoints() const {
+    return points;
+}

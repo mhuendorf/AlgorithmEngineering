@@ -130,6 +130,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named test
+
+# Build rule for target.
+test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test
+.PHONY : test
+
+# fast build rule for target.
+test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
+.PHONY : test/fast
+
+#=============================================================================
 # Target rules for targets named label_map
 
 # Build rule for target.
@@ -148,6 +161,7 @@ src/main/generator/InstanceGenerator.o: src/main/generator/InstanceGenerator.cpp
 
 # target to build an object file
 src/main/generator/InstanceGenerator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/generator/InstanceGenerator.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/generator/InstanceGenerator.cpp.o
 .PHONY : src/main/generator/InstanceGenerator.cpp.o
 
@@ -157,6 +171,7 @@ src/main/generator/InstanceGenerator.i: src/main/generator/InstanceGenerator.cpp
 
 # target to preprocess a source file
 src/main/generator/InstanceGenerator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/generator/InstanceGenerator.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/generator/InstanceGenerator.cpp.i
 .PHONY : src/main/generator/InstanceGenerator.cpp.i
 
@@ -166,6 +181,7 @@ src/main/generator/InstanceGenerator.s: src/main/generator/InstanceGenerator.cpp
 
 # target to generate assembly for a file
 src/main/generator/InstanceGenerator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/generator/InstanceGenerator.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/generator/InstanceGenerator.cpp.s
 .PHONY : src/main/generator/InstanceGenerator.cpp.s
 
@@ -175,6 +191,7 @@ src/main/io/InstanceReader.o: src/main/io/InstanceReader.cpp.o
 
 # target to build an object file
 src/main/io/InstanceReader.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/io/InstanceReader.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/io/InstanceReader.cpp.o
 .PHONY : src/main/io/InstanceReader.cpp.o
 
@@ -184,6 +201,7 @@ src/main/io/InstanceReader.i: src/main/io/InstanceReader.cpp.i
 
 # target to preprocess a source file
 src/main/io/InstanceReader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/io/InstanceReader.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/io/InstanceReader.cpp.i
 .PHONY : src/main/io/InstanceReader.cpp.i
 
@@ -193,6 +211,7 @@ src/main/io/InstanceReader.s: src/main/io/InstanceReader.cpp.s
 
 # target to generate assembly for a file
 src/main/io/InstanceReader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/io/InstanceReader.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/io/InstanceReader.cpp.s
 .PHONY : src/main/io/InstanceReader.cpp.s
 
@@ -229,6 +248,7 @@ src/main/representations/Instance.o: src/main/representations/Instance.cpp.o
 
 # target to build an object file
 src/main/representations/Instance.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/representations/Instance.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/representations/Instance.cpp.o
 .PHONY : src/main/representations/Instance.cpp.o
 
@@ -238,6 +258,7 @@ src/main/representations/Instance.i: src/main/representations/Instance.cpp.i
 
 # target to preprocess a source file
 src/main/representations/Instance.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/representations/Instance.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/representations/Instance.cpp.i
 .PHONY : src/main/representations/Instance.cpp.i
 
@@ -247,6 +268,7 @@ src/main/representations/Instance.s: src/main/representations/Instance.cpp.s
 
 # target to generate assembly for a file
 src/main/representations/Instance.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/representations/Instance.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/representations/Instance.cpp.s
 .PHONY : src/main/representations/Instance.cpp.s
 
@@ -256,6 +278,7 @@ src/main/representations/Point.o: src/main/representations/Point.cpp.o
 
 # target to build an object file
 src/main/representations/Point.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/representations/Point.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/representations/Point.cpp.o
 .PHONY : src/main/representations/Point.cpp.o
 
@@ -265,6 +288,7 @@ src/main/representations/Point.i: src/main/representations/Point.cpp.i
 
 # target to preprocess a source file
 src/main/representations/Point.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/representations/Point.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/representations/Point.cpp.i
 .PHONY : src/main/representations/Point.cpp.i
 
@@ -274,6 +298,7 @@ src/main/representations/Point.s: src/main/representations/Point.cpp.s
 
 # target to generate assembly for a file
 src/main/representations/Point.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/representations/Point.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/representations/Point.cpp.s
 .PHONY : src/main/representations/Point.cpp.s
 
@@ -283,6 +308,7 @@ src/main/representations/Solution.o: src/main/representations/Solution.cpp.o
 
 # target to build an object file
 src/main/representations/Solution.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/representations/Solution.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/representations/Solution.cpp.o
 .PHONY : src/main/representations/Solution.cpp.o
 
@@ -292,6 +318,7 @@ src/main/representations/Solution.i: src/main/representations/Solution.cpp.i
 
 # target to preprocess a source file
 src/main/representations/Solution.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/representations/Solution.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/representations/Solution.cpp.i
 .PHONY : src/main/representations/Solution.cpp.i
 
@@ -301,8 +328,39 @@ src/main/representations/Solution.s: src/main/representations/Solution.cpp.s
 
 # target to generate assembly for a file
 src/main/representations/Solution.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/representations/Solution.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/representations/Solution.cpp.s
 .PHONY : src/main/representations/Solution.cpp.s
+
+src/main/solver/FALPSolver.o: src/main/solver/FALPSolver.cpp.o
+
+.PHONY : src/main/solver/FALPSolver.o
+
+# target to build an object file
+src/main/solver/FALPSolver.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/solver/FALPSolver.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/solver/FALPSolver.cpp.o
+.PHONY : src/main/solver/FALPSolver.cpp.o
+
+src/main/solver/FALPSolver.i: src/main/solver/FALPSolver.cpp.i
+
+.PHONY : src/main/solver/FALPSolver.i
+
+# target to preprocess a source file
+src/main/solver/FALPSolver.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/solver/FALPSolver.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/solver/FALPSolver.cpp.i
+.PHONY : src/main/solver/FALPSolver.cpp.i
+
+src/main/solver/FALPSolver.s: src/main/solver/FALPSolver.cpp.s
+
+.PHONY : src/main/solver/FALPSolver.s
+
+# target to generate assembly for a file
+src/main/solver/FALPSolver.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/solver/FALPSolver.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/solver/FALPSolver.cpp.s
+.PHONY : src/main/solver/FALPSolver.cpp.s
 
 src/main/solver/TrivialSolver.o: src/main/solver/TrivialSolver.cpp.o
 
@@ -310,6 +368,7 @@ src/main/solver/TrivialSolver.o: src/main/solver/TrivialSolver.cpp.o
 
 # target to build an object file
 src/main/solver/TrivialSolver.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/solver/TrivialSolver.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/solver/TrivialSolver.cpp.o
 .PHONY : src/main/solver/TrivialSolver.cpp.o
 
@@ -319,6 +378,7 @@ src/main/solver/TrivialSolver.i: src/main/solver/TrivialSolver.cpp.i
 
 # target to preprocess a source file
 src/main/solver/TrivialSolver.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/solver/TrivialSolver.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/solver/TrivialSolver.cpp.i
 .PHONY : src/main/solver/TrivialSolver.cpp.i
 
@@ -328,8 +388,36 @@ src/main/solver/TrivialSolver.s: src/main/solver/TrivialSolver.cpp.s
 
 # target to generate assembly for a file
 src/main/solver/TrivialSolver.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/solver/TrivialSolver.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/solver/TrivialSolver.cpp.s
 .PHONY : src/main/solver/TrivialSolver.cpp.s
+
+src/tests/main.o: src/tests/main.cpp.o
+
+.PHONY : src/tests/main.o
+
+# target to build an object file
+src/tests/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/tests/main.cpp.o
+.PHONY : src/tests/main.cpp.o
+
+src/tests/main.i: src/tests/main.cpp.i
+
+.PHONY : src/tests/main.i
+
+# target to preprocess a source file
+src/tests/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/tests/main.cpp.i
+.PHONY : src/tests/main.cpp.i
+
+src/tests/main.s: src/tests/main.cpp.s
+
+.PHONY : src/tests/main.s
+
+# target to generate assembly for a file
+src/tests/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/tests/main.cpp.s
+.PHONY : src/tests/main.cpp.s
 
 # Help Target
 help:
@@ -340,6 +428,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... label_map"
+	@echo "... test"
 	@echo "... src/main/generator/InstanceGenerator.o"
 	@echo "... src/main/generator/InstanceGenerator.i"
 	@echo "... src/main/generator/InstanceGenerator.s"
@@ -358,9 +447,15 @@ help:
 	@echo "... src/main/representations/Solution.o"
 	@echo "... src/main/representations/Solution.i"
 	@echo "... src/main/representations/Solution.s"
+	@echo "... src/main/solver/FALPSolver.o"
+	@echo "... src/main/solver/FALPSolver.i"
+	@echo "... src/main/solver/FALPSolver.s"
 	@echo "... src/main/solver/TrivialSolver.o"
 	@echo "... src/main/solver/TrivialSolver.i"
 	@echo "... src/main/solver/TrivialSolver.s"
+	@echo "... src/tests/main.o"
+	@echo "... src/tests/main.i"
+	@echo "... src/tests/main.s"
 .PHONY : help
 
 
