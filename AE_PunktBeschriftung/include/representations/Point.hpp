@@ -2,12 +2,16 @@
 
 #include <string>
 #include <tuple>
-
-using Point2D = std::tuple<int, int>;
+#include <vector>
+#include <memory>
 
 class Point {
 
 public:
+
+    using Ptr = std::shared_ptr<Point>;
+    using Point2D = std::tuple<int, int>;
+    using Rectangle = std::tuple<Point2D, Point2D>;
 
     enum Corner {
         NOT_PLACED = 0, TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT
@@ -15,21 +19,22 @@ public:
 
 private:
 
+    int idx;
     int x;
     int y;
     int width;
     int height;
     std::string label;
-    Corner placement;
 
-    std::tuple<int, int> upperLeft;
-    std::tuple<int, int> lowerRight;
+    std::vector<Point::Ptr> neighbours;
 
     friend std::ostream &operator<<(std::ostream &ostream, const Point &point);
 
 public:
 
-    Point(int x, int y, int width, int height, std::string label);
+    Point(int idx, int x, int y, int width, int height, std::string label);
+
+    int getIdx() const;
 
     int getX() const;
 
@@ -37,14 +42,17 @@ public:
 
     std::string getName() const;
 
-    void setPlacement(Corner placement);
+    Rectangle getBigRectangle() const;
 
-    const Corner& getPlacement() const;
+    bool couldCollide(const Point& other) const;
 
-    bool checkCollision(const Point& other, Corner corner) const;
+    void addNeighbour(Point::Ptr other);
 
-    bool checkCollision(const Point& other) const;
+    const std::vector<Point::Ptr>& getNeighbours() const;
 
-    std::tuple< Point2D, Point2D > getCoordsForPlacement(Corner corner) const;
+    Rectangle getCoordsForPlacement(Corner corner) const;
+
+    static bool checkCollision(Rectangle rect1, Rectangle rect2);
 
 };
+

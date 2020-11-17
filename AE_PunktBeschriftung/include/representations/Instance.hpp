@@ -7,30 +7,24 @@ class Instance {
 
 private:
 
-    std::vector<Point> points; // contains all points of the instance
-
-    std::vector<int> labelled_points; // contains all indices of points with actual labels
+    std::vector<Point::Ptr> points; // contains all points of the instance TODO should maybe be a map?
 
     friend std::ostream& operator<<(std::ostream &ostream, const Instance &instance);
 
 public:
 
+    Instance();
+    
     Instance(int size);
+
+    void showPoints(); // is only a debug method, can be removed later
 
     void reserve(int num);
 
-    void add(const Point& point);
+    void add(const Point::Ptr& point);
 
     int size() const;
 
-    void setLabel(int idx, Point::Corner corner);
-
     const Point& getPoint(int idx) const;
-
-    std::vector<int>& getLabelledPoints();
-
-    int countLabelledPoints() const;
-
-    bool isFeasible() const;
 };
 

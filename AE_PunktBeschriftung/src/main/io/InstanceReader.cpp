@@ -1,13 +1,11 @@
 #include <io/InstanceReader.hpp>
-#include <representations/Instance.hpp>
-#include <representations/Point.hpp>
 
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <iterator>
 #include <stdexcept>
-
+#include <memory>
 #include <vector>
 using std::vector;
 
@@ -15,7 +13,7 @@ using std::vector;
 using std::string;
 
 
-Instance readInstance(const string& filename) {
+void readInstance(const string& filename, Instance& instance, Solution& solution) {
 
     std::fstream file;
 
@@ -32,11 +30,11 @@ Instance readInstance(const string& filename) {
             throw std::runtime_error("Could not parse number of points for file " + filename + "\n" + e.what());
         }
 
-        Instance instance(numOfPoints);
+        instance.reserve(numOfPoints);
 
         int counter = 0;
         while(getline(file, line)) {
-            parseLine(instance, line);
+            parseLine(instance, line, solution, counter);
             counter++;
         }
         if(counter != numOfPoints) {
@@ -44,8 +42,6 @@ Instance readInstance(const string& filename) {
         }
         
         file.close();
-
-        return instance;
 
     } else {
         throw std::runtime_error("Error opening the file " + filename + "\n");
@@ -59,7 +55,7 @@ int parsePositiveInteger(const string& line) {
     return result;
 }
 
-void parseLine(Instance& instance, const std::string& line) {
+void parseLine(Instance& instance, const std::string& line, Solution& solution, int counter) {
 
     // unpacking the scanned line into a vector of strings
     std::istringstream iss(line);
@@ -73,7 +69,6 @@ void parseLine(Instance& instance, const std::string& line) {
 
     // parsing arguments to ints if needed
     try {
-
         int x = stoi(tokens[0]);
         int y = stoi(tokens[1]);
         int width;
@@ -86,8 +81,7 @@ void parseLine(Instance& instance, const std::string& line) {
         }
         std::string name = tokens[4];
 
-        Point point(x, y, width, height, name);
-        instance.add(point);
+        instance.add( std::make_shared<Point>(counter, x, y, width, height, name));
 
         if(tokens.size() == 8) {
             int isSet = stoi(tokens[5]);
@@ -102,7 +96,7 @@ void parseLine(Instance& instance, const std::string& line) {
 
                 Point::Corner corner = parseCornerPlacement(x, y, upperLeftX, upperLeftY);
 
-                instance.setLabel(instance.size()-1, corner);
+                solution.setLabel(counter, corner);
             }
         }
 
