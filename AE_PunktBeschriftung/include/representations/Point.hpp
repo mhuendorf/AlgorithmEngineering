@@ -14,7 +14,7 @@ public:
     using Rectangle = std::tuple<Point2D, Point2D>;
 
     enum Corner {
-        NOT_PLACED = 0, TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT
+        TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, NOT_PLACED
     };
 
 private:

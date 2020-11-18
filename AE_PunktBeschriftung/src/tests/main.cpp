@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
     Solution solution = solver.solve(instance);
 
 
-    std::cout << solution << std::endl;
+    std::cout << solution << solution.isFeasible() << std::endl;
 
     return 0;
 }

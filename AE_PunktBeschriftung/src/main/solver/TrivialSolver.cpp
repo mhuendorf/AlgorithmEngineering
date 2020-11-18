@@ -17,7 +17,7 @@ Solution TrivialSolver::solve(Instance& instance) const {
         Point p = instance.getPoint(i);
 
         // walking over all corner placements
-        for(int corner = Point::TOP_LEFT; corner != Point::BOTTOM_RIGHT; corner++) {
+        for(int corner = Point::TOP_LEFT; corner != Point::NOT_PLACED; corner++) {
 
             // tracking whether we collided with one of them
             bool collided = false;
