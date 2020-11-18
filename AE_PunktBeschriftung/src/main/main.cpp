@@ -56,7 +56,7 @@ void solve(const string &infile, const string &outfile) {
     std::cout << solution.size() << "\t" << elapsed.count() << std::endl;
 
     std::ofstream out(outfile);
-    out << solution;
+    solution << out;
     out.close();
 
 }
