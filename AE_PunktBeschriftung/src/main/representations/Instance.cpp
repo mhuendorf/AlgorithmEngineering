@@ -46,6 +46,6 @@ int Instance::size() const {
 }
 
 // returns a reference to the point at a given index
-Point& Instance::getPoint(int idx) const {
+const Point& Instance::getPoint(int idx) const {
     return points.at(idx);
 }
