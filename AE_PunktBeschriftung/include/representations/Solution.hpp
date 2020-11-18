@@ -1,32 +1,28 @@
-#pragma once
+#ifndef LABEL_MAP_SOLUTION_HPP
+#define LABEL_MAP_SOLUTION_HPP
 
-#include <representations/Instance.hpp>
-#include <representations/Point.hpp>
 
-#include <map>
+#include "Instance.hpp"
 
 class Solution {
-
-private:
-
-    const Instance& instance;
-
-    std::map<int, Point::Rectangle> placements;
-
-    friend std::ostream& operator<<(std::ostream &ostream, const Solution &solution);
+protected:
+    const Instance instance;
 
 public:
+    virtual std::ostream &operator<<(std::ostream &ostream) = 0;
 
-    Solution(const Instance& instance);
+    explicit Solution(Instance &instance1);
 
-    void setLabel(int idx, Point::Corner corner);
+    [[nodiscard]] virtual bool isFeasible() const = 0;
 
-    bool contains(int idx) const;
+    virtual void setLabel(int idx, Point::Corner corner) = 0;
 
-    bool checkCollision(const Point& p, Point::Corner placement, int otherIdx) const;
+    [[nodiscard]] const Point& getPoint(int idx) const;
 
-    int size() const;
-
-    bool isFeasible() const;
+    [[nodiscard]] virtual int size() const = 0;
 
 };
+
+
+
+#endif //LABEL_MAP_SOLUTION_HPP

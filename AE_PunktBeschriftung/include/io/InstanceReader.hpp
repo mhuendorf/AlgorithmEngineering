@@ -2,13 +2,13 @@
 
 #include <representations/Instance.hpp>
 #include <representations/Point.hpp>
-#include <representations/Solution.hpp>
+#include <representations/SolutionWithGraph.hpp>
 
 #include <string>
 
-void readInstance(const std::string& filename, Instance& instance, Solution& solution);
+void readInstance(const std::string& filename, Instance& instance, SolutionWithGraph& solution);
 
-void parseLine(Instance& instance, const std::string& line, Solution& solution, int counter);
+void parseLine(Instance& instance, const std::string& line, SolutionWithGraph& solution, int counter);
 
 int parsePositiveInteger(const std::string& line);
 

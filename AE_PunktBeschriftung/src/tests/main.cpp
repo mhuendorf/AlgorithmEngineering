@@ -4,7 +4,7 @@ using std::endl;
 
 #include <representations/Instance.hpp>
 #include <generator/InstanceGenerator.hpp>
-#include <representations/Solution.hpp>
+#include <representations/SolutionWithGraph.hpp>
 #include <solver/TrivialSolver.hpp>
 #include <io/InstanceReader.hpp>
 
