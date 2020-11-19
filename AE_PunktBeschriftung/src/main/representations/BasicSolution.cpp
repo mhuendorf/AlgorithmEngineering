@@ -1,4 +1,4 @@
-#include <representations/SolutionWithGraph.hpp>
+#include <representations/BasicSolution.hpp>
 #include <representations/Point.hpp>
 
 #include <iostream>
@@ -10,14 +10,13 @@ using std::string;
 using std::vector;
 
 
-SolutionWithGraph::SolutionWithGraph(Instance &instance) : Solution(instance), placements{} {}
+BasicSolution::BasicSolution(Instance &instance) : Solution(instance), placements{} {}
 
-
-int SolutionWithGraph::size() const {
+int BasicSolution::size() const {
     return placements.size();
 }
 
-bool SolutionWithGraph::isFeasible() const {
+bool BasicSolution::isFeasible() const {
 
     auto it = placements.cbegin();
     while(it != placements.end()) {
@@ -42,19 +41,19 @@ bool SolutionWithGraph::isFeasible() const {
     return true;
 }
 
-void SolutionWithGraph::setLabel(int idx, Point::Corner corner) {
+void BasicSolution::setLabel(int idx, Point::Corner corner) {
 
     Point::Rectangle rect = instance.getPoint(idx).getCoordsForPlacement(corner);
     placements.insert(std::make_pair(idx, rect));
 
 }
 
-bool SolutionWithGraph::contains(int idx) const {
+bool BasicSolution::contains(int idx) const {
     auto finder = placements.find(idx);
     return placements.end() != finder;
 }
 
-bool SolutionWithGraph::checkCollision(const Point& p, Point::Corner placement, int otherIdx) const {
+bool BasicSolution::checkCollision(const Point& p, Point::Corner placement, int otherIdx) const {
 
     if(!contains(otherIdx)) {
         return false; // can't collide if the other one isn't even set
@@ -66,7 +65,7 @@ bool SolutionWithGraph::checkCollision(const Point& p, Point::Corner placement, 
     return Point::checkCollision(rect1, rect2);
 }
 
-std::ostream &SolutionWithGraph::operator<<(std::ostream &ostream) {
+void BasicSolution::printSolution(std::ostream &ostream) {
     ostream << this->instance.size() << "\n";
     for (int i = 0; i < this->instance.size(); ++i) {
 
@@ -81,6 +80,5 @@ std::ostream &SolutionWithGraph::operator<<(std::ostream &ostream) {
         }
         ostream << std::endl;
     }
-    return ostream;
 }
 

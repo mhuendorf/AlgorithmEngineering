@@ -13,7 +13,7 @@ using std::vector;
 using std::string;
 
 
-void readInstance(const string& filename, Instance& instance, SolutionWithGraph& solution) {
+void readInstance(const string& filename, Instance& instance, Solution& solution) {
 
     std::fstream file;
 
@@ -55,7 +55,7 @@ int parsePositiveInteger(const string& line) {
     return result;
 }
 
-void parseLine(Instance& instance, const std::string& line, SolutionWithGraph& solution, int counter) {
+void parseLine(Instance& instance, const std::string& line, Solution& solution, int counter) {
 
     // unpacking the scanned line into a vector of strings
     std::istringstream iss(line);

@@ -4,9 +4,9 @@
 // Walk over all points of the instance.
 // For each, walk over all possible Corner placements
 // For each, walk over all already set points and check for collisions
-SolutionWithGraph TrivialSolver::solve(Instance& instance) const {
+BasicSolution TrivialSolver::solve(Instance& instance) const {
 
-    SolutionWithGraph solution(instance);
+    BasicSolution solution(instance);
 
     // set the label of the first point to top left
     solution.setLabel(0, Point::TOP_LEFT);

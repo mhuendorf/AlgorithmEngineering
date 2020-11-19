@@ -1,4 +1,5 @@
-#include "representations/Solution.hpp"
+#include <representations/Instance.hpp>
+#include <representations/Solution.hpp>
 
 Solution::Solution(Instance &instance1) : instance(instance1) {
 }

@@ -1,11 +1,11 @@
 #pragma once
 
 #include <representations/Instance.hpp>
-#include <representations/SolutionWithGraph.hpp>
+#include <representations/BasicSolution.hpp>
 
 class TrivialSolver {
 public:
     TrivialSolver() = default;
 
-    SolutionWithGraph solve(Instance& instance) const;
+    BasicSolution solve(Instance& instance) const;
 };

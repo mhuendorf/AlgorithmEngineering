@@ -2,21 +2,19 @@
 #define LABEL_MAP_SOLUTION_HPP
 
 
-#include "Instance.hpp"
+#include <representations/Instance.hpp>
 
 class Solution {
 protected:
-    const Instance instance;
+    const Instance& instance;
 
 public:
     /**
-     * Operator to print the solution to something. Must be called like: solution << ostream;
-     * Its the only way i can think of to require a printable solution via << operator.
+     * Function to print a solution to an out stream.
      *
      * @param ostream the stream to be printed to
-     * @return the out stream from the input
      */
-    virtual std::ostream &operator<<(std::ostream &ostream) = 0;
+    virtual void printSolution(std::ostream &ostream) = 0;
 
     /**
      * Constructor
