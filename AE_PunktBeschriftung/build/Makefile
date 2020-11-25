@@ -223,6 +223,33 @@ src/main/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/main.cpp.s
 .PHONY : src/main/main.cpp.s
 
+src/main/representations/BasicSolution.o: src/main/representations/BasicSolution.cpp.o
+
+.PHONY : src/main/representations/BasicSolution.o
+
+# target to build an object file
+src/main/representations/BasicSolution.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/representations/BasicSolution.cpp.o
+.PHONY : src/main/representations/BasicSolution.cpp.o
+
+src/main/representations/BasicSolution.i: src/main/representations/BasicSolution.cpp.i
+
+.PHONY : src/main/representations/BasicSolution.i
+
+# target to preprocess a source file
+src/main/representations/BasicSolution.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/representations/BasicSolution.cpp.i
+.PHONY : src/main/representations/BasicSolution.cpp.i
+
+src/main/representations/BasicSolution.s: src/main/representations/BasicSolution.cpp.s
+
+.PHONY : src/main/representations/BasicSolution.s
+
+# target to generate assembly for a file
+src/main/representations/BasicSolution.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/representations/BasicSolution.cpp.s
+.PHONY : src/main/representations/BasicSolution.cpp.s
+
 src/main/representations/Instance.o: src/main/representations/Instance.cpp.o
 
 .PHONY : src/main/representations/Instance.o
@@ -349,6 +376,9 @@ help:
 	@echo "... src/main/main.o"
 	@echo "... src/main/main.i"
 	@echo "... src/main/main.s"
+	@echo "... src/main/representations/BasicSolution.o"
+	@echo "... src/main/representations/BasicSolution.i"
+	@echo "... src/main/representations/BasicSolution.s"
 	@echo "... src/main/representations/Instance.o"
 	@echo "... src/main/representations/Instance.i"
 	@echo "... src/main/representations/Instance.s"

@@ -1,32 +1,56 @@
-#pragma once
+#ifndef LABEL_MAP_SOLUTION_HPP
+#define LABEL_MAP_SOLUTION_HPP
+
 
 #include <representations/Instance.hpp>
-#include <representations/Point.hpp>
-
-#include <map>
 
 class Solution {
-
-private:
-
+protected:
     const Instance& instance;
 
-    std::map<int, Point::Rectangle> placements;
-
-    friend std::ostream& operator<<(std::ostream &ostream, const Solution &solution);
-
 public:
+    /**
+     * Function to print a solution to an out stream.
+     *
+     * @param ostream the stream to be printed to
+     */
+    virtual void printSolution(std::ostream &ostream) = 0;
 
-    Solution(const Instance& instance);
+    /**
+     * Constructor
+     * @param instance1
+     */
+    explicit Solution(Instance &instance1);
 
-    void setLabel(int idx, Point::Corner corner);
+    /**
+     * Checks if the current state of the solution is feasible.
+     * @return true if the solution is feasible, false else
+     */
+    [[nodiscard]] virtual bool isFeasible() const = 0;
 
-    bool contains(int idx) const;
+    /**
+     * Sets a label for a given Point.
+     *
+     * @param idx the index of the point
+     * @param corner the corner, where the label is placed at
+     */
+    virtual void setLabel(int idx, Point::Corner corner) = 0;
 
-    bool checkCollision(const Point& p, Point::Corner placement, int otherIdx) const;
+    /**
+     * Returns a point by its index.
+     * @param idx the index of the point
+     *
+     * @return the point itself
+     */
+    [[nodiscard]] const Point& getPoint(int idx) const;
 
-    int size() const;
-
-    bool isFeasible() const;
-
+    /**
+     * Checks how many labels are placed.
+     *
+     * @return the number of placed labels
+     */
+    [[nodiscard]] virtual int size() const = 0;
 };
+
+
+#endif //LABEL_MAP_SOLUTION_HPP

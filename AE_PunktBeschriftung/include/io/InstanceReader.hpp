@@ -2,7 +2,7 @@
 
 #include <representations/Instance.hpp>
 #include <representations/Point.hpp>
-#include <representations/Solution.hpp>
+#include <representations/BasicSolution.hpp>
 
 #include <string>
 

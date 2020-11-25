@@ -10,7 +10,7 @@ using std::string;
 #include <fstream>
 #include <chrono>
 
-#include <representations/Solution.hpp>
+#include <representations/BasicSolution.hpp>
 #include <representations/Instance.hpp>
 #include <io/InstanceReader.hpp>
 #include <solver/TrivialSolver.hpp>
@@ -29,7 +29,7 @@ void abortProgram() {
 void checkFeasibility(const string &filename) {
 
     Instance instance;
-    Solution solution(instance);
+    BasicSolution solution(instance);
     readInstance(filename, instance, solution);
 
     if (solution.isFeasible()) {
@@ -41,14 +41,14 @@ void checkFeasibility(const string &filename) {
 void solve(const string &infile, const string &outfile) {
 
     Instance instance;
-    Solution sol(instance);
+    BasicSolution sol(instance);
     readInstance(infile, instance, sol);
 
     // instance.showPoints();
 
     auto start = std::chrono::high_resolution_clock::now();
     TrivialSolver trivialSolver;
-    Solution solution = trivialSolver.solve(instance);
+    BasicSolution solution = trivialSolver.solve(instance);
     auto finish = std::chrono::high_resolution_clock::now();
 
     std::chrono::duration<double> elapsed = finish - start;
@@ -56,7 +56,7 @@ void solve(const string &infile, const string &outfile) {
     std::cout << solution.size() << "\t" << elapsed.count() << std::endl;
 
     std::ofstream out(outfile);
-    out << solution;
+    solution.printSolution(out);
     out.close();
 
 }

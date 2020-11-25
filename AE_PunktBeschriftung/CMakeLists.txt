@@ -6,10 +6,11 @@ set(CMAKE_CXX_STANDARD 20)
 add_executable(label_map src/main/main.cpp
         src/main/generator/InstanceGenerator.cpp
         src/main/representations/Instance.cpp
-        src/main/representations/Solution.cpp
+        src/main/representations/BasicSolution.cpp
         src/main/representations/Point.cpp
         src/main/solver/TrivialSolver.cpp 
-        src/main/io/InstanceReader.cpp)
+        src/main/io/InstanceReader.cpp
+        src/main/representations/Solution.cpp)
 
 target_include_directories(label_map PUBLIC include)
 
