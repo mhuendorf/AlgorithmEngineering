@@ -1,23 +1,9 @@
 #include <solver/FALPSolver.hpp>
-
+#include <solver/Utils.hpp>
 #include <iostream>
 
 FALPSolver::FALPSolver() : labelQ{this->labelCmp}, overlaps{} {}
 
-// calculates a unique ID for each label from pointIdx corner
-int getLabelIdx(int pointIdx, Point::Corner corner) {
-    return pointIdx * 4 + corner;
-}
-
-// calculates the Point-Index back from the labelIdx
-int getPointIdxFromLabel(int labelIdx) {
-    return labelIdx / 4;
-}
-
-// calculates the corner back from the labelIdx
-Point::Corner getCornerFromLabel(int labelIdx) {
-    return static_cast<Point::Corner>( labelIdx % 4 );
-}
 
 // prints labelQ for debugging
 void FALPSolver::printSet() {
@@ -153,9 +139,8 @@ Solution FALPSolver::solve(Instance& instance) {
     // step 1: iteratively pull labels with least overlaps from Q
     setBestLabels(solution);
 
-    // step 2: I think this might actually be superfluous here!
+    // step 2: I think step 2 might actually be superfluous here!
     // TODO benchmark FALPSolver against TrivialSolver
-
     
     return solution;
 }

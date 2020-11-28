@@ -362,6 +362,36 @@ src/main/solver/FALPSolver.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/solver/FALPSolver.cpp.s
 .PHONY : src/main/solver/FALPSolver.cpp.s
 
+src/main/solver/PopmusicSolver.o: src/main/solver/PopmusicSolver.cpp.o
+
+.PHONY : src/main/solver/PopmusicSolver.o
+
+# target to build an object file
+src/main/solver/PopmusicSolver.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/solver/PopmusicSolver.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/solver/PopmusicSolver.cpp.o
+.PHONY : src/main/solver/PopmusicSolver.cpp.o
+
+src/main/solver/PopmusicSolver.i: src/main/solver/PopmusicSolver.cpp.i
+
+.PHONY : src/main/solver/PopmusicSolver.i
+
+# target to preprocess a source file
+src/main/solver/PopmusicSolver.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/solver/PopmusicSolver.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/solver/PopmusicSolver.cpp.i
+.PHONY : src/main/solver/PopmusicSolver.cpp.i
+
+src/main/solver/PopmusicSolver.s: src/main/solver/PopmusicSolver.cpp.s
+
+.PHONY : src/main/solver/PopmusicSolver.s
+
+# target to generate assembly for a file
+src/main/solver/PopmusicSolver.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/solver/PopmusicSolver.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/solver/PopmusicSolver.cpp.s
+.PHONY : src/main/solver/PopmusicSolver.cpp.s
+
 src/main/solver/TrivialSolver.o: src/main/solver/TrivialSolver.cpp.o
 
 .PHONY : src/main/solver/TrivialSolver.o
@@ -391,6 +421,36 @@ src/main/solver/TrivialSolver.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/solver/TrivialSolver.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/solver/TrivialSolver.cpp.s
 .PHONY : src/main/solver/TrivialSolver.cpp.s
+
+src/main/solver/Utils.o: src/main/solver/Utils.cpp.o
+
+.PHONY : src/main/solver/Utils.o
+
+# target to build an object file
+src/main/solver/Utils.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/solver/Utils.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/solver/Utils.cpp.o
+.PHONY : src/main/solver/Utils.cpp.o
+
+src/main/solver/Utils.i: src/main/solver/Utils.cpp.i
+
+.PHONY : src/main/solver/Utils.i
+
+# target to preprocess a source file
+src/main/solver/Utils.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/solver/Utils.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/solver/Utils.cpp.i
+.PHONY : src/main/solver/Utils.cpp.i
+
+src/main/solver/Utils.s: src/main/solver/Utils.cpp.s
+
+.PHONY : src/main/solver/Utils.s
+
+# target to generate assembly for a file
+src/main/solver/Utils.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main/solver/Utils.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/label_map.dir/build.make CMakeFiles/label_map.dir/src/main/solver/Utils.cpp.s
+.PHONY : src/main/solver/Utils.cpp.s
 
 src/tests/main.o: src/tests/main.cpp.o
 
@@ -450,9 +510,15 @@ help:
 	@echo "... src/main/solver/FALPSolver.o"
 	@echo "... src/main/solver/FALPSolver.i"
 	@echo "... src/main/solver/FALPSolver.s"
+	@echo "... src/main/solver/PopmusicSolver.o"
+	@echo "... src/main/solver/PopmusicSolver.i"
+	@echo "... src/main/solver/PopmusicSolver.s"
 	@echo "... src/main/solver/TrivialSolver.o"
 	@echo "... src/main/solver/TrivialSolver.i"
 	@echo "... src/main/solver/TrivialSolver.s"
+	@echo "... src/main/solver/Utils.o"
+	@echo "... src/main/solver/Utils.i"
+	@echo "... src/main/solver/Utils.s"
 	@echo "... src/tests/main.o"
 	@echo "... src/tests/main.i"
 	@echo "... src/tests/main.s"

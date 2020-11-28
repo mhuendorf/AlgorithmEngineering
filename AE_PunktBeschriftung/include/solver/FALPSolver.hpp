@@ -18,7 +18,6 @@ struct QElem {
     Point::Corner corner;
     int overlaps;
 
-//std::cout << " Comparing "<< idx << " " << corner << " with " << other.idx << " " << other.corner << std::endl; 
     bool operator==(QElem& other) const { return other.idx == idx && other.corner == corner; };
 };
 

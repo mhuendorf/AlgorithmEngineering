@@ -10,13 +10,18 @@ using std::string;
 using std::vector;
 
 
-Solution::Solution(const Instance& instance) : instance{instance}, placements{} {}
+Solution::Solution(const Instance& instance) : instance{instance}, placements{}, corners{} {}
 
+Solution& Solution::operator=(const Solution& other) {
+    // TODO learn how to properly do this, this is most certainly wrong
+    this->placements = other.placements;
+    this->corners = other.corners;
+    return *this;
+}  
 
 int Solution::size() const {
     return placements.size();
 }
-
 
 std::ostream& operator<<(std::ostream &ostream, const Solution &solution) {
     
@@ -63,15 +68,26 @@ bool Solution::isFeasible() const {
 }
 
 void Solution::setLabel(int idx, Point::Corner corner) {
-
     Point::Rectangle rect = instance.getPoint(idx).getCoordsForPlacement(corner);
+    placements.erase(idx);
     placements.insert(std::make_pair(idx, rect));
 
+    corners.erase(idx);
+    corners.insert(std::make_pair(idx, corner));
+}
+
+void Solution::resetLabel(int idx) {
+    placements.erase(idx);
+    corners.erase(idx);
 }
 
 bool Solution::contains(int idx) const {
     std::map<int, Point::Rectangle>::const_iterator finder = placements.find(idx);
     return placements.end() != finder;
+}
+
+Point::Corner const Solution::getCorner(int pointIdx) const {
+    return corners.at(pointIdx);
 }
 
 bool Solution::checkCollision(const Point& p, Point::Corner placement, int otherIdx) const {

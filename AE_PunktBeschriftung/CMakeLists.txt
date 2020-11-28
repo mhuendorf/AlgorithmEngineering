@@ -10,6 +10,8 @@ add_executable(label_map src/main/main.cpp
         src/main/representations/Point.cpp
         src/main/solver/TrivialSolver.cpp 
         src/main/solver/FALPSolver.cpp
+        src/main/solver/PopmusicSolver.cpp
+        src/main/solver/Utils.cpp
         src/main/io/InstanceReader.cpp)
 
 target_include_directories(label_map PUBLIC include)
@@ -23,6 +25,8 @@ add_executable(test src/tests/main.cpp
         src/main/representations/Point.cpp
         src/main/solver/TrivialSolver.cpp 
         src/main/solver/FALPSolver.cpp
+        src/main/solver/PopmusicSolver.cpp
+        src/main/solver/Utils.cpp
         src/main/io/InstanceReader.cpp)
 
 target_include_directories(test PUBLIC include)
