@@ -22,6 +22,7 @@ private:
 
     // config parameters for TabuSearch
     int maxTabuIt;
+    int tenure;
     // int minCandidateLSize;
     // int minTabuSize;
     // double candidateBaseFactor;
@@ -30,7 +31,7 @@ private:
     // double growingFactor;
     
     // overlap information of labels, obtained from FALPSolver
-    const std::vector<std::vector<int>> overlaps;
+    std::vector< std::vector<int> > overlaps;
 
     // r: ideal size of the subproblem 
     // si: seed part
@@ -41,7 +42,8 @@ private:
 
 public:
 
-    PopmusicSolver(Instance& instance) : instance(instance), solution(Solution(instance)) {};
+    PopmusicSolver(Instance& instance) 
+        : instance(instance), solution(Solution(instance)), maxTabuIt(5), tenure(5) {};
 
     Solution solve(Instance& instance);
 

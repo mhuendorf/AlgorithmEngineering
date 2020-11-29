@@ -144,3 +144,7 @@ Solution FALPSolver::solve(Instance& instance) {
     
     return solution;
 }
+
+std::vector< std::vector<int> >& FALPSolver::getOverlaps() {
+    return overlaps;
+}

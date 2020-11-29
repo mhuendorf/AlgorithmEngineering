@@ -47,4 +47,6 @@ public:
 
     Solution solve(Instance& instance);
 
+    std::vector< std::vector<int> >& getOverlaps();
+
 };

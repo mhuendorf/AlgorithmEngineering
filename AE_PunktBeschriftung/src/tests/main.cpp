@@ -7,6 +7,7 @@ using std::endl;
 #include <representations/Solution.hpp>
 #include <solver/TrivialSolver.hpp>
 #include <solver/FALPSolver.hpp>
+#include <solver/PopmusicSolver.hpp>
 #include <io/InstanceReader.hpp>
 
 int main(int argc, char* argv[]) {
@@ -14,7 +15,7 @@ int main(int argc, char* argv[]) {
     Solution sol(instance);
     readInstance("../res/tinyInstance.txt", instance, sol);
 
-    FALPSolver solver;
+    PopmusicSolver solver(instance);
     Solution solution = solver.solve(instance);
 
 
