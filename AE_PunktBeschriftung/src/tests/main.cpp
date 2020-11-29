@@ -14,16 +14,17 @@ int test() {
     cout << instance << endl;
 
     Instance test;
-    readInstance(test, "../res/tinyInstance.txt");
+    BasicSolution sol(test);
+    readInstance("../res/tinyInstance.txt", test, sol);
     cout << test << endl;
 
     Instance test2;
-    Solution testSol(test2);
-    readInstanceAndSolution(test2, testSol, "../res/tinyInstanceAndSolution.txt");
+    BasicSolution testSol(test2);
+    readInstance("../res/tinyInstanceAndSolution.txt", test2, testSol);
 
     cout << test2 << endl;
-    cout << testSol << endl;
-
+    testSol.printSolution(cout);
+    
     // int numPoints = 100;
     // Instance instance = InstanceGenerator::generateInstance(numPoints, 50, 50, 10, 5, 10);
     // cout << instance << endl;

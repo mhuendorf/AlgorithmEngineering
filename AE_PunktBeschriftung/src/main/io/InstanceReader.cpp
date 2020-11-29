@@ -55,6 +55,12 @@ int parsePositiveInteger(const string& line) {
     return result;
 }
 
+long parsePositiveLong(const string& line) {
+    long result = stol(line);
+    if(result < 1) throw std::runtime_error("Expected a positive integer, got " + line + " instead.");
+    return result;
+}
+
 void parseLine(Instance& instance, const std::string& line, Solution& solution, int counter) {
 
     // unpacking the scanned line into a vector of strings
@@ -69,8 +75,8 @@ void parseLine(Instance& instance, const std::string& line, Solution& solution, 
 
     // parsing arguments to ints if needed
     try {
-        int x = stoi(tokens[0]);
-        int y = stoi(tokens[1]);
+        long x = stol(tokens[0]);
+        long y = stol(tokens[1]);
         int width;
         int height;
         try {
@@ -88,8 +94,8 @@ void parseLine(Instance& instance, const std::string& line, Solution& solution, 
 
             if(isSet != 0 && isSet != 1) throw std::runtime_error("Could not parse boolean, expected 0 or 1 but was " + std::to_string(isSet));
 
-            int upperLeftX = stoi(tokens[6]);
-            int upperLeftY = stoi(tokens[7]);
+            int upperLeftX = stol(tokens[6]);
+            int upperLeftY = stol(tokens[7]);
 
             if(isSet) {
                 checkBoxConsistency(x, y, width, height, upperLeftX, upperLeftY);
@@ -107,7 +113,7 @@ void parseLine(Instance& instance, const std::string& line, Solution& solution, 
 }
 
 // throws an exception if the position of a box is inconsistent with a point and the size of the label
-void checkBoxConsistency(int x, int y, int width, int height, int upperLeftX, int upperLeftY) {
+void checkBoxConsistency(long x, long y, int width, int height, long upperLeftX, long upperLeftY) {
     if( !(x == upperLeftX || x - width == upperLeftX) // if x-coordinate does not make sense
         || !(y == upperLeftY || y + height == upperLeftY)) { // of if y-coordinate does not make sense
             throw std::runtime_error("Label positioning is inconsistent: point at ("+std::to_string(x)+","+std::to_string(y)+")" 
@@ -116,7 +122,7 @@ void checkBoxConsistency(int x, int y, int width, int height, int upperLeftX, in
         }
 }
 
-Point::Corner parseCornerPlacement(int x, int y, int upperLeftX, int upperLeftY) {
+Point::Corner parseCornerPlacement(long x, long y, long upperLeftX, long upperLeftY) {
     if(upperLeftX < x) {
         if(upperLeftY == y) {
             return Point::TOP_RIGHT;
