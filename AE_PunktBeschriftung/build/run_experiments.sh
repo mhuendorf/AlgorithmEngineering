@@ -43,6 +43,19 @@ make -j4
 # create csv file for results
 res_file=$target_dir/results.csv
 touch $res_file
+headline="Name,Solver,Points,Labels,Time"
+echo $headline >> $res_file
+
+print_results () {
+    result=$1
+    solver=$2
+    path=$3
+    read -r numOfPoints < $path                  # reading into numOfPoints the number of points of the instance
+    result=$numOfPoints','$result 
+    result=$solver','$result
+    result=$name','$result                          # result = "Name,numOfPoints,labelledPoints,time"
+    echo $result >> $res_file                       # appending to res_file
+}
 
 # function to recursively loop over directory
 expand_dirs () {
@@ -54,16 +67,24 @@ expand_dirs () {
             expand_dirs $dir $2/$name
         else 
             echo "Solving: "$name
-            result=$(./label_map -in $dir -out $2/$name)
-            result=${result/$'\t'/,}
-            result=$name','$result  
-            #echo $result >> $res_file
-            echo $result >> $res_file
+
+            # trivial solver
+            result=$(./trivial -in $dir -out $2/$name'_trivial.txt')      # result is number of labelled 'points \t time'
+            result=${result/$'\t'/,}                        # replacing the tab with a comma
+            print_results $result 'Trivial' $dir
+
+            # fake falp solver TODO once merged, replace with falp solver
+            result=$(./trivial -in $dir -out $2/$name'_falp.txt') 
+            result=${result/$'\t'/,}                        # replacing the tab with a comma
+            print_results $result 'FALP' $dir
+
+            # TODO add popmusic solver
+              
         fi 
     done
 }
 
 expand_dirs $instance_dir $target_dir
 
-# just storing the path to the benchmark instances for convenience
+# just storing my path to the benchmark instances for convenience
 # /Users/thomasklein/Uni/11_Semester/Algorithm_Engineering/Projekt/Benchmark_Instances_CLPP/benchmark_instances
