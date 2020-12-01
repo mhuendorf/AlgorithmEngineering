@@ -40,8 +40,6 @@ target_compile_options(test PRIVATE -Wall -Werror)
 
 # This is only needed for our experiments: unique executable for every solver. (Can be removed when we hand this in.)
 
-# TODO write the same for other solvers
-
 # This will generate the trivial solver:
 add_executable(trivial src/main/trivial.cpp
         src/main/generator/InstanceGenerator.cpp
@@ -58,3 +56,20 @@ add_executable(trivial src/main/trivial.cpp
 target_include_directories(trivial PUBLIC include)
 
 target_compile_options(trivial PRIVATE -Wall -Werror)
+
+# This will generate the falp solver:
+add_executable(falp src/main/falp.cpp
+        src/main/generator/InstanceGenerator.cpp
+        src/main/representations/Instance.cpp
+        src/main/representations/BasicSolution.cpp
+        src/main/representations/Solution.cpp
+        src/main/representations/Point.cpp
+        src/main/solver/TrivialSolver.cpp 
+        src/main/solver/FALPSolver.cpp
+        src/main/solver/PopmusicSolver.cpp
+        src/main/solver/Utils.cpp
+        src/main/io/InstanceReader.cpp)
+
+target_include_directories(falp PUBLIC include)
+
+target_compile_options(falp PRIVATE -Wall -Werror)

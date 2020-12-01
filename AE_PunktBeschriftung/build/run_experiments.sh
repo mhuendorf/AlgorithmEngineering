@@ -73,8 +73,8 @@ expand_dirs () {
             result=${result/$'\t'/,}                        # replacing the tab with a comma
             print_results $result 'Trivial' $dir
 
-            # fake falp solver TODO once merged, replace with falp solver
-            result=$(./trivial -in $dir -out $2/$name'_falp.txt') 
+            # falp solver
+            result=$(./falp -in $dir -out $2/$name'_falp.txt') 
             result=${result/$'\t'/,}                        # replacing the tab with a comma
             print_results $result 'FALP' $dir
 
