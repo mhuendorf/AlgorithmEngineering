@@ -10,7 +10,7 @@ class Point {
 public:
 
     using Ptr = std::shared_ptr<Point>;
-    using Point2D = std::tuple<int, int>;
+    using Point2D = std::tuple<long, long>;
     using Rectangle = std::tuple<Point2D, Point2D>;
 
     enum Corner {
@@ -20,10 +20,10 @@ public:
 private:
 
     int idx;
-    int x;
-    int y;
-    int width;
-    int height;
+    long x;
+    long y;
+    long width;
+    long height;
     std::string label;
 
     std::vector<Point::Ptr> neighbours;
@@ -32,13 +32,13 @@ private:
 
 public:
 
-    Point(int idx, int x, int y, int width, int height, std::string label);
+    Point(int idx, long x, long y, long width, long height, std::string label);
 
     int getIdx() const;
 
-    int getX() const;
+    long getX() const;
 
-    int getY() const;
+    long getY() const;
 
     std::string getName() const;
 

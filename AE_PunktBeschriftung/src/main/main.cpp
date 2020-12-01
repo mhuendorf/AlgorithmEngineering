@@ -53,7 +53,7 @@ void solve(const string &infile, const string &outfile) {
 
     std::chrono::duration<double> elapsed = finish - start;
 
-    std::cout << solution.size() << "\t" << elapsed.count() << std::endl;
+    std::cout << solution.size() << '\t' << elapsed.count() << std::endl;
 
     std::ofstream out(outfile);
     solution.printSolution(out);
