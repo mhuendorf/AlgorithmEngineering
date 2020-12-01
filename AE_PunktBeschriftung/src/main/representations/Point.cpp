@@ -11,7 +11,7 @@ using std::vector;
 
 // Constructor: initializes points and reserves memory
 // initializing coordinates to 0,0, which is meaningless anyway as long as the placement is 0 as well
-Point::Point(int idx, int x, int y, int width, int height, string label) 
+Point::Point(int idx, long x, long y, long width, long height, string label) 
         : idx(idx), x(x), y(y), width(width), height(height), label(label) {
 }
 
@@ -19,11 +19,11 @@ int Point::getIdx() const {
     return idx;
 }
 
-int Point::getX() const {
+long Point::getX() const {
     return x;
 }
 
-int Point::getY() const {
+long Point::getY() const {
     return y;
 }
 
@@ -52,10 +52,10 @@ std::ostream& operator<<(std::ostream& ostream, const Point& point) {
 
 Point::Rectangle Point::getBigRectangle() const {
 
-    int uLX = x-width;
-    int uLY = y+height;
-    int lRX = x+width; 
-    int lRY = y-height;
+    long uLX = x-width;
+    long uLY = y+height;
+    long lRX = x+width; 
+    long lRY = y-height;
 
     return Rectangle(Point2D(uLX, uLY), Point2D(lRX, lRY));
 }
@@ -67,15 +67,15 @@ bool Point::couldCollide(const Point& other) const {
 Point::Rectangle Point::getCoordsForPlacement(Corner corner) const {
 
     // calculating coords of upper left corner of box
-    int uLX = (corner == TOP_LEFT || corner == BOTTOM_LEFT) ? x : x - width;
-    int uLY = (corner == TOP_LEFT || corner == TOP_RIGHT) ? y : y + height;
+    long uLX = (corner == TOP_LEFT || corner == BOTTOM_LEFT) ? x : x - width;
+    long uLY = (corner == TOP_LEFT || corner == TOP_RIGHT) ? y : y + height;
 
     // calculating coords of lower right corner of box
-    int lRX = (corner == BOTTOM_RIGHT || corner == TOP_RIGHT) ? x : x + width;
-    int lRY = (corner == BOTTOM_RIGHT || corner == BOTTOM_LEFT) ? y : y - height;
+    long lRX = (corner == BOTTOM_RIGHT || corner == TOP_RIGHT) ? x : x + width;
+    long lRY = (corner == BOTTOM_RIGHT || corner == BOTTOM_LEFT) ? y : y - height;
 
-    Point2D upperLeft = std::tuple< int, int >(uLX, uLY);
-    Point2D lowerRight = std::tuple< int, int >(lRX, lRY);
+    Point2D upperLeft(uLX, uLY);
+    Point2D lowerRight(lRX, lRY);
 
     return Rectangle(upperLeft, lowerRight);
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <representations/Instance.hpp>
-#include <representations/Solution.hpp>
+#include <representations/BasicSolution.hpp>
 
 #include <iostream>
 #include <vector>
@@ -18,7 +18,7 @@ class PopmusicSolver {
 private:
 
     Instance& instance;
-    Solution solution;
+    BasicSolution solution;
 
     // config parameters for TabuSearch
     int maxTabuIt;
@@ -43,8 +43,8 @@ private:
 public:
 
     PopmusicSolver(Instance& instance) 
-        : instance(instance), solution(Solution(instance)), maxTabuIt(5), tenure(5) {};
+        : instance(instance), solution(BasicSolution(instance)), maxTabuIt(5), tenure(5) {};
 
-    Solution solve(Instance& instance);
+    BasicSolution solve(Instance& instance);
 
 };

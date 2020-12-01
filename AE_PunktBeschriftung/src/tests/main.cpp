@@ -4,7 +4,7 @@ using std::endl;
 
 #include <representations/Instance.hpp>
 #include <generator/InstanceGenerator.hpp>
-#include <representations/Solution.hpp>
+#include <representations/BasicSolution.hpp>
 #include <solver/TrivialSolver.hpp>
 #include <solver/FALPSolver.hpp>
 #include <solver/PopmusicSolver.hpp>
@@ -12,11 +12,11 @@ using std::endl;
 
 int main(int argc, char* argv[]) {
     Instance instance;
-    Solution sol(instance);
+    BasicSolution sol(instance);
     readInstance("../res/tinyInstance.txt", instance, sol);
 
     PopmusicSolver solver(instance);
-    Solution solution = solver.solve(instance);
+    BasicSolution solution = solver.solve(instance);
 
 
     std::cout << solution << solution.isFeasible() << std::endl;

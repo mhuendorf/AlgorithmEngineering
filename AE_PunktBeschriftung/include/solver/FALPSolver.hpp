@@ -1,7 +1,7 @@
 #pragma once
 
 #include <representations/Instance.hpp>
-#include <representations/Solution.hpp>
+#include <representations/BasicSolution.hpp>
 
 #include <queue>
 #include <vector>
@@ -45,7 +45,7 @@ public:
 
     FALPSolver();
 
-    Solution solve(Instance& instance);
+    BasicSolution solve(Instance& instance);
 
     std::vector< std::vector<int> >& getOverlaps();
 

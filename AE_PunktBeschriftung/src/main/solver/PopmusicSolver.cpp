@@ -3,7 +3,7 @@
 #include <solver/Utils.hpp>
 
 
-Solution PopmusicSolver::solve(Instance& instance) {
+BasicSolution PopmusicSolver::solve(Instance& instance) {
 
     // step 1: call FALPSolver for initial solution
     FALPSolver falp;
@@ -111,7 +111,7 @@ std::map<int, Point::Corner> PopmusicSolver::tabuSearch(const Subproblem& sub) {
     
     // setup
 
-    Solution localSolution = solution;
+    BasicSolution localSolution = solution;
 
     std::map<int, Point::Corner> improvements; // map to store improvements in
 

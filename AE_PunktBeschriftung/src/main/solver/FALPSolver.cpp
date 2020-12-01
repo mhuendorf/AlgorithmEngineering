@@ -128,10 +128,10 @@ void FALPSolver::setBestLabels(Solution& solution) {
     }
 }
 
-Solution FALPSolver::solve(Instance& instance) {
+BasicSolution FALPSolver::solve(Instance& instance) {
 
     // creating solution to store results in
-    Solution solution(instance);
+    BasicSolution solution(instance);
 
     // put all labels into a priority Q, sorting by number of overlaps
     setupLabelQ(instance);

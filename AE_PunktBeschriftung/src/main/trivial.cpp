@@ -14,7 +14,6 @@ using std::string;
 #include <representations/Instance.hpp>
 #include <io/InstanceReader.hpp>
 #include <solver/TrivialSolver.hpp>
-#include <solver/FALPSolver.hpp>
 
 bool fexists(const string &filename) {
     std::ifstream ifile(filename.c_str());
@@ -49,8 +48,6 @@ void solve(const string &infile, const string &outfile) {
 
     auto start = std::chrono::high_resolution_clock::now();
     TrivialSolver trivialSolver;
-    FALPSolver solver;
-    // BasicSolution sol2 = solver.solve(instance);
     BasicSolution solution = trivialSolver.solve(instance);
     auto finish = std::chrono::high_resolution_clock::now();
 
