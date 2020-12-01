@@ -12,6 +12,6 @@ void parseLine(Instance& instance, const std::string& line, Solution& solution, 
 
 int parsePositiveInteger(const std::string& line);
 
-void checkBoxConsistency(long x, long y, int width, int height, long upperLeftX, long upperLeftY);
+void checkBoxConsistency(long x, long y, long width, long height, long upperLeftX, long upperLeftY);
 
 Point::Corner parseCornerPlacement(long x, long y, long upperLeftX, long upperLeftY);

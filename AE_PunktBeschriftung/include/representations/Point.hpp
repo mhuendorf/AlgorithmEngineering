@@ -22,8 +22,8 @@ private:
     int idx;
     long x;
     long y;
-    int width;
-    int height;
+    long width;
+    long height;
     std::string label;
 
     std::vector<Point::Ptr> neighbours;
@@ -32,7 +32,7 @@ private:
 
 public:
 
-    Point(int idx, long x, long y, int width, int height, std::string label);
+    Point(int idx, long x, long y, long width, long height, std::string label);
 
     int getIdx() const;
 

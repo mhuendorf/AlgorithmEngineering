@@ -11,7 +11,7 @@ using std::vector;
 
 // Constructor: initializes points and reserves memory
 // initializing coordinates to 0,0, which is meaningless anyway as long as the placement is 0 as well
-Point::Point(int idx, long x, long y, int width, int height, string label) 
+Point::Point(int idx, long x, long y, long width, long height, string label) 
         : idx(idx), x(x), y(y), width(width), height(height), label(label) {
 }
 

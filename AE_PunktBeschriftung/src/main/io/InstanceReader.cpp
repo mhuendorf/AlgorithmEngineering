@@ -77,11 +77,11 @@ void parseLine(Instance& instance, const std::string& line, Solution& solution, 
     try {
         long x = stol(tokens[0]);
         long y = stol(tokens[1]);
-        int width;
-        int height;
+        long width;
+        long height;
         try {
-            width = parsePositiveInteger(tokens[2]);
-            height = parsePositiveInteger(tokens[3]);
+            width = parsePositiveLong(tokens[2]);
+            height = parsePositiveLong(tokens[3]);
         } catch(const std::exception& e) {
             throw std::runtime_error("Could not parse label-box of point " + tokens[4] + "\n" + e.what());
         }
@@ -94,8 +94,8 @@ void parseLine(Instance& instance, const std::string& line, Solution& solution, 
 
             if(isSet != 0 && isSet != 1) throw std::runtime_error("Could not parse boolean, expected 0 or 1 but was " + std::to_string(isSet));
 
-            int upperLeftX = stol(tokens[6]);
-            int upperLeftY = stol(tokens[7]);
+            long upperLeftX = stol(tokens[6]);
+            long upperLeftY = stol(tokens[7]);
 
             if(isSet) {
                 checkBoxConsistency(x, y, width, height, upperLeftX, upperLeftY);
@@ -113,7 +113,7 @@ void parseLine(Instance& instance, const std::string& line, Solution& solution, 
 }
 
 // throws an exception if the position of a box is inconsistent with a point and the size of the label
-void checkBoxConsistency(long x, long y, int width, int height, long upperLeftX, long upperLeftY) {
+void checkBoxConsistency(long x, long y, long width, long height, long upperLeftX, long upperLeftY) {
     if( !(x == upperLeftX || x - width == upperLeftX) // if x-coordinate does not make sense
         || !(y == upperLeftY || y + height == upperLeftY)) { // of if y-coordinate does not make sense
             throw std::runtime_error("Label positioning is inconsistent: point at ("+std::to_string(x)+","+std::to_string(y)+")" 
