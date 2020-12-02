@@ -36,7 +36,7 @@ private:
     // r: ideal size of the subproblem 
     // si: seed part
     // border: control array
-    Subproblem createSubProblem(const Instance& instance, int r, int si) const;
+    Subproblem createSubProblem(const Instance& instance, size_t r, int si) const;
     
     std::map<int, Point::Corner> tabuSearch(const Subproblem& sub);
 

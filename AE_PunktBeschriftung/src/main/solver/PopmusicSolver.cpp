@@ -25,7 +25,7 @@ BasicSolution PopmusicSolver::solve(Instance& instance) {
 
         // creating the subproblem: r nodes in the direct or indirect neighbourhood of seed part
         int si = *waiting_list.begin(); // seed part
-        int r = 20;
+        size_t r = 20;
         Subproblem sub = createSubProblem(instance, r, si);
 
         //std::cout << "Subproblem creation worked: " << std::endl;
@@ -62,7 +62,7 @@ BasicSolution PopmusicSolver::solve(Instance& instance) {
     return solution;
 }
 
-Subproblem PopmusicSolver::createSubProblem(const Instance& instance, int r, int si) const {
+Subproblem PopmusicSolver::createSubProblem(const Instance& instance, size_t r, int si) const {
 
     std::set<int> Q;
     Q.insert(si);
