@@ -78,7 +78,10 @@ expand_dirs () {
             result=${result/$'\t'/,}                        # replacing the tab with a comma
             print_results $result 'FALP' $dir
 
-            # TODO add popmusic solver
+            # popmusic solver
+            result=$(./popmusic -in $dir -out $2/$name'_popmusic.txt') 
+            result=${result/$'\t'/,}                        # replacing the tab with a comma
+            print_results $result 'POP' $dir
               
         fi 
     done

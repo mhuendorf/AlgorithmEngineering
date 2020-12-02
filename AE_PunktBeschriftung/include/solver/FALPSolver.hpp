@@ -14,9 +14,9 @@ struct QElem {
 
     QElem(int idx, Point::Corner corner, int laps) : idx(idx), corner(corner), overlaps(laps) {};
 
-    int idx;
-    Point::Corner corner;
-    int overlaps;
+    int idx; // the index of the point
+    Point::Corner corner; // the corner of the label
+    int overlaps; // number of overlaps of this label
 
     bool operator==(QElem& other) const { return other.idx == idx && other.corner == corner; };
 };

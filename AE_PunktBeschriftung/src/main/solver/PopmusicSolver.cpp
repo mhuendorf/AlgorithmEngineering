@@ -9,7 +9,7 @@ BasicSolution PopmusicSolver::solve(Instance& instance) {
     FALPSolver falp;
     this->solution = falp.solve(instance);
 
-    std::cout << "initial solving worked. Solution: " << solution << std::endl;
+    //std::cout << "initial solving worked. Solution: " << solution << std::endl;
 
     // step 2: TODO copy overlaps from FALPSolver into this object - maybe not necessary, take them from falp
     this->overlaps = falp.getOverlaps();
@@ -20,11 +20,6 @@ BasicSolution PopmusicSolver::solve(Instance& instance) {
         waiting_list.insert(idx);
     }
 
-    std::cout << "Waiting list build. Waiting list: " << std::endl;
-    for(int i : waiting_list) {
-        std::cout << i << std::endl;
-    }
-
     // while there are still nodes that need improvement
     while( !waiting_list.empty() ) {
 
@@ -33,17 +28,17 @@ BasicSolution PopmusicSolver::solve(Instance& instance) {
         int r = 20;
         Subproblem sub = createSubProblem(instance, r, si);
 
-        std::cout << "Subproblem creation worked: " << std::endl;
-        for(int node : sub.Ri) {
-            std::cout << node << std::endl;
-        }
+        //std::cout << "Subproblem creation worked: " << std::endl;
+        // for(int node : sub.Ri) {
+        //     std::cout << node << std::endl;
+        // }
 
         std::map<int, Point::Corner> improvements = tabuSearch(sub);
 
-        std::cout << "TabuSearch complete. Improvements: " << std::endl;
-        for(auto prIt = improvements.begin(); prIt != improvements.end(); prIt++) {
-            std::cout << prIt->first << " " << prIt->second << std::endl;
-        }
+        //std::cout << "TabuSearch complete. Improvements: " << std::endl;
+        // for(auto prIt = improvements.begin(); prIt != improvements.end(); prIt++) {
+        //     std::cout << prIt->first << " " << prIt->second << std::endl;
+        // }
 
         if(!improvements.empty()) {
 
@@ -124,7 +119,7 @@ std::map<int, Point::Corner> PopmusicSolver::tabuSearch(const Subproblem& sub) {
     };
     std::multiset< Point::Point2D, compare > candidates; // maps label-index to #overlaps of that label
 
-    std::cout << "Made it past candidate init, #candidates: " << candidates.size() << std::endl;
+    //std::cout << "Made it past candidate init, #candidates: " << candidates.size() << std::endl;
 
     // maps node-indices to number of iterations in which this node may not be changed
     std::map<int, int> tabuList; // if the value of a node is < 0, we are allowed to change it
@@ -138,10 +133,9 @@ std::map<int, Point::Corner> PopmusicSolver::tabuSearch(const Subproblem& sub) {
 
         // collect all indices of nodes that are not set
         if(!localSolution.contains(idx)) {
-            std::cout << "Solution claims to not contain " << idx << std::endl;
             for(int corner = Point::TOP_LEFT; corner != Point::NOT_PLACED; corner++) {
                 int labelIdx = getLabelIdx(idx, static_cast<Point::Corner>(corner));
-                std::tuple<int, int> tup( labelIdx, overlaps[labelIdx].size() );
+                std::tuple<int, int> tup( labelIdx, overlaps[labelIdx].size() ); // TODO maybe use the actual number of overlaps here, not the theoretical maximum
                 candidates.insert( tup );
             }
         }
@@ -149,12 +143,12 @@ std::map<int, Point::Corner> PopmusicSolver::tabuSearch(const Subproblem& sub) {
     }
     int iterations = 0;
 
-    std::cout << "Made it through TS init, #candidate-labels: " << candidates.size() << std::endl;
+    //std::cout << "Made it through TS init, #candidate-labels: " << candidates.size() << std::endl;
 
     // TODO make this more efficient
     // if we have no candidates, return empty improvements
     if(candidates.size() == 0) {
-        std::cout << "Returning empty improvements" << std::endl;
+        //std::cout << "Returning empty improvements" << std::endl;
         return improvements;
     }
 
@@ -182,34 +176,34 @@ std::map<int, Point::Corner> PopmusicSolver::tabuSearch(const Subproblem& sub) {
 
             // OVERVIEW: we will now have to repair all points that clash with the new label
 
-            std::vector<int> repairPoints;
+            std::set<int> repairPoints;
 
             // For all labels that we overlap (generally, regardless of whether they are set or not)...
             for(int otherLabel : overlaps[labelIdx]) {
-                std::cout << "Crossing other label: " << otherLabel << " for point: " << getPointIdxFromLabel(otherLabel) <<  " and label: " << getCornerFromLabel(otherLabel) <<  std::endl;
+                //std::cout << "Crossing other label: " << otherLabel << " for point: " << getPointIdxFromLabel(otherLabel) <<  " and label: " << getCornerFromLabel(otherLabel) <<  std::endl;
                 
                 int otherPointIdx = getPointIdxFromLabel(otherLabel);
+                Point::Corner otherCorner = getCornerFromLabel(otherLabel);
 
                 // ...if the point that we would cross is even in the solution and has that label placement...
-                if(localSolution.contains(otherPointIdx) && localSolution.getCorner(otherPointIdx)) {
+                if(localSolution.contains(otherPointIdx) && localSolution.getCorner(otherPointIdx) == otherCorner) {
                     // ...then, delete that point and add it to the list of points that need to be repaired.
-                    std::cout << "We actually hit that one, removing " << otherPointIdx << std::endl;
+                    //std::cout << "We actually hit that one, removing " << otherPointIdx << std::endl;
                     localSolution.resetLabel(otherPointIdx);
-                    repairPoints.push_back(otherPointIdx);
+                    repairPoints.insert(otherPointIdx);
                 }
             }
-            std::cout << "All Repair Points have succesfully been set!" << std::endl;
-            for(int rep : repairPoints) {
-                std::cout << rep << std::endl;
-            }
+            // std::cout << "All Repair Points have succesfully been set! RepairPoints size: " << repairPoints.size() << std::endl;
+            // for(int rep : repairPoints) {
+            //     std::cout << rep << std::endl;
+            // }
 
             // OVERVIEW: We will now repair all broken points.
 
             // TODO try all combinations here, or something crazy like that (maybe check how many there are, if it is too many, don't?)
-            for(auto it = repairPoints.begin(); it != repairPoints.end(); it++) {
-                int brokenPointIdx = *it;
+            for(int brokenPointIdx : repairPoints) {
 
-                std::cout << "Trying to re-set: " << brokenPointIdx << std::endl;
+                //std::cout << "Trying to re-set: " << brokenPointIdx << std::endl;
 
                 Point p = instance.getPoint(brokenPointIdx);
                 // Todo this should really be a util-method somewhere
@@ -231,7 +225,6 @@ std::map<int, Point::Corner> PopmusicSolver::tabuSearch(const Subproblem& sub) {
                     // if we never collided, set the label
                     if(!collided) {
                         localSolution.setLabel(brokenPointIdx, static_cast<Point::Corner>(corner));
-                        repairPoints.erase(it);
                         break; // no need to look at the remaining corner placements
                     }
                 }
@@ -240,7 +233,7 @@ std::map<int, Point::Corner> PopmusicSolver::tabuSearch(const Subproblem& sub) {
             // OVERVIEW: We chose a candidate label, set that, tried to repair all the nodes that were broken and will now do this for the next candidate
             
             // If that actually improved the solution, we will set it now
-            std::cout << "old Solution: " << solution.size() << ", new Solution: " << localSolution.size() << std::endl;
+            //std::cout << "old Solution: " << solution.size() << ", new Solution: " << localSolution.size() << std::endl;
             if(localSolution.size() >= solution.size()) {
                 solution = localSolution;
             }

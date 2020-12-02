@@ -8,10 +8,11 @@ FALPSolver::FALPSolver() : labelQ{this->labelCmp}, overlaps{} {}
 // prints labelQ for debugging
 void FALPSolver::printSet() {
     for(QElem e : labelQ) {
-        std::cout << e.overlaps << " " << e.idx << " " << e.corner << std::endl;
+        std::cout << "Overlaps: " << e.overlaps << " for point " << e.idx << " and corner " << e.corner << " i.e. label: " << getLabelIdx(e.idx,e.corner) << std::endl;
     }
 }
 
+// creates a priority queue of labels, sorted by # of overlaps (if all labels were realized)
 void FALPSolver::setupLabelQ(const Instance& instance) {
 
     // for all points
@@ -20,8 +21,7 @@ void FALPSolver::setupLabelQ(const Instance& instance) {
         // for all label positions
         for(int corner = Point::TOP_LEFT; corner != Point::NOT_PLACED; corner++) {
 
-            // int labelIdx = getLabelIdx((*p).getIdx(), static_cast<Point::Corner>(corner)); // not necessary
-            std::vector<int> overlapList;
+            std::vector<int> overlapList; // stores the indices of the labels with which this label overlaps
             overlapList.reserve((*p).getNeighbours().size() * 4); // reserving too much space, probably
             
             Point::Rectangle rect1 = (*p).getCoordsForPlacement(static_cast<Point::Corner>(corner));
@@ -44,7 +44,7 @@ void FALPSolver::setupLabelQ(const Instance& instance) {
 
             // this list migh be empty if we never overlapped,
             // otherwise it contains the label-indices of the labels we overlapped with
-            // we can simply push back because our label-index is 0,1,2,3... automatically
+            // we can simply push back because our label-index is 0,1,2,3... automatically if we iterate in this way
             overlapList.shrink_to_fit();
             overlaps.push_back(overlapList);
 
@@ -62,7 +62,6 @@ void FALPSolver::setBestLabels(Solution& solution) {
     while(!labelQ.empty()) {
 
         QElem elem = *labelQ.begin();
-        //std::cout << "Setting " << elem.idx << " " << elem.corner << std::endl;
 
         // set this label in the solution and remove it from the labelQ
         solution.setLabel(elem.idx, elem.corner);
@@ -71,7 +70,6 @@ void FALPSolver::setBestLabels(Solution& solution) {
         int labelIdx = getLabelIdx(elem.idx, elem.corner);
         // remove all labels that elem overlapped and decrease the labels that those overlap
         for(const int& v : overlaps[labelIdx]) {
-            //std::cout << "Deleting overlap: " << getPointIdxFromLabel(v) << " " << getCornerFromLabel(v) << std::endl;
 
             // making sure not to delete twice
             auto search = deleted.find(v);
@@ -123,7 +121,6 @@ void FALPSolver::setBestLabels(Solution& solution) {
                 it2++;
                 }
             }
-            //printSet();
         }
     }
 }
