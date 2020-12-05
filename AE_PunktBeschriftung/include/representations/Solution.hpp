@@ -6,9 +6,10 @@
 
 class Solution {
 protected:
-    const Instance& instance;
+    std::shared_ptr<Instance> instance;
 
 public:
+
     /**
      * Function to print a solution to an out stream.
      *

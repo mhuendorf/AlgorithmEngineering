@@ -23,7 +23,7 @@ bool BasicSolution::isFeasible() const {
         int idx = it->first;
         Point::Rectangle rect = it->second;
 
-        const Point& p = instance.getPoint(idx);
+        const Point& p = instance->getPoint(idx);
         for(const Point::Ptr& other : p.getNeighbours()) {
             auto finder = placements.find((*other).getIdx());
             if(placements.end() != finder) {
@@ -43,7 +43,7 @@ bool BasicSolution::isFeasible() const {
 
 void BasicSolution::setLabel(int idx, Point::Corner corner) {
 
-    Point::Rectangle rect = instance.getPoint(idx).getCoordsForPlacement(corner);
+    Point::Rectangle rect = instance->getPoint(idx).getCoordsForPlacement(corner);
     placements.insert(std::make_pair(idx, rect));
 
 }
@@ -66,10 +66,10 @@ bool BasicSolution::checkCollision(const Point& p, Point::Corner placement, int 
 }
 
 void BasicSolution::printSolution(std::ostream &ostream) {
-    ostream << this->instance.size() << "\n";
-    for (int i = 0; i < this->instance.size(); ++i) {
+    ostream << this->instance->size() << "\n";
+    for (int i = 0; i < this->instance->size(); ++i) {
 
-        ostream << this->instance.getPoint(i);
+        ostream << this->instance->getPoint(i);
 
         auto finder = this->placements.find(i);
         if(this->placements.end() != finder) {
@@ -82,3 +82,8 @@ void BasicSolution::printSolution(std::ostream &ostream) {
     }
 }
 
+BasicSolution::BasicSolution(const BasicSolution &basicSolution) : Solution(basicSolution) {
+    this->placements = basicSolution.placements;
+    std::cout << "copy_ref_instance:" << this->instance << ",\t ";
+    std::cout << "copy_ref_vector:" << &(this->placements) << std::endl;
+}

@@ -14,6 +14,7 @@ using std::string;
 #include <representations/Instance.hpp>
 #include <io/InstanceReader.hpp>
 #include <solver/TrivialSolver.hpp>
+#include <solver/SimulatedAnnealing.hpp>
 
 bool fexists(const string &filename) {
     std::ifstream ifile(filename.c_str());
@@ -47,8 +48,9 @@ void solve(const string &infile, const string &outfile) {
     // instance.showPoints();
 
     auto start = std::chrono::high_resolution_clock::now();
-    TrivialSolver trivialSolver;
-    BasicSolution solution = trivialSolver.solve(instance);
+    BasicSolution solution = SimulatedAnnealing().solve(instance);
+    //(TrivialSolver trivialSolver;
+    //BasicSolution solution = trivialSolver.solve(instance);
     auto finish = std::chrono::high_resolution_clock::now();
 
     std::chrono::duration<double> elapsed = finish - start;

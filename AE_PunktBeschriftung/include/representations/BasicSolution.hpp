@@ -13,6 +13,7 @@ private:
     std::map<int, Point::Rectangle> placements;
 
 public:
+    BasicSolution(const BasicSolution &basicSolution);
 
     explicit BasicSolution(Instance &instance);
 
