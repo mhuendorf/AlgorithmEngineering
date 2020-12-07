@@ -6,8 +6,8 @@
 
 class SimulatedAnnealing {
 private:
-    constexpr static const double DEC_1 = 0.99;
-    constexpr static const double T0_START = 10;
+    constexpr static const double DEC_1 = 0.98;
+    constexpr static const double T0_START = 2;
     constexpr static const double T_MIN_1 = 0.5;
     constexpr static const double T_MIN_2 = 0.01;
 

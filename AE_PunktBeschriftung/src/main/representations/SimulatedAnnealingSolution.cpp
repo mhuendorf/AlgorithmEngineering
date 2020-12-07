@@ -1,9 +1,6 @@
-//
-// Created by Marcel Hündorf on 06.12.20.
-//
-
 #include <random>
 #include <iostream>
+#include <solver/TrivialSolver.hpp>
 #include "representations/SimulatedAnnealingSolution.hpp"
 
 SimulatedAnnealingSolution::SimulatedAnnealingSolution(Instance& instance) : BasicSolution(instance), solutionScore(0), overlaps(instance.size()){
@@ -15,20 +12,61 @@ void SimulatedAnnealingSolution::initSolution() {
     std::mt19937 mt(rd());
     std::uniform_int_distribution dist(1, 4);
     for (int i = 0; i < instance->size(); ++i) {
-        Point::Corner corner;
-        switch (dist(mt)) {
-            case 1: {corner=Point::TOP_LEFT; break;}
-            case 2: {corner=Point::TOP_RIGHT; break;}
-            case 3: {corner=Point::BOTTOM_LEFT; break;}
-            case 4: {corner=Point::BOTTOM_RIGHT;}
+        const Point& p = instance->getPoint(i);
+
+        bool placed = false;
+        // walking over all corner placements
+        for(int corner = Point::TOP_LEFT; corner != Point::NOT_PLACED; corner++) {
+
+            // tracking whether we collided with one of them
+            bool collided = false;
+
+            // walking over all neighbours of the point to check for collisions
+            for(const Point::Ptr& other : p.getNeighbours()) {
+
+                // if they collide, note that and stop checking the others
+                if(checkCollision(p, static_cast<Point::Corner>(corner), (*other).getIdx())) {
+                    collided = true;
+                    break;
+                }
+
+            }
+
+            // if we never collided, set the label
+            if(!collided) {
+                setLabel(i, static_cast<Point::Corner>(corner));
+                placed = true;
+                break; // no need to look at the remaining corner placements
+            }
         }
 
-        this->setLabel(i, corner);
-        Point p = this->getPoint(i);
-        for (const auto& point : this->instance->getPoint(i).getNeighbours()) {
-            if (this->checkCollision(p, corner, point->getIdx())) {
-                overlaps[i].push_back(point->getIdx());
-                overlaps[point->getIdx()].push_back(i);
+        if (!placed) {
+            Point::Corner corner;
+            switch (dist(mt)) {
+                case 1: {
+                    corner = Point::TOP_LEFT;
+                    break;
+                }
+                case 2: {
+                    corner = Point::TOP_RIGHT;
+                    break;
+                }
+                case 3: {
+                    corner = Point::BOTTOM_LEFT;
+                    break;
+                }
+                case 4: {
+                    corner = Point::BOTTOM_RIGHT;
+                }
+            }
+
+            this->setLabel(i, corner);
+            Point other = this->getPoint(i);
+            for (const auto &point : this->instance->getPoint(i).getNeighbours()) {
+                if (this->checkCollision(other, corner, point->getIdx())) {
+                    overlaps[i].push_back(point->getIdx());
+                    overlaps[point->getIdx()].push_back(i);
+                }
             }
         }
     }
