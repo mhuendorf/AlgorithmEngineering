@@ -1,7 +1,7 @@
 #include <representations/Instance.hpp>
 #include <representations/Solution.hpp>
 
-Solution::Solution(Instance &instance1) : instance(instance1) {
+Solution::Solution(const Instance &instance) : instance(instance) {
 }
 
 const Point &Solution::getPoint(int idx) const {

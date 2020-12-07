@@ -66,19 +66,29 @@ expand_dirs () {
             mkdir $2/$name/ # TODO maybe also check here if that worked
             expand_dirs $dir $2/$name
         else 
-            echo "Solving: "$name
+            pat='(.+_)([0-9]+)_(0.*|3.*)'
 
-            # trivial solver
-            result=$(./trivial -in $dir -out $2/$name'_trivial.txt')      # result is number of labelled 'points \t time'
-            result=${result/$'\t'/,}                        # replacing the tab with a comma
-            print_results $result 'Trivial' $dir
+            echo "Considering: "$name
 
-            # fake falp solver TODO once merged, replace with falp solver
-            result=$(./trivial -in $dir -out $2/$name'_falp.txt') 
-            result=${result/$'\t'/,}                        # replacing the tab with a comma
-            print_results $result 'FALP' $dir
+            if [[ $name =~ $pat ]]
+            then
+                echo "Solving: "$name
 
-            # TODO add popmusic solver
+                # trivial solver
+                result=$(./trivial -in $dir -out $2/$name'_trivial.txt')      # result is number of labelled 'points \t time'
+                result=${result/$'\t'/,}                        # replacing the tab with a comma
+                print_results $result 'Trivial' $dir
+
+                # falp solver
+                result=$(./falp -in $dir -out $2/$name'_falp.txt') 
+                result=${result/$'\t'/,}                        # replacing the tab with a comma
+                print_results $result 'FALP' $dir
+
+                # popmusic solver
+                result=$(./popmusic -in $dir -out $2/$name'_popmusic.txt') 
+                result=${result/$'\t'/,}                        # replacing the tab with a comma
+                print_results $result 'POP' $dir
+            fi
               
         fi 
     done

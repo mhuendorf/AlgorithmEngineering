@@ -14,7 +14,6 @@ using std::string;
 #include <representations/Instance.hpp>
 #include <io/InstanceReader.hpp>
 #include <solver/TrivialSolver.hpp>
-#include <solver/FALPSolver.hpp>
 
 bool fexists(const string &filename) {
     std::ifstream ifile(filename.c_str());

@@ -1,14 +1,15 @@
-#ifndef LABEL_MAP_SOLUTION_HPP
-#define LABEL_MAP_SOLUTION_HPP
-
+#pragma once
 
 #include <representations/Instance.hpp>
 
 class Solution {
+
 protected:
+
     const Instance& instance;
 
 public:
+
     /**
      * Function to print a solution to an out stream.
      *
@@ -20,7 +21,7 @@ public:
      * Constructor
      * @param instance1
      */
-    explicit Solution(Instance &instance1);
+    explicit Solution(const Instance& instance);
 
     /**
      * Checks if the current state of the solution is feasible.
@@ -52,5 +53,3 @@ public:
     [[nodiscard]] virtual int size() const = 0;
 };
 
-
-#endif //LABEL_MAP_SOLUTION_HPP

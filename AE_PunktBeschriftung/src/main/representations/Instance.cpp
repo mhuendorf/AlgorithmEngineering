@@ -60,5 +60,13 @@ int Instance::size() const {
 
 // returns a reference to the point at a given index
 const Point& Instance::getPoint(int idx) const {
-    return *points.at(idx);
+    if(0 <= idx && idx < size()) {
+        return *points.at(idx);
+    } else {
+        throw std::invalid_argument("Index must be between 0 and size of instance!");
+    }
+}
+
+const std::vector<Point::Ptr>& Instance::getPoints() const {
+    return points;
 }
