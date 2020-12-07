@@ -84,6 +84,4 @@ void BasicSolution::printSolution(std::ostream &ostream) {
 
 BasicSolution::BasicSolution(const BasicSolution &basicSolution) : Solution(basicSolution) {
     this->placements = basicSolution.placements;
-    std::cout << "copy_ref_instance:" << this->instance << ",\t ";
-    std::cout << "copy_ref_vector:" << &(this->placements) << std::endl;
 }

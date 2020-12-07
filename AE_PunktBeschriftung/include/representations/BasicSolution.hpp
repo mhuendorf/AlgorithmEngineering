@@ -8,8 +8,7 @@
 
  class BasicSolution : public Solution {
 
-private:
-
+ protected:
     std::map<int, Point::Rectangle> placements;
 
 public:

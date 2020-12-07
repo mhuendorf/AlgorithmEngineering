@@ -11,7 +11,7 @@ add_executable(label_map src/main/main.cpp
         src/main/representations/Point.cpp
         src/main/solver/TrivialSolver.cpp 
         src/main/io/InstanceReader.cpp
-        src/main/representations/Solution.cpp src/main/solver/SimulatedAnnealing.cpp include/solver/SimulatedAnnealing.hpp)
+        src/main/representations/Solution.cpp src/main/solver/SimulatedAnnealing.cpp include/solver/SimulatedAnnealing.hpp src/main/representations/SimulatedAnnealingSolution.cpp include/representations/SimulatedAnnealingSolution.hpp)
 
 target_include_directories(label_map PUBLIC include)
 
