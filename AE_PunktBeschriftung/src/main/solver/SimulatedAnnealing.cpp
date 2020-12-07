@@ -4,7 +4,7 @@
 #include <iostream>
 
 SimulatedAnnealingSolution SimulatedAnnealing::solve(Instance &instance) {
-    double dec2=0.95;
+    double dec2=0.8;
     std::random_device rd;
     std::mt19937 mt(rd());
     std::uniform_real_distribution<double> distReal(0.0, 1.0);

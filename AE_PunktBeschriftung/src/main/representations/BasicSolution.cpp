@@ -23,6 +23,28 @@ int BasicSolution::size() const {
     return placements.size();
 }
 
+std::ostream& operator<<(std::ostream &ostream, const BasicSolution &solution) {
+
+    ostream << solution.instance->size() << "\n";
+    for (int i = 0; i < solution.instance->size(); ++i) {
+
+        ostream << solution.instance->getPoint(i);
+
+        std::map<int, Point::Rectangle>::const_iterator finder = solution.placements.find(i);
+        if(solution.placements.end() != finder) {
+            Point::Point2D rectCorner = std::get<0>(finder->second);
+            ostream << "1 " << std::get<0>(rectCorner) << " " << std::get<1>(rectCorner);
+        } else {
+            ostream << "0 0 0";
+        }
+        ostream << std::endl;
+    }
+    return ostream;
+}
+
+void BasicSolution::printSolution(std::ostream &ostream) {
+    ostream << *this << std::endl;
+}
 
 bool BasicSolution::isFeasible() const {
 
@@ -83,23 +105,7 @@ bool BasicSolution::checkCollision(const Point& p, Point::Corner placement, int 
     return Point::checkCollision(rect1, rect2);
 }
 
-void BasicSolution::printSolution(std::ostream &ostream) {
-    ostream << this->instance->size() << "\n";
-    for (int i = 0; i < this->instance->size(); ++i) {
-
-        ostream << this->instance->getPoint(i);
-
-        auto finder = this->placements.find(i);
-        if(this->placements.end() != finder) {
-            Point::Point2D rectCorner = std::get<0>(finder->second);
-            ostream << "1 " << std::get<0>(rectCorner) << " " << std::get<1>(rectCorner);
-        } else {
-            ostream << "0 0 0";
-        }
-        ostream << std::endl;
-    }
-}
-
 BasicSolution::BasicSolution(const BasicSolution &basicSolution) : Solution(basicSolution) {
     this->placements = basicSolution.placements;
+    this->corners = basicSolution.corners;
 }
