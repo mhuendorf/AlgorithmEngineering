@@ -1,12 +1,6 @@
-//
-// Created by Marcel Hündorf on 04.12.20.
-//
-
 #ifndef LABEL_MAP_SIMULATEDANNEALING_HPP
 #define LABEL_MAP_SIMULATEDANNEALING_HPP
 
-
-#include <representations/Solution.hpp>
 #include <random>
 #include <representations/SimulatedAnnealingSolution.hpp>
 

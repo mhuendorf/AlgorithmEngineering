@@ -12,7 +12,7 @@ class SimulatedAnnealingSolution : public BasicSolution {
 private:
     double solutionScore;
     std::vector<std::vector<int>> overlaps;
-    double getPointScore(int numOverlaps);
+    static double getPointScore(int numOverlaps);
 
 public:
     explicit SimulatedAnnealingSolution(Instance &instance);
@@ -27,7 +27,7 @@ public:
 
     double computeSolutionScore();
 
-    double getSolutionScore();
+    [[nodiscard]] double getSolutionScore() const;
 
     void fixSolution();
 };

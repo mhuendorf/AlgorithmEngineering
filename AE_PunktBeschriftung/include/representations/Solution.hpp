@@ -52,6 +52,7 @@ public:
      * @return the number of placed labels
      */
     [[nodiscard]] virtual int size() const = 0;
+
 };
 
 #endif //LABEL_MAP_SOLUTION_HPP

@@ -124,13 +124,13 @@ void SimulatedAnnealingSolution::printSolution(std::ostream &ostream) {
 
 double SimulatedAnnealingSolution::computeSolutionScore() {
     double score = 0;
-    for (auto points : overlaps) {
+    for (const auto& points : overlaps) {
         score += getPointScore(points.size());
     }
     return score;
 }
 
-double SimulatedAnnealingSolution::getSolutionScore() {
+double SimulatedAnnealingSolution::getSolutionScore() const {
     return solutionScore;
 }
 

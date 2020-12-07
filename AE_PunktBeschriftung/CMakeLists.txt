@@ -86,3 +86,17 @@ add_executable(popmusic src/main/popmusic.cpp
 target_include_directories(popmusic PUBLIC include)
 
 target_compile_options(popmusic PRIVATE -Wall -Werror)
+
+# This will generate the sa solver:
+add_executable(sa src/main/sa.cpp
+        src/main/representations/Instance.cpp
+        src/main/representations/BasicSolution.cpp
+        src/main/representations/Solution.cpp
+        src/main/representations/Point.cpp
+        src/main/representations/SimulatedAnnealingSolution.cpp
+        src/main/io/InstanceReader.cpp
+        src/main/solver/SimulatedAnnealing.cpp)
+
+target_include_directories(sa PUBLIC include)
+
+target_compile_options(sa PRIVATE -Wall -Werror -v)

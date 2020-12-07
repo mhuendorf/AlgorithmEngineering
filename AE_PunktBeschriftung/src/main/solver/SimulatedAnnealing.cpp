@@ -1,10 +1,5 @@
-//
-// Created by Marcel Hündorf on 04.12.20.
-//
-
 #include <representations/BasicSolution.hpp>
 #include <solver/SimulatedAnnealing.hpp>
-#include <solver/TrivialSolver.hpp>
 #include <random>
 #include <iostream>
 
