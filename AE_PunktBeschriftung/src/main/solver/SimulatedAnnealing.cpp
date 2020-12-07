@@ -34,7 +34,7 @@ SimulatedAnnealingSolution SimulatedAnnealing::solve(Instance &instance) {
             }
         }
     }
-    std::cout << "finished... " << std::endl;
+    std::cout << "\rfinished... " << std::endl;
 
     // fix solution
     bestSolution.fixSolution();
