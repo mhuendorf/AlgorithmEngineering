@@ -25,6 +25,8 @@ public:
 
     int size() const;
 
+    const std::vector<Point::Ptr>& getPoints() const;
+
     const Point& getPoint(int idx) const;
 };
 

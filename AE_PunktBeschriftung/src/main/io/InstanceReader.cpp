@@ -34,8 +34,9 @@ void readInstance(const string& filename, Instance& instance, Solution& solution
 
         int counter = 0;
         while(getline(file, line)) {
-            parseLine(instance, line, solution, counter);
-            counter++;
+            if(parseLine(instance, line, solution, counter)) { // only increase counter if a point was actually parsed
+                counter++;
+            }
         }
         if(counter != numOfPoints) {
             throw std::runtime_error("Actual number of points did not match expected number of points: Was " + std::to_string(counter) + " instead of " + std::to_string(numOfPoints));
@@ -61,7 +62,12 @@ long parsePositiveLong(const string& line) {
     return result;
 }
 
-void parseLine(Instance& instance, const std::string& line, Solution& solution, int counter) {
+bool parseLine(Instance& instance, const std::string& line, Solution& solution, int counter) {
+
+    // we sometimes have this scenario where literature instances contain empty newlines in the end
+    if(line.empty()) {
+        return false;
+    }
 
     // unpacking the scanned line into a vector of strings
     std::istringstream iss(line);
@@ -109,7 +115,9 @@ void parseLine(Instance& instance, const std::string& line, Solution& solution, 
 
     } catch(const std::exception& e) {
         throw std::runtime_error("Could not parse line < " + line + " >, where 4 ints and a string were expected.\n" + e.what());
-    }    
+    }   
+
+    return true; 
 }
 
 // throws an exception if the position of a box is inconsistent with a point and the size of the label

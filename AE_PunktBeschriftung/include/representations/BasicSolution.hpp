@@ -10,22 +10,32 @@
 
  protected:
     std::map<int, Point::Rectangle> placements;
+private:
+
+    std::map<int, Point::Rectangle> placements; // maps point-indices to rectangles
+    std::map<int, Point::Corner> corners; // maps point-indices to the corner-info
 
 public:
     BasicSolution(const BasicSolution &basicSolution);
 
-    explicit BasicSolution(Instance &instance);
+    BasicSolution(const Instance& instance);
 
-    void setLabel(int idx, Point::Corner corner) override;
+    BasicSolution& operator=(const BasicSolution& other);
 
-    [[nodiscard]] bool contains(int idx) const;
+    void setLabel(int idx, Point::Corner corner);
 
-    [[nodiscard]] bool checkCollision(const Point& p, Point::Corner placement, int otherIdx) const;
+    void resetLabel(int idx);
 
-    [[nodiscard]] int size() const override;
+    bool contains(int idx) const;
 
-    [[nodiscard]] bool isFeasible() const override;
+    bool checkCollision(const Point& p, Point::Corner placement, int otherIdx) const;
 
-    void printSolution(std::ostream &ostream) override;
+    int size() const;
+
+    bool isFeasible() const;
+
+    Point::Corner const getCorner(int pointIdx) const;
+
+    void printSolution(std::ostream &ostream);
 
 };
