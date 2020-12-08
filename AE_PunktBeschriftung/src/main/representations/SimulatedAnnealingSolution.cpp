@@ -1,5 +1,6 @@
 #include <random>
 #include <iostream>
+#include <algorithm>
 #include <solver/TrivialSolver.hpp>
 #include "representations/SimulatedAnnealingSolution.hpp"
 
@@ -116,7 +117,7 @@ void SimulatedAnnealingSolution::changePlacement(int pointIdx, int randomNumber)
     solutionScore -= getPointScore(overlaps[pointIdx].size());
 
     // erase all overlaps with previous rects and reduce solution score accordingly
-    for (int i = 0; i < overlaps[pointIdx].size(); ++i) {
+    for (unsigned int i = 0; i < overlaps[pointIdx].size(); ++i) {
         int toRemovePointIdx = overlaps[pointIdx][i];
         std::vector<int>* pointsVec = &overlaps[toRemovePointIdx];
         pointsVec->erase(std::remove(pointsVec->begin(), pointsVec->end(), pointIdx));
@@ -173,13 +174,13 @@ double SimulatedAnnealingSolution::getSolutionScore() const {
 }
 
 void SimulatedAnnealingSolution::fixSolution() {
-    std::cout << "start fixing..." << std::endl;
+    // std::cout << "start fixing..." << std::endl;
     if (solutionScore == 0) return;
 
     std::tuple<int, int> toFix(-1, -1);
     do {
         toFix = std::tuple<int, int>(-1, -1);
-        for (int i = 0; i < overlaps.size(); ++i) {
+        for (unsigned int i = 0; i < overlaps.size(); ++i) {
             if (int(overlaps[i].size()) > std::get<1>(toFix)) {
                 toFix = std::tuple<int, int>(i, overlaps[i].size());
             }

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.17)
 project(label_map)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 
 # This will generate the final project = the best working solver
 add_executable(label_map src/main/main.cpp
@@ -99,4 +99,4 @@ add_executable(sa src/main/sa.cpp
 
 target_include_directories(sa PUBLIC include)
 
-target_compile_options(sa PRIVATE -Wall -Werror -v)
+target_compile_options(sa PRIVATE -Wall -Werror)

@@ -12,10 +12,10 @@ SimulatedAnnealingSolution SimulatedAnnealing::solve(Instance &instance) {
     SimulatedAnnealingSolution currentSolution = getInitialSolution(instance);
     SimulatedAnnealingSolution bestSolution = currentSolution;
 
-    std::cout << "cooling down..." << std::endl;
+    //std::cout << "cooling down..." << std::endl;
     for (double t0 = T0_START; t0 >= T_MIN_1; t0 *= dec2) {
-        std::cout << "\rtemperature: " << t0;
-        std::cout.flush();
+        //std::cout << "\rtemperature: " << t0;
+        //std::cout.flush();
         for (double t_now = t0; t_now >= T_MIN_2; t_now *= DEC_1) {
 
             SimulatedAnnealingSolution newSolution(currentSolution);
@@ -29,7 +29,7 @@ SimulatedAnnealingSolution SimulatedAnnealing::solve(Instance &instance) {
             }
         }
     }
-    std::cout << "\rfinished... " << std::endl;
+    //std::cout << "\rfinished... " << std::endl;
 
     // fix solution
     bestSolution.fixSolution();
