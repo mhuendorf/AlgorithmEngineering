@@ -158,7 +158,7 @@ void SimulatedAnnealingSolution::printSolution(std::ostream &ostream) {
         }
         ostream << std::endl;
     }
-    ostream << computeSolutionScore() << std::endl;
+    // ostream << computeSolutionScore() << std::endl;
 }
 
 double SimulatedAnnealingSolution::computeSolutionScore() {

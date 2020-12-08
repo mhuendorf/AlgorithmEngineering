@@ -68,28 +68,26 @@ expand_dirs () {
         else 
             pat='(.+_)([0-9]+)_(0.*|3.*)'
 
-            echo "Considering: "$name
-
             #if [[ $name =~ $pat ]]
             #then
                 echo "Solving: "$name
 
                 # trivial solver
-                #result=$(./trivial -in $dir -out $2/$name'_trivial.txt')      # result is number of labelled 'points \t time'
-                #result=${result/$'\t'/,}                        # replacing the tab with a comma
-                #print_results $result 'Trivial' $dir
+                result=$(./trivial -in $dir -out $2/$name'_trivial.txt')      # result is number of labelled 'points \t time'
+                result=${result/$'\t'/,}                        # replacing the tab with a comma
+                print_results $result 'Trivial' $dir
 
                 # falp solver
-                #result=$(./falp -in $dir -out $2/$name'_falp.txt') 
-                #result=${result/$'\t'/,}                        # replacing the tab with a comma
-                #print_results $result 'FALP' $dir
+                result=$(./falp -in $dir -out $2/$name'_falp.txt') 
+                result=${result/$'\t'/,}                        # replacing the tab with a comma
+                print_results $result 'FALP' $dir
 
                 # popmusic solver
-                #result=$(./popmusic -in $dir -out $2/$name'_popmusic.txt') 
-                #result=${result/$'\t'/,}                        # replacing the tab with a comma
-                #print_results $result 'POP' $dir
+                result=$(./popmusic -in $dir -out $2/$name'_popmusic.txt') 
+                result=${result/$'\t'/,}                        # replacing the tab with a comma
+                print_results $result 'POP' $dir
 
-		# SA solver
+		        # SA solver
                 result=$(./sa -in $dir -out $2/$name'_sa.txt') 
                 result=${result/$'\t'/,}                        # replacing the tab with a comma
                 print_results $result 'SA' $dir
