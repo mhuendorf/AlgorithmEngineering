@@ -25,10 +25,10 @@ int BasicSolution::size() const {
 
 std::ostream& operator<<(std::ostream &ostream, const BasicSolution &solution) {
 
-    ostream << solution.instance->size() << "\n";
-    for (int i = 0; i < solution.instance->size(); ++i) {
+    ostream << solution.instance.size() << "\n";
+    for (int i = 0; i < solution.instance.size(); ++i) {
 
-        ostream << solution.instance->getPoint(i);
+        ostream << solution.instance.getPoint(i);
 
         std::map<int, Point::Rectangle>::const_iterator finder = solution.placements.find(i);
         if(solution.placements.end() != finder) {
@@ -52,8 +52,7 @@ bool BasicSolution::isFeasible() const {
     while(it != placements.end()) {
         int idx = it->first;
         Point::Rectangle rect = it->second;
-
-        const Point& p = instance->getPoint(idx);
+        const Point& p = instance.getPoint(idx);
         for(const Point::Ptr& other : p.getNeighbours()) {
             auto finder = placements.find((*other).getIdx());
             if(placements.end() != finder) {
@@ -70,8 +69,7 @@ bool BasicSolution::isFeasible() const {
 }
 
 void BasicSolution::setLabel(int idx, Point::Corner corner) {
-
-    Point::Rectangle rect = instance->getPoint(idx).getCoordsForPlacement(corner);
+    Point::Rectangle rect = instance.getPoint(idx).getCoordsForPlacement(corner);
     placements.erase(idx);
     placements.insert(std::make_pair(idx, rect));
 

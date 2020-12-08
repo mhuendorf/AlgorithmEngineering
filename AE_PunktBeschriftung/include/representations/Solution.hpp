@@ -7,7 +7,7 @@
 class Solution {
 
 protected:
-    std::shared_ptr<Instance> instance;
+    const Instance& instance;
 
 public:
 

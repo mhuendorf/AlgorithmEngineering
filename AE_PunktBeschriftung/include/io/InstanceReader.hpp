@@ -6,9 +6,9 @@
 
 #include <string>
 
-void readInstance(const std::string& filename, Instance& instance, Solution& solution);
+void readInstance(const std::string& filename, Instance& instance, BasicSolution& solution);
 
-bool parseLine(Instance& instance, const std::string& line, Solution& solution, int counter);
+bool parseLine(Instance& instance, const std::string& line, BasicSolution& solution, int counter);
 
 int parsePositiveInteger(const std::string& line);
 

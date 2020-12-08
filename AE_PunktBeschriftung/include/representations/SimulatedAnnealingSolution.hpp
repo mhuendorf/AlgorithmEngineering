@@ -1,20 +1,17 @@
-//
-// Created by Marcel Hündorf on 06.12.20.
-//
+#pragma once
 
-#ifndef LABEL_MAP_SIMULATEDANNEALINGSOLUTION_HPP
-#define LABEL_MAP_SIMULATEDANNEALINGSOLUTION_HPP
-
-
-#include "BasicSolution.hpp"
+#include <representations/BasicSolution.hpp>
 
 class SimulatedAnnealingSolution : public BasicSolution {
+
 private:
+
     double solutionScore;
     std::vector<std::vector<int>> overlaps;
     static double getPointScore(int numOverlaps);
 
 public:
+
     explicit SimulatedAnnealingSolution(Instance &instance);
 
     void changePlacement(int pointIdx, int randomNumber);
@@ -31,6 +28,3 @@ public:
 
     void fixSolution();
 };
-
-
-#endif //LABEL_MAP_SIMULATEDANNEALINGSOLUTION_HPP

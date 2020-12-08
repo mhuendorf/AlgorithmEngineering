@@ -1,8 +1,8 @@
+#include <representations/SimulatedAnnealingSolution.hpp>
+
 #include <random>
 #include <iostream>
 #include <algorithm>
-#include <solver/TrivialSolver.hpp>
-#include "representations/SimulatedAnnealingSolution.hpp"
 
 SimulatedAnnealingSolution::SimulatedAnnealingSolution(Instance& instance) : BasicSolution(instance), solutionScore(0), overlaps(instance.size()){
 
@@ -12,8 +12,8 @@ void SimulatedAnnealingSolution::initSolution() {
     std::random_device rd;
     std::mt19937 mt(rd());
     std::uniform_int_distribution dist(1, 4);
-    for (int i = 0; i < instance->size(); ++i) {
-        const Point& p = instance->getPoint(i);
+    for (int i = 0; i < instance.size(); ++i) {
+        const Point& p = instance.getPoint(i);
 
         bool placed = false;
         // walking over all corner placements
@@ -63,7 +63,7 @@ void SimulatedAnnealingSolution::initSolution() {
 
             this->setLabel(i, corner);
             Point other = this->getPoint(i);
-            for (const auto &point : this->instance->getPoint(i).getNeighbours()) {
+            for (const auto &point : this->instance.getPoint(i).getNeighbours()) {
                 if (this->checkCollision(other, corner, point->getIdx())) {
                     overlaps[i].push_back(point->getIdx());
                     overlaps[point->getIdx()].push_back(i);
@@ -140,10 +140,10 @@ double SimulatedAnnealingSolution::getPointScore(int numOverlaps) {
 }
 
 void SimulatedAnnealingSolution::printSolution(std::ostream &ostream) {
-    ostream << this->instance->size() << "\n";
-    for (int i = 0; i < this->instance->size(); ++i) {
+    ostream << this->instance.size() << "\n";
+    for (int i = 0; i < this->instance.size(); ++i) {
 
-        ostream << this->instance->getPoint(i);
+        ostream << this->instance.getPoint(i);
 
         auto finder = this->placements.find(i);
         if(this->placements.end() != finder) {

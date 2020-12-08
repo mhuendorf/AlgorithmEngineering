@@ -6,7 +6,7 @@
 
 #include <map>
 
- class BasicSolution : public Solution {
+class BasicSolution : public Solution {
 
 protected:
     std::map<int, Point::Rectangle> placements;

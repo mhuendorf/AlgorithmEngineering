@@ -13,7 +13,7 @@ using std::vector;
 using std::string;
 
 
-void readInstance(const string& filename, Instance& instance, Solution& solution) {
+void readInstance(const string& filename, Instance& instance, BasicSolution& solution) {
 
     std::fstream file;
 
@@ -62,7 +62,7 @@ long parsePositiveLong(const string& line) {
     return result;
 }
 
-bool parseLine(Instance& instance, const std::string& line, Solution& solution, int counter) {
+bool parseLine(Instance& instance, const std::string& line, BasicSolution& solution, int counter) {
 
     // we sometimes have this scenario where literature instances contain empty newlines in the end
     if(line.empty()) {
