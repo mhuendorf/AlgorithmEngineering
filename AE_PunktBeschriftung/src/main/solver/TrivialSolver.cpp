@@ -14,7 +14,7 @@ BasicSolution TrivialSolver::solve(Instance& instance) const {
     // walking over all points
     for (int i = 0; i < instance.size(); ++i) {
 
-        Point p = instance.getPoint(i);
+        const Point& p = instance.getPoint(i);
 
         // walking over all corner placements
         for(int corner = Point::TOP_LEFT; corner != Point::NOT_PLACED; corner++) {

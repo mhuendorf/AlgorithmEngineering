@@ -1,12 +1,13 @@
-#pragma once
+#ifndef LABEL_MAP_SOLUTION_HPP
+#define LABEL_MAP_SOLUTION_HPP
+
 
 #include <representations/Instance.hpp>
 
 class Solution {
 
 protected:
-
-    const Instance& instance;
+    std::shared_ptr<Instance> instance;
 
 public:
 
@@ -51,5 +52,7 @@ public:
      * @return the number of placed labels
      */
     [[nodiscard]] virtual int size() const = 0;
+
 };
 
+#endif //LABEL_MAP_SOLUTION_HPP
