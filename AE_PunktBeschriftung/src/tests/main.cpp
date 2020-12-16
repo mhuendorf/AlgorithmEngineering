@@ -3,11 +3,8 @@ using std::cout;
 using std::endl;
 
 #include <representations/Instance.hpp>
-#include <generator/InstanceGenerator.hpp>
 #include <representations/BasicSolution.hpp>
-#include <solver/TrivialSolver.hpp>
-#include <solver/FALPSolver.hpp>
-#include <solver/PopmusicSolver.hpp>
+#include <solver/ExactSolver.hpp>
 #include <io/InstanceReader.hpp>
 
 int main(int argc, char* argv[]) {
@@ -15,7 +12,7 @@ int main(int argc, char* argv[]) {
     BasicSolution sol(instance);
     readInstance("../res/tinyInstance.txt", instance, sol);
 
-    PopmusicSolver solver(instance);
+    ExactSolver solver;
     BasicSolution solution = solver.solve(instance);
 
 

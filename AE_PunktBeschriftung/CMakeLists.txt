@@ -1,5 +1,22 @@
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.3)
 project(label_map)
+
+# enable C++ compilation
+option(CXX "enable C++ compilation" ON)
+if(CXX)
+    enable_language(CXX)
+endif()
+
+# assume build type release
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release")
+endif()
+
+# tell cmake to start searching from project source dir and find gurobi
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
+find_package(GUROBI REQUIRED)
+
+include_directories(${GUROBI_INCLUDE_DIRS})
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -22,7 +39,7 @@ add_executable(label_map src/main/main.cpp
 
 target_include_directories(label_map PUBLIC include)
 
-target_compile_options(label_map PRIVATE -Wall -Werror)
+target_compile_options(label_map PRIVATE -Wall)
 
 # This will be removed later, is only here for development
 add_executable(test src/tests/main.cpp
@@ -35,9 +52,17 @@ add_executable(test src/tests/main.cpp
         src/main/solver/FALPSolver.cpp
         src/main/solver/PopmusicSolver.cpp
         src/main/solver/Utils.cpp
-        src/main/io/InstanceReader.cpp)
+        src/main/io/InstanceReader.cpp
+        src/main/solver/ExactSolver.cpp)
+
+if(CXX)
+    set(CMAKE_CXX_STANDARD 17)
+    target_link_libraries(test optimized ${GUROBI_CXX_LIBRARY} debug ${GUROBI_CXX_DEBUG_LIBRARY})
+endif()
 
 target_include_directories(test PUBLIC include)
+
+target_link_libraries(test ${GUROBI_LIBRARY})
 
 target_compile_options(test PRIVATE -Wall -Werror)
 
@@ -99,4 +124,4 @@ add_executable(sa src/main/sa.cpp
 
 target_include_directories(sa PUBLIC include)
 
-target_compile_options(sa PRIVATE -Wall -Werror)
+target_compile_options(sa PRIVATE -Wall)

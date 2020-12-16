@@ -13,7 +13,7 @@ the different types of instances.
 
 # only analysing the literature instances for now
 instance_types = ['DenseMap', 'DenseRect', 'HardGrid', 'MunichDrillholes', 'RandomMap', 'RandomRect', 'RegularGrid', 'VariableDensity'] 
-solvers = ["Trivial", "FALP"]
+solvers = ["Trivial", "FALP", "POP", "SA"]
 
 
 def plot(df, inst_type, output_folder):
@@ -29,7 +29,7 @@ def plot(df, inst_type, output_folder):
 
         y = []
         for size in sizes:
-            labels = solver_df[solver_df['Points'] == size]['Labels'].to_numpy()
+            labels = solver_df[solver_df['Points'] == size]['Time'].to_numpy()
             y.append(np.mean(labels))
 
         plt.plot(sizes, y, c='C'+str(i), label=solver)
@@ -37,7 +37,7 @@ def plot(df, inst_type, output_folder):
 
     plt.title('Solver Performance for '+inst_type, fontweight='bold')
     plt.xlabel('number of points', fontweight='bold')
-    plt.ylabel('number of labels ', fontweight='bold')
+    plt.ylabel('runtime in seconds ', fontweight='bold')
     plt.legend()
     plt.tight_layout()
     plt.savefig(os.path.join(output_folder, inst_type + '.png'))
