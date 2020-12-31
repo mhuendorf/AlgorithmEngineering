@@ -11,4 +11,7 @@ public:
     TrivialSolver() = default;
 
     BasicSolution solve(Instance& instance) override;
+
+    BasicSolution solve(Instance& instance, const std::vector<int>& values);
+
 };
