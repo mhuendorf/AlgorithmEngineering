@@ -4,7 +4,7 @@
 // Walk over all points of the instance.
 // For each, walk over all possible Corner placements
 // For each, walk over all already set points and check for collisions
-BasicSolution TrivialSolver::solve(Instance& instance) const {
+BasicSolution TrivialSolver::solve(Instance& instance) {
 
     BasicSolution solution(instance);
 

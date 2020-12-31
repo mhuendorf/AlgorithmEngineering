@@ -53,7 +53,8 @@ add_executable(test src/tests/main.cpp
         src/main/solver/PopmusicSolver.cpp
         src/main/solver/Utils.cpp
         src/main/io/InstanceReader.cpp
-        src/main/solver/ExactSolver.cpp)
+        src/main/solver/ExactSolver.cpp
+        src/main/solver/CustomCallback.cpp)
 
 if(CXX)
     set(CMAKE_CXX_STANDARD 17)

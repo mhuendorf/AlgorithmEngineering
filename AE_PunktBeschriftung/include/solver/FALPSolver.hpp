@@ -2,6 +2,7 @@
 
 #include <representations/Instance.hpp>
 #include <representations/BasicSolution.hpp>
+#include <solver/Solver.hpp>
 
 #include <queue>
 #include <vector>
@@ -22,7 +23,7 @@ struct QElem {
 };
 
 // The solver used to generate initial Solutions in POPMUSIC
-class FALPSolver {
+class FALPSolver : public Solver {
 
 private:
 
@@ -45,7 +46,7 @@ public:
 
     FALPSolver();
 
-    BasicSolution solve(Instance& instance);
+    BasicSolution solve(Instance& instance) override;
 
     std::vector< std::vector<int> >& getOverlaps();
 

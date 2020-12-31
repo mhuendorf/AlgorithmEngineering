@@ -1,13 +1,14 @@
 #include <solver/ExactSolver.hpp>
 #include <representations/BasicSolution.hpp>
 #include <solver/Utils.hpp>
+#include <solver/CustomCallback.hpp>
 
 #include <iostream>
 #include <vector>
 
 #include "gurobi_c++.h"
 
-BasicSolution ExactSolver::solve(const Instance& instance) {
+BasicSolution ExactSolver::solve(Instance& instance) {
 
     BasicSolution solution(instance);
 
@@ -68,9 +69,6 @@ BasicSolution ExactSolver::solve(const Instance& instance) {
 
                             std::tuple<int, int> conflict = std::make_tuple(labelIdx, otherLabelIdx);
                             conflicts.push_back(conflict);
-                            // // add constraint 
-                            // std::string name = "overlap_" + std::to_string(labelIdx) + "_" + std::to_string(otherLabelIdx);
-                            // model.addConstr(x + y <= 1, name);
                         }
                     }
                 }
@@ -91,6 +89,10 @@ BasicSolution ExactSolver::solve(const Instance& instance) {
         }
 
         model.setObjective(obj, GRB_MAXIMIZE);
+
+        // ADDING CALLBACKS
+        CustomCallback custom_cb;
+        model.setCallback(&custom_cb);
 
         // Optimize model
         model.optimize();

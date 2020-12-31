@@ -2,13 +2,20 @@
 
 #include <representations/Instance.hpp>
 #include <representations/BasicSolution.hpp>
+#include <solver/Solver.hpp>
 
-class ExactSolver {
+class ExactSolver : public Solver {
+
+private:
+
+    Solver& heuristic;
+
+    //void separation();
 
 public:
 
-ExactSolver() {};
+    ExactSolver(Solver& solver) : heuristic(solver) {};
 
-BasicSolution solve(const Instance& instance);
+    BasicSolution solve(Instance& instance) override;
 
 };
