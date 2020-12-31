@@ -7,5 +7,3 @@ class CustomCallback : public GRBCallback {
 protected:
 
     void callback();
-
-};

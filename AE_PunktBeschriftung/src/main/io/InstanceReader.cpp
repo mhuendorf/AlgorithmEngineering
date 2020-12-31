@@ -93,7 +93,7 @@ bool parseLine(Instance& instance, const std::string& line, BasicSolution& solut
         }
         std::string name = tokens[4];
 
-        instance.add( std::make_shared<Point>(counter, x, y, width, height, name));
+        instance.add(std::make_shared<Point>(counter, x, y, width, height, name));
 
         if(tokens.size() == 8) {
             int isSet = stoi(tokens[5]);

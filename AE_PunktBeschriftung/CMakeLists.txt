@@ -20,6 +20,10 @@ include_directories(${GUROBI_INCLUDE_DIRS})
 
 set(CMAKE_CXX_STANDARD 17)
 
+# adding this flag to get better valgrind output
+SET(GCC_COMPILE_FLAGS "-ggdb3")
+SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_COMPILE_FLAGS}")
+
 # This will generate the final project = the best working solver
 add_executable(label_map src/main/main.cpp
         src/main/generator/InstanceGenerator.cpp
