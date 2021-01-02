@@ -1,6 +1,7 @@
 #include <solver/TrivialSolver.hpp>
 #include <solver/Utils.hpp>
 
+#include <iostream>
 #include <set>
 
 // Walk over all points of the instance.
@@ -49,6 +50,8 @@ BasicSolution TrivialSolver::solve(Instance& instance) {
 // values is a vector of label indices of the labels that are supposed to be set, if possible
 BasicSolution TrivialSolver::solve(Instance& instance, const std::vector<int>& values) {
 
+    std::cout << "Receiving " << values.size() << " suggestions." << std::endl;
+
     BasicSolution solution(instance);
 
     std::set<int> labelled;
@@ -69,7 +72,7 @@ BasicSolution TrivialSolver::solve(Instance& instance, const std::vector<int>& v
         }
 
         // if we never collided, set this label
-        if(!collided) {
+        if(!collided && !solution.contains(pointIdx)) {
             solution.setLabel(pointIdx, corner);
             labelled.insert(pointIdx);
         }
@@ -77,7 +80,7 @@ BasicSolution TrivialSolver::solve(Instance& instance, const std::vector<int>& v
     }
 
     // now, greedily set the labels of all points that have not been labelled by suggestion
-    for (int i = 0; i < instance.size(); ++i) {
+    for (int i = 0; i < instance.size(); i++) {
 
         // skip labelled points
         if(labelled.find(i) != labelled.end()) {

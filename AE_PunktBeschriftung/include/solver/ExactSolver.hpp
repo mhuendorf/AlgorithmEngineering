@@ -8,13 +8,9 @@ class ExactSolver : public Solver {
 
 private:
 
-    Solver& heuristic;
-
-    //void separation();
-
 public:
 
-    ExactSolver(Solver& solver) : heuristic(solver) {};
+    ExactSolver(){};
 
     BasicSolution solve(Instance& instance) override;
 

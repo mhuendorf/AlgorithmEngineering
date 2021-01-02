@@ -91,21 +91,14 @@ BasicSolution ExactSolver::solve(Instance& instance) {
         model.setObjective(obj, GRB_MAXIMIZE);
 
         // ADDING CALLBACKS
-        CustomCallback custom_cb;
+        CustomCallback custom_cb(instance, model);
         model.setCallback(&custom_cb);
 
         // Optimize model
         model.optimize();
 
-        // for(GRBVar x : xVars) {
-        //     std::cout << x.get(GRB_StringAttr_VarName) << ": "
-        //               << x.get(GRB_DoubleAttr_X) << std::endl;
-        // }
-
         int i = 0;
         for(GRBVar y : yVars) {
-            // std::cout << y.get(GRB_StringAttr_VarName) << ": "
-            //           << y.get(GRB_DoubleAttr_X) << std::endl;
             
             if(y.get(GRB_DoubleAttr_X) == 1) {
                 int idx = getPointIdxFromLabel(i);
@@ -115,7 +108,7 @@ BasicSolution ExactSolver::solve(Instance& instance) {
             i++;
         }
 
-        //std::cout << "Objective Value: " << model.get(GRB_DoubleAttr_ObjVal) << std::endl;
+        std::cout << "Final Objective Value: " << model.get(GRB_DoubleAttr_ObjVal) << std::endl;
 
     } catch(GRBException e) {
         std::cout << "Error code = " << e.getErrorCode() << std::endl;
