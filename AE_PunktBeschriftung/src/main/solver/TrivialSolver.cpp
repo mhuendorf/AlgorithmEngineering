@@ -50,7 +50,7 @@ BasicSolution TrivialSolver::solve(Instance& instance) {
 // values is a vector of label indices of the labels that are supposed to be set, if possible
 BasicSolution TrivialSolver::solve(Instance& instance, const std::vector<int>& values) {
 
-    std::cout << "Receiving " << values.size() << " suggestions." << std::endl;
+    // std::cout << "Receiving " << values.size() << " suggestions." << std::endl;
 
     BasicSolution solution(instance);
 

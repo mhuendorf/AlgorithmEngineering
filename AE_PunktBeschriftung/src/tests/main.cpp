@@ -28,6 +28,7 @@ int main(int argc, char* argv[]) {
     // BasicSolution solution = trivial.solve(instance, values);
 
     // std::cout << solution << std::endl;
+    std::cout << "Solver delivered a solution, let's check it out!" << std::endl;
     std::cout << "Solution is feasible: " << solution.isFeasible() << std::endl;
     std::cout << "Solution has size: " << solution.size() << std::endl;
 
