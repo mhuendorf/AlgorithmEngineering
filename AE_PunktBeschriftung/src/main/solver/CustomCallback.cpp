@@ -19,26 +19,25 @@ void CustomCallback::callback() {
         // cut();
 
         //std::cout << "Injecting heuristic value" << std::endl;
-        if(heuristicInsertions < 10) {
-            heuristicSolution();
-            heuristicInsertions++;
-        }
+        //if(heuristicInsertions < 10) {
+            // heuristicSolution();
+        //}
 
     } else if(where == GRB_CB_MIPSOL) { // found a new solution
         // std::cout << "Found new candidate solution, calling cut" << std::endl;
-        cut();
+        // cut();
     } else if (where == GRB_CB_MIP) {
         // General MIP callback - stopping if gap is small enough
-        // double objbst = getDoubleInfo(GRB_CB_MIP_OBJBST); // best objective
-        // double objbnd = getDoubleInfo(GRB_CB_MIP_OBJBND); // best known bound
+        double objbst = getDoubleInfo(GRB_CB_MIP_OBJBST); // best objective
+        double objbnd = getDoubleInfo(GRB_CB_MIP_OBJBND); // best known bound
 
         // std::cout << "Best objective value: " << objbst << std::endl
         //          << "Best bound so far: " << objbnd << std::endl;
         
-        // if (fabs(objbst - objbnd) < 0.05 * (1.0 + fabs(objbst))) {
-        //     std::cout << "Stop early - 5% gap achieved" << std::endl;
-        //     abort();
-        // }
+        if (fabs(objbst - objbnd) < 0.05 * (1.0 + fabs(objbst))) {
+            std::cout << "Stop early - 5% gap achieved" << std::endl;
+            abort();
+        }
     }
 }
 
@@ -103,8 +102,8 @@ void CustomCallback::heuristicSolution() {
     std::vector<int> suggestions;
     for(int i = 0; i < instance.size()*4; i++) {
         std::string name = "y_" + std::to_string(i);
-        int labelValue = getSolution(model.getVarByName(name));
-        if(labelValue > 0.5) { // kinda arbitrarily setting this
+        double labelValue = getNodeRel(model.getVarByName(name));
+        if(labelValue > 0.5) { // 0.5 works really well, actually
             suggestions.push_back(i);
         }
     }
