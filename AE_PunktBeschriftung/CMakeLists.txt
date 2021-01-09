@@ -102,7 +102,7 @@ target_include_directories(falp PUBLIC include)
 
 target_compile_options(falp PRIVATE -Wall -Werror)
 
-# This will generate the falp solver:
+# This will generate the popmusic solver:
 add_executable(popmusic src/main/popmusic.cpp
         src/main/representations/Instance.cpp
         src/main/representations/BasicSolution.cpp
@@ -130,3 +130,26 @@ add_executable(sa src/main/sa.cpp
 target_include_directories(sa PUBLIC include)
 
 target_compile_options(sa PRIVATE -Wall)
+
+# This will generate the ILP solver:
+add_executable(ilp src/main/exact.cpp
+        src/main/representations/Instance.cpp
+        src/main/representations/BasicSolution.cpp
+        src/main/representations/Solution.cpp
+        src/main/representations/Point.cpp
+        src/main/solver/TrivialSolver.cpp
+        src/main/solver/Utils.cpp
+        src/main/io/InstanceReader.cpp
+        src/main/solver/ExactSolver.cpp
+        src/main/solver/CustomCallback.cpp)
+
+if(CXX)
+    set(CMAKE_CXX_STANDARD 17)
+    target_link_libraries(ilp optimized ${GUROBI_CXX_LIBRARY} debug ${GUROBI_CXX_DEBUG_LIBRARY})
+endif()
+
+target_include_directories(ilp PUBLIC include)
+
+target_link_libraries(ilp ${GUROBI_LIBRARY})
+
+target_compile_options(ilp PRIVATE -Wall -Werror)

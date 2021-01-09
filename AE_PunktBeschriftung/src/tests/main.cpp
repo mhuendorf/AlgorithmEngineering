@@ -10,8 +10,8 @@
 int main(int argc, char* argv[]) {
     Instance instance;
     BasicSolution sol(instance);
-    readInstance("../res/5000_9.txt", instance, sol);
-
+    //readInstance("../res/benchmark/vardens_100_10000_8.txt", instance, sol);
+    readInstance("/home/thomas/AE/Benchmark_Instances_CLPP/benchmark_instances/literature_instances/RandomRect/RandomRect_0750_01", instance, sol);
     TrivialSolver trivial;
 
     BasicSolution baseline = trivial.solve(instance);

@@ -16,21 +16,21 @@ BasicSolution ExactSolver::solve(Instance& instance) {
 
         // Create an environment
         GRBEnv env = GRBEnv(true);
-        env.set("LogFile", "cut_only.log");
-        // full_LP.log: what happens when the full LP is given to Gurobi right from the beginning: 41.51 seconds
-        // without_heuristic.log: what happens when we do not feed the results of the heuristic back in: 40.13 seconds
-        //      so using the heuristic just costs time if solving the full LP, that was expected.
-        // cut_only.log: only using the cut, not using any heuristics. (I try this because: see above)
+        // env.set("LogFile", "cut_only.log");
+
+        // Setting logging parameters to silence - has to be done before env.start()
+        env.set("LogToConsole", "0");
+
         env.start();
 
         // Create an empty model
         GRBModel model = GRBModel(env);
 
         // Setting the lazy-constraints-parameter to enable branch-and-cut
-        //model.set("LazyConstraints", "1"); 
-        //model.set(GRB_IntParam_LazyConstraints, 1);
-        auto preCrushParam = model.get(GRB_IntParam_LazyConstraints);
-        std::cout << "***** Lazy-Constraints: " << preCrushParam << " *****" << std::endl;
+        // model.set("LazyConstraints", "1"); 
+        // or model.set(GRB_IntParam_LazyConstraints, 1);
+        // auto lazyParam = model.get(GRB_IntParam_LazyConstraints);
+        // std::cout << "***** Lazy-Constraints: " << lazyParam << " *****" << std::endl;
 
         // objective value
         GRBLinExpr obj = 0.0;
@@ -87,6 +87,8 @@ BasicSolution ExactSolver::solve(Instance& instance) {
             // adding the constraint that a feature is only set if at least one label is set
             model.addConstr(x - labels[0] - labels[1] - labels[2] - labels[3] == 0, "label_"+std::to_string(pointIdx));
         
+            // adding the constraint that only one of the labels can be set (this should be unnecessary if the one above uses ==)
+            // model.addConstr(labels[0] + labels[1] + labels[2] + labels[3] <= 1, "one_of_"+std::to_string(pointIdx));
         }
 
         // adding the constraint that no two labels may overlap
@@ -113,7 +115,7 @@ BasicSolution ExactSolver::solve(Instance& instance) {
         int i = 0;
         for(GRBVar y : yVars) {
             
-            if(y.get(GRB_DoubleAttr_X) == 1) {
+            if(y.get(GRB_DoubleAttr_X) > 0.99) {
                 int idx = getPointIdxFromLabel(i);
                 Point::Corner corner = getCornerFromLabel(i);
                 solution.setLabel(idx, corner);
@@ -121,7 +123,7 @@ BasicSolution ExactSolver::solve(Instance& instance) {
             i++;
         }
 
-        std::cout << "Final Objective Value: " << model.get(GRB_DoubleAttr_ObjVal) << std::endl;
+        // std::cout << "Final Objective Value: " << model.get(GRB_DoubleAttr_ObjVal) << std::endl;
 
     } catch(GRBException e) {
         std::cout << "Error code = " << e.getErrorCode() << std::endl;

@@ -48,9 +48,8 @@ void solve(const string &infile, const string &outfile) {
     // instance.showPoints();
 
     auto start = std::chrono::high_resolution_clock::now();
-    PopmusicSolver heuristic(instance);
     ExactSolver exactSolver;
-    BasicSolution solution = heuristic.solve(instance);
+    BasicSolution solution = exactSolver.solve(instance);
     auto finish = std::chrono::high_resolution_clock::now();
 
     std::chrono::duration<double> elapsed = finish - start;
