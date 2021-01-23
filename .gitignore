@@ -81,3 +81,6 @@ fabric.properties
 .history/
 
 *.idea
+
+# Gurobi log files
+*.log

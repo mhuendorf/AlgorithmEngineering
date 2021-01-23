@@ -40,7 +40,7 @@ def plot(df, inst_type, output_folder):
 
     plt.title('Solver Performance for '+inst_type, fontweight='bold')
     plt.xlabel('number of points', fontweight='bold')
-    plt.ylabel('number of labels ', fontweight='bold')
+    plt.ylabel('runtime in seconds ', fontweight='bold')
     plt.legend()
     plt.tight_layout()
     plt.savefig(os.path.join(output_folder, 'line', inst_type + '.png'))
