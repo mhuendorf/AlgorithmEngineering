@@ -27,8 +27,9 @@ void Instance::add(const Point::Ptr& point) {
     for(Point::Ptr& p : points) {
 
         if((*point).couldCollide(*p)) {
-            (*p).addNeighbour( point );
-            (*point).addNeighbour( p );
+            // note: This is a horrible idea and should be fixed, but was the simplest way of avoiding memory leaks
+            (*p).addNeighbour( std::make_shared<Point>(*point) );
+            (*point).addNeighbour( std::make_shared<Point>(*p) );
         }
     }
     this->points.push_back(point);

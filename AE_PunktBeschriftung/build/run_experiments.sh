@@ -41,7 +41,7 @@ cmake ..
 make -j4
 
 # create csv file for results
-res_file=$target_dir/results.csv
+res_file=$target_dir/Base_Heuristic_Lazy.csv
 touch $res_file
 headline="Name,Solver,Points,Labels,Time"
 echo $headline >> $res_file
@@ -68,30 +68,35 @@ expand_dirs () {
         else 
             pat='(.+_)([0-9]+)_(0.*|3.*)'
 
-            #if [[ $name =~ $pat ]]
-            #then
+            if [[ $name =~ $pat ]]
+            then
                 echo "Solving: "$name
 
-                # trivial solver
-                result=$(./trivial -in $dir -out $2/$name'_trivial.txt')      # result is number of labelled 'points \t time'
+                # ILP Solver
+                result=$(./ilp -in $dir -out $2/$name'_ilp.txt')      # result is number of labelled 'points \t time'
                 result=${result/$'\t'/,}                        # replacing the tab with a comma
-                print_results $result 'Trivial' $dir
+                print_results $result 'Base_Heuristic_Lazy' $dir
 
-                # falp solver
-                result=$(./falp -in $dir -out $2/$name'_falp.txt') 
-                result=${result/$'\t'/,}                        # replacing the tab with a comma
-                print_results $result 'FALP' $dir
+                # # trivial solver
+                # result=$(./trivial -in $dir -out $2/$name'_trivial.txt')      # result is number of labelled 'points \t time'
+                # result=${result/$'\t'/,}                        # replacing the tab with a comma
+                # print_results $result 'Trivial' $dir
 
-                # popmusic solver
-                result=$(./popmusic -in $dir -out $2/$name'_popmusic.txt') 
-                result=${result/$'\t'/,}                        # replacing the tab with a comma
-                print_results $result 'POP' $dir
+                # # falp solver
+                # result=$(./falp -in $dir -out $2/$name'_falp.txt') 
+                # result=${result/$'\t'/,}                        # replacing the tab with a comma
+                # print_results $result 'FALP' $dir
 
-		        # SA solver
-                result=$(./sa -in $dir -out $2/$name'_sa.txt') 
-                result=${result/$'\t'/,}                        # replacing the tab with a comma
-                print_results $result 'SA' $dir
-            #fi
+                # # popmusic solver
+                # result=$(./popmusic -in $dir -out $2/$name'_popmusic.txt') 
+                # result=${result/$'\t'/,}                        # replacing the tab with a comma
+                # print_results $result 'POP' $dir
+
+		        # # SA solver
+                # result=$(./sa -in $dir -out $2/$name'_sa.txt') 
+                # result=${result/$'\t'/,}                        # replacing the tab with a comma
+                # print_results $result 'SA' $dir
+            fi
               
         fi 
     done

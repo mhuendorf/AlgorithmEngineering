@@ -2,6 +2,7 @@
 
 #include <representations/Instance.hpp>
 #include <representations/BasicSolution.hpp>
+#include <solver/Solver.hpp>
 
 #include <iostream>
 #include <vector>
@@ -13,7 +14,7 @@ struct Subproblem {
     std::map<int, bool> border;
 };
 
-class PopmusicSolver {
+class PopmusicSolver : public Solver {
 
 private:
 
@@ -45,6 +46,6 @@ public:
     PopmusicSolver(Instance& instance) 
         : instance(instance), solution(BasicSolution(instance)), maxTabuIt(5), tenure(5) {};
 
-    BasicSolution solve(Instance& instance);
+    BasicSolution solve(Instance& instance) override;
 
 };
