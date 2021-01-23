@@ -12,9 +12,10 @@ the different types of instances.
 """
 
 # only analysing the literature instances for now
-instance_types = ['DenseMap', 'DenseRect', 'HardGrid', 'MunichDrillholes', 'RandomMap', 'RandomRect', 'RegularGrid', 'VariableDensity'] 
-solvers = ["Trivial", "FALP", "POP", "SA"]
-
+#instance_types = ['DenseMap', 'DenseRect', 'HardGrid', 'MunichDrillholes', 'RandomMap', 'RandomRect', 'RegularGrid', 'VariableDensity'] 
+instance_types= ['RandomRect']
+#solvers = ["Trivial", "FALP", "POP", "SA"]
+solvers = ["Baseline", "Base_Heuristic", "Base_Heuristic_Lazy", "Base_Heuristic_Lazy_Cut"]
 
 def plot(df, inst_type, output_folder):
 
@@ -25,11 +26,13 @@ def plot(df, inst_type, output_folder):
         solver_df = df[df['Solver'] == solver]
         #print(solver_df.head())
 
-        sizes = solver_df['Points'].unique()
-
+        #sizes = solver_df['Points'].unique()
+        sizes = [250 * x for x in range(1,13)]
+        
         y = []
         for size in sizes:
-            labels = solver_df[solver_df['Points'] == size]['Time'].to_numpy()
+            #labels = solver_df[solver_df['Points'] == size]['Labels'].to_numpy()
+            labels = solver_df[solver_df['Name'].str.contains("_"+f"{size:04d}"+"_")]
             y.append(np.mean(labels))
 
         plt.plot(sizes, y, c='C'+str(i), label=solver)

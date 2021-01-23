@@ -39,7 +39,7 @@ private:
     // border: control array
     Subproblem createSubProblem(const Instance& instance, size_t r, int si) const;
     
-    std::map<int, Point::Corner> tabuSearch(const Subproblem& sub);
+    void tabuSearch(const Subproblem& sub);
 
 public:
 
