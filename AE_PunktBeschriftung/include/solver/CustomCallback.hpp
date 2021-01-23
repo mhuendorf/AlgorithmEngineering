@@ -15,8 +15,6 @@ private:
     TrivialSolver heuristic;
     GRBModel& model;
 
-    int heuristicInsertions;
-
     void heuristicSolution();
     void cut();
 

@@ -97,10 +97,10 @@ BasicSolution ExactSolver::solve(Instance& instance) {
             int first = std::get<0>(tup);
             int second = std::get<1>(tup);
             
-            //GRBConstr con = 
+            // GRBConstr con = 
             model.addConstr(yVars[first] + yVars[second] <= 1, 
                 "overlap_" + std::to_string(first) + "_" + std::to_string(second));
-            //con.set(GRB_IntAttr_Lazy, 3);
+            // con.set(GRB_IntAttr_Lazy, 3);
         }
 
         model.setObjective(obj, GRB_MAXIMIZE);

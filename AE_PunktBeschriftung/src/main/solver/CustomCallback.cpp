@@ -2,13 +2,13 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
+#include <queue>
 
 #include <solver/CustomCallback.hpp>
 #include <solver/Utils.hpp>
 
 CustomCallback::CustomCallback(Instance& instance, GRBModel& model) : instance{instance}, model{model} {
     heuristic = TrivialSolver();
-    heuristicInsertions = 0;
 }
 
 void CustomCallback::callback() {
@@ -23,17 +23,14 @@ void CustomCallback::callback() {
 
     } else if (where == GRB_CB_MIP) {
 
-        // // General MIP callback - stopping if gap is small enough
-        // double objbst = getDoubleInfo(GRB_CB_MIP_OBJBST); // best objective
-        // double objbnd = getDoubleInfo(GRB_CB_MIP_OBJBND); // best known bound
-
-        // // // std::cout << "Best objective value: " << objbst << std::endl
-        // // //          << "Best bound so far: " << objbnd << std::endl;
+        // General MIP callback - stopping if gap is small enough
+        double objbst = getDoubleInfo(GRB_CB_MIP_OBJBST); // best objective
+        double objbnd = getDoubleInfo(GRB_CB_MIP_OBJBND); // best known bound
         
-        // if (fabs(objbst - objbnd) < 0.03 * (1.0 + fabs(objbst))) {
-        //     //std::cout << "Stop early - 5% gap achieved" << std::endl;
-        //     abort();
-        // }
+        if (fabs(objbst - objbnd) < 0.03 * (1.0 + fabs(objbst))) {
+            //std::cout << "Stop early - 5% gap achieved" << std::endl;
+            abort();
+        }
     }
 }
 
@@ -94,13 +91,25 @@ void CustomCallback::heuristicSolution() {
 
         // calculate heuristic solution based on LP-relaxation
         std::vector<int> suggestions;
+        auto compare = [](std::tuple<int, double> a, std::tuple<int, double> b) { return std::get<1>(a) < std::get<1>(b); };
+        std::priority_queue<std::tuple<int, double>, std::vector<std::tuple<int, double>>, decltype(compare)> suggestionQ(compare);
+
+
         for(int i = 0; i < instance.size()*4; i++) {
             std::string name = "y_" + std::to_string(i);
             double labelValue = getNodeRel(model.getVarByName(name));
             if(labelValue > 0.5) { // 0.5 works really well, actually
-                suggestions.push_back(i);
+                // suggestions.push_back(i);
+                suggestionQ.push(std::make_tuple(i, labelValue));
             }
         }
+
+        while(!suggestionQ.empty()) {
+            int sug = std::get<0>(suggestionQ.top());
+            suggestionQ.pop();
+            suggestions.push_back(sug);
+        }
+
         BasicSolution heurSol = heuristic.solve(instance, suggestions);
 
         // std::cout << heurSol.isFeasible() << std::endl;
