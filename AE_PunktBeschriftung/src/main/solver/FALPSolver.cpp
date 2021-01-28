@@ -1,5 +1,6 @@
 #include <solver/FALPSolver.hpp>
 #include <solver/Utils.hpp>
+#include <solver/TrivialSolver.hpp>
 #include <iostream>
 
 FALPSolver::FALPSolver() : labelQ{this->labelCmp}, overlaps{} {}
@@ -49,8 +50,8 @@ void FALPSolver::setupLabelQ(const Instance& instance) {
             overlaps.push_back(overlapList);
 
             // glue these together and put them into the Q
-            QElem elem((*p).getIdx(), static_cast<Point::Corner>(corner), overlapCounter);
-            labelQ.insert(elem);
+            // QElem elem((*p).getIdx(), static_cast<Point::Corner>(corner), overlapCounter);
+            // labelQ.insert(elem);
         }
     }
 }
@@ -133,13 +134,17 @@ BasicSolution FALPSolver::solve(Instance& instance) {
     // put all labels into a priority Q, sorting by number of overlaps
     setupLabelQ(instance);
 
+    TrivialSolver solver;
+    
+    return solver.solve(instance);
+
     // step 1: iteratively pull labels with least overlaps from Q
-    setBestLabels(solution);
+    // setBestLabels(solution);
 
     // step 2: I think step 2 might actually be superfluous here!
     // TODO benchmark FALPSolver against TrivialSolver
     
-    return solution;
+    // return solution;
 }
 
 std::vector< std::vector<int> >& FALPSolver::getOverlaps() {

@@ -1,18 +1,16 @@
 #include <solver/PopmusicSolver.hpp>
-#include <solver/FALPSolver.hpp>
+#include <solver/TrivialSolver.hpp>
 #include <solver/Utils.hpp>
 
 
 BasicSolution PopmusicSolver::solve(Instance& instance) {
 
-    // step 1: call FALPSolver for initial solution
-    FALPSolver falp;
-    this->solution = falp.solve(instance);
+    // step 1: call trivial solver for initial solution
+    TrivialSolver trivial;
+    this->solution = trivial.solve(instance);
 
-    //std::cout << "initial solving worked. Solution: " << solution << std::endl;
-
-    // step 2: TODO copy overlaps from FALPSolver into this object - maybe not necessary, take them from falp
-    this->overlaps = falp.getOverlaps();
+    // step 2: create list of overlaps
+    setupOverlaps(instance);
 
     // step 3: start popmusic procedure
     std::set<int> waiting_list; // stores parts that still need to be tried - in the beginning, all nodes
@@ -25,8 +23,7 @@ BasicSolution PopmusicSolver::solve(Instance& instance) {
 
         // creating the subproblem: r nodes in the direct or indirect neighbourhood of seed part
         int si = *waiting_list.begin(); // seed part
-        size_t r = 20;
-        Subproblem sub = createSubProblem(instance, r, si);
+        Subproblem sub = createSubProblem(instance, subProblemSize, si);
 
         // start tabuSearch for this subproblem
         tabuSearch(sub);
@@ -37,6 +34,40 @@ BasicSolution PopmusicSolver::solve(Instance& instance) {
     }
 
     return solution;
+}
+
+void PopmusicSolver::setupOverlaps(const Instance& instance) {
+
+    // for all points
+    for(const Point::Ptr& p : instance.getPoints()) {
+
+        // for all label positions
+        for(int corner = Point::TOP_LEFT; corner != Point::NOT_PLACED; corner++) {
+
+            std::vector<int> overlapList; // stores the indices of the labels with which this label overlaps
+            overlapList.reserve((*p).getNeighbours().size() * 4); // reserving too much space, probably
+            
+            Point::Rectangle rect1 = (*p).getCoordsForPlacement(static_cast<Point::Corner>(corner));
+            
+            for( const Point::Ptr& neighbour : (*p).getNeighbours()) {
+
+                for(int corner2 = Point::TOP_LEFT; corner2 != Point::NOT_PLACED; corner2++) {
+
+                    Point::Rectangle rect2 = (*neighbour).getCoordsForPlacement(static_cast<Point::Corner>(corner2));
+                    if( Point::checkCollision(rect1, rect2) ) {
+                        int otherLabelIdx = getLabelIdx((*neighbour).getIdx(), static_cast<Point::Corner>(corner2));
+                        overlapList.push_back(otherLabelIdx);
+                    }
+                }
+            }
+
+            // this list migh be empty if we never overlapped,
+            // otherwise it contains the label-indices of the labels we overlapped with
+            // we can simply push back because our label-index is 0,1,2,3... automatically if we iterate in this way
+            overlapList.shrink_to_fit();
+            this->overlaps.push_back(overlapList);
+        }
+    }
 }
 
 // creates a subproblem for instance of size r, at seed point si

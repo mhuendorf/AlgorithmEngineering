@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.3)
+./cmake_minimum_required(VERSION 3.3)
 project(label_map)
 
 # enable C++ compilation
@@ -96,6 +96,7 @@ add_executable(falp src/main/falp.cpp
         src/main/representations/Point.cpp
         src/main/solver/FALPSolver.cpp
         src/main/solver/Utils.cpp
+        src/main/solver/TrivialSolver.cpp
         src/main/io/InstanceReader.cpp)
 
 target_include_directories(falp PUBLIC include)
@@ -111,6 +112,7 @@ add_executable(popmusic src/main/popmusic.cpp
         src/main/solver/FALPSolver.cpp
         src/main/solver/PopmusicSolver.cpp
         src/main/solver/Utils.cpp
+        src/main/solver/TrivialSolver.cpp
         src/main/io/InstanceReader.cpp)
 
 target_include_directories(popmusic PUBLIC include)

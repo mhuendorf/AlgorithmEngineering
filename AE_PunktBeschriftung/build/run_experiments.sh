@@ -73,9 +73,9 @@ expand_dirs () {
                 echo "Solving: "$name
 
                 # ILP Solver
-                result=$(./ilp -in $dir -out $2/$name'_ilp.txt')      # result is number of labelled 'points \t time'
+                result=$(./popmusic -in $dir -out $2/$name'_POPold.txt')      # result is number of labelled 'points \t time'
                 result=${result/$'\t'/,}                        # replacing the tab with a comma
-                print_results $result 'Base_Heuristic_Lazy' $dir
+                print_results $result 'POP_new' $dir
 
                 # # trivial solver
                 # result=$(./trivial -in $dir -out $2/$name'_trivial.txt')      # result is number of labelled 'points \t time'
