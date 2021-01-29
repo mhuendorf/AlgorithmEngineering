@@ -41,7 +41,7 @@ cmake ..
 make -j4
 
 # create csv file for results
-res_file=$target_dir/firstComparison.csv
+res_file=$target_dir/varDenComp.csv
 touch $res_file
 headline="Name,Solver,Points,Labels,Time"
 echo $headline >> $res_file
@@ -75,27 +75,17 @@ expand_dirs () {
                 # Popmusic 
                 result=$(./popmusic -in $dir -out $2/$name'_POP.txt')      # result is number of labelled 'points \t time'
                 result=${result/$'\t'/,}                        # replacing the tab with a comma
-                print_results $result 'POP' $dir
+                print_results $result 'POP_new' $dir
 
                 # AbA
-                result=$(./executables/AbA -in $dir -out $2/$name'_AbA.txt')      # result is number of labelled 'points \t time'
-                result=${result/$'\t'/,}                        # replacing the tab with a comma
-                print_results $result 'AbA' $dir
+                #result=$(./sa -in $dir -out $2/$name'_SA.txt')      # result is number of labelled 'points \t time'
+                #result=${result/$'\t'/,}                        # replacing the tab with a comma
+                #print_results $result 'SA' $dir
 
                 # GHK
-                result=$(./executables/GHK -in $dir -out $2/$name'_GHK.txt')      # result is number of labelled 'points \t time'
-                result=${result/$'\t'/,}                        # replacing the tab with a comma
-                print_results $result 'GHK' $dir
-
-                # LMS
-                result=$(./executables/LMS_direction -in $dir -out $2/$name'_LMS_dir.txt')      # result is number of labelled 'points \t time'
-                result=${result/$'\t'/,}                        # replacing the tab with a comma
-                print_results $result 'LMS_direction' $dir                
-
-                # SW
-                result=$(./executables/SW -in $dir -out $2/$name'_SW.txt')      # result is number of labelled 'points \t time'
-                result=${result/$'\t'/,}                        # replacing the tab with a comma
-                print_results $result 'SW' $dir  
+                #result=$(./trivial -in $dir -out $2/$name'_Trivial.txt')      # result is number of labelled 'points \t time'
+                #result=${result/$'\t'/,}                        # replacing the tab with a comma
+                #print_results $result 'Trivial' $dir
                 
             #fi
               
