@@ -117,10 +117,6 @@ Subproblem PopmusicSolver::createSubProblem(const Instance& instance, size_t r, 
 }
 
 void PopmusicSolver::tabuSearch(const Subproblem& sub) {
-    
-    // copy of the solution with which we will be working
-    // BasicSolution localSolution = solution;
-    // TODO measure how much time this copying takes
 
     // priority Q for labels (multiset because C++ Q sucks)
     // sorting labels by #overlaps
@@ -163,10 +159,13 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
     // this->maxTabuIt = candidates.size() * 1.5;    
     // while not done, select cheapest candidate from list
     while( iterations < this->maxTabuIt && !candidates.empty() ) {
-        
-        BasicSolution localSolution = solution;
-
         iterations++;
+
+        // storing the current value of the solution
+        int bestSolution = solution.size();
+
+        // for storing the current values of all labels we want to set
+        std::vector<std::tuple<int, Point::Corner>> labelMemory;
 
         // retrieving a candidate: a not-yet-set label with lowest number of overlaps
         std::tuple<int, int> candidate = *candidates.begin();
@@ -183,7 +182,8 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
 
             tabuList[pointIdx] = tenure; // not allowed to touch this point anymore from now on
 
-            localSolution.setLabel(pointIdx, corner);
+            labelMemory.push_back({pointIdx, solution.getCorner(pointIdx)}); // make a backup
+            solution.setLabel(pointIdx, corner);
 
             // OVERVIEW: we will now have to repair all points that clash with the new label
 
@@ -196,16 +196,17 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
                 Point::Corner otherCorner = getCornerFromLabel(otherLabel);
 
                 // ...if the point that we would cross is even in the solution and has that label placement...
-                if(localSolution.contains(otherPointIdx) && localSolution.getCorner(otherPointIdx) == otherCorner) {
+                if(solution.contains(otherPointIdx) && solution.getCorner(otherPointIdx) == otherCorner) {
                     // ...then, delete that point and add it to the list of points that need to be repaired.
-                    localSolution.resetLabel(otherPointIdx);
+                    labelMemory.push_back({otherPointIdx, solution.getCorner(otherPointIdx)});
+                    solution.resetLabel(otherPointIdx);
                     repairPoints.insert(otherPointIdx);
                 }
             }
 
             // OVERVIEW: We will now repair all broken points.
 
-            // TODO try all combinations here, or something crazy like that (maybe check how many there are, if it is too many, don't?)
+            // TODO maybe try all combinations here, or something crazy like that (maybe check how many there are, if it is too many, don't?)
             for(int brokenPointIdx : repairPoints) {
 
                 Point p = instance.getPoint(brokenPointIdx);
@@ -219,7 +220,7 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
                     for(const Point::Ptr& other : p.getNeighbours()) {
 
                         // if they collide, note that and stop checking the others
-                        if(localSolution.checkCollision(p, static_cast<Point::Corner>(corner), (*other).getIdx())) {
+                        if(solution.checkCollision(p, static_cast<Point::Corner>(corner), (*other).getIdx())) {
                             collided = true;
                             break;
                         } 
@@ -227,7 +228,7 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
                     
                     // if we never collided, set the label
                     if(!collided) {
-                        localSolution.setLabel(brokenPointIdx, static_cast<Point::Corner>(corner));
+                        solution.setLabel(brokenPointIdx, static_cast<Point::Corner>(corner));
                         break; // no need to look at the remaining corner placements
                     }
                 }
@@ -236,8 +237,13 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
             // OVERVIEW: We chose a candidate label, set that, tried to repair all the nodes that were broken and will now do this for the next candidate
             
             // If that actually improved the solution, we will set it now
-            if(localSolution.size() >= solution.size()) {
-                solution = localSolution;
+            if(solution.size() >= bestSolution) {
+                // don't worry, be happy
+            } else {
+                // start time machine (don't tell the ministry of magic)
+                for(auto tup : labelMemory) {
+                    solution.setLabel(std::get<0>(tup), std::get<1>(tup));
+                }
             }
 
         } else {
