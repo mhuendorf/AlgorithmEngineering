@@ -156,7 +156,7 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
     }
     // end of setup
 
-    // this->maxTabuIt = candidates.size() * 1.5;    
+    this->maxTabuIt = candidates.size() * 1.5;    
     // while not done, select cheapest candidate from list
     while( iterations < this->maxTabuIt && !candidates.empty() ) {
         iterations++;
