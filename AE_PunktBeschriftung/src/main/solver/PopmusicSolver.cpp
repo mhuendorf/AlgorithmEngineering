@@ -13,24 +13,14 @@ BasicSolution PopmusicSolver::solve(Instance& instance) {
     setupOverlaps(instance);
 
     // step 3: start popmusic procedure
-    std::set<int> waiting_list; // stores parts that still need to be tried - in the beginning, all nodes
     for(int idx = 0; idx < instance.size(); idx++) {
-        waiting_list.insert(idx);
-    }
-
-    // while there are still nodes that need improvement
-    while( !waiting_list.empty() ) {
-
+    
         // creating the subproblem: r nodes in the direct or indirect neighbourhood of seed part
-        int si = *waiting_list.begin(); // seed part
-        Subproblem sub = createSubProblem(instance, subProblemSize, si);
+        Subproblem sub = createSubProblem(instance, subProblemSize, idx);
 
         // start tabuSearch for this subproblem
         tabuSearch(sub);
 
-        // remove the seed part from the waiting list
-        // TODO make this conditional on whether something was changed
-        waiting_list.erase(si);
     }
 
     return solution;
