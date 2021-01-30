@@ -119,7 +119,8 @@ Subproblem PopmusicSolver::createSubProblem(const Instance& instance, size_t r, 
 void PopmusicSolver::tabuSearch(const Subproblem& sub) {
     
     // copy of the solution with which we will be working
-    BasicSolution localSolution = solution;
+    // BasicSolution localSolution = solution;
+    // TODO measure how much time this copying takes
 
     // priority Q for labels (multiset because C++ Q sucks)
     // sorting labels by #overlaps
@@ -142,7 +143,7 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
         tabuList.insert(std::make_pair(idx, -1)); 
 
         // collect all indices of nodes that are not set
-        if(!localSolution.contains(idx)) {
+        if(!solution.contains(idx)) {
             for(int corner = Point::TOP_LEFT; corner != Point::NOT_PLACED; corner++) {
                 int labelIdx = getLabelIdx(idx, static_cast<Point::Corner>(corner));
                 std::tuple<int, int> tup( labelIdx, overlaps[labelIdx].size() ); // TODO maybe use the actual number of overlaps here, not the theoretical maximum
@@ -152,19 +153,23 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
     }
     int iterations = 0;
 
-    // if we have no candidates, return empty improvements
+    // size of candidates is usually 20 - 80
+    // if we have no candidates, abort
     if(candidates.size() == 0) {
         return;
     }
     // end of setup
-    
+
+    // this->maxTabuIt = candidates.size() * 1.5;    
     // while not done, select cheapest candidate from list
     while( iterations < this->maxTabuIt && !candidates.empty() ) {
+        
+        BasicSolution localSolution = solution;
+
         iterations++;
 
         // retrieving a candidate: a not-yet-set label with lowest number of overlaps
         std::tuple<int, int> candidate = *candidates.begin();
-        candidates.erase(candidates.begin());
 
         // parsing the label into point and corner
         int labelIdx = std::get<0>(candidate);
@@ -173,6 +178,8 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
 
         // If we are allowed to set that point, we do it
         if(tabuList[pointIdx] < 0) {
+
+            candidates.erase(candidates.begin());
 
             tabuList[pointIdx] = tenure; // not allowed to touch this point anymore from now on
 
@@ -234,6 +241,7 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
             }
 
         } else {
+            tabuList[pointIdx] -= 1; // trying to make this point possible
             continue; // implicitly: go to next point
         }
     }
