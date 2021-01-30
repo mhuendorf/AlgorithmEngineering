@@ -208,14 +208,14 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
 
             // TODO maybe try all combinations here, or something crazy like that (maybe check how many there are, if it is too many, don't?)
             const int MAX_REPAIR_POINTS_OPTIMAL = 6;
-
+            const bool alternative = false;
             // try all combinations if number of Points to repair is small enough
-            if (repairPoints.size() <= MAX_REPAIR_POINTS_OPTIMAL) {
-                std::cout << "points to repair: " << repairPoints.size() << std::endl;
+            if (alternative && repairPoints.size() <= MAX_REPAIR_POINTS_OPTIMAL) {
+                //std::cout << "points to repair: " << repairPoints.size() << std::endl;
                 std::vector<int> bestCombo(repairPoints.size());
                 int bestScore = -1;
                 int numCombinations = pow(5, repairPoints.size());
-                std::cout << "number of combinations: " << numCombinations << std::endl;
+                //std::cout << "number of combinations: " << numCombinations << std::endl;
                 for (int i = 0; i < numCombinations; ++i) {
                     int comboId = i;
                     int possibleScore = 0;
@@ -223,9 +223,9 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
                     std::vector<int> combo(repairPoints.size());
                     combo.clear();
                     while (comboId > 0) {
-                        std::cout << comboId << std::endl;
+                        //std::cout << comboId << std::endl;
                         combo.push_back(comboId % 5);
-                        if (Point::Corner::NOT_PLACED != static_cast<Point::Corner>(*combo.end())) {
+                        if (Point::Corner::NOT_PLACED != static_cast<Point::Corner>(combo.at(combo.size()-1))) {
                             possibleScore++;
                         }
                         comboId /= 5;
@@ -234,55 +234,46 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
                         combo.push_back(0);
                     }
 
-                    std::cout << "combination to be tested: ";
+                    /*std::cout << "combination to be tested: ";
                     for (int j = 0; j < combo.size(); ++j) {
                         std::cout << combo.at(j) << ", ";
                     }
-                    std::cout << std::endl;
+                    std::cout << std::endl;*/
                     //a combination has been generated, now test it
                     int j = 0;
-                    //set all labels
-                    for (int brokenPointIdx : repairPoints) {
-                        std::cout << "set Point " << solution.getPoint(brokenPointIdx).getName() << " to Corner " << static_cast<Point::Corner>(combo.at(j)) << std::endl;
-                        solution.setLabel(brokenPointIdx, static_cast<Point::Corner>(combo.at(j)));
-                        j++;
-                    }
 
-                    j = 0;
-                    //set all labels
-                    for (int brokenPointIdx : repairPoints) {
-                        std::cout << solution.getCorner(brokenPointIdx) << std::endl;
-                        j++;
-                    }
-
-                    //test them
+                    //test it
                     j=0;
                     bool collided = false;
                     for (int brokenPointIdx : repairPoints) {
-                        std::cout << "checking collision on Point '" << solution.getPoint(brokenPointIdx).getName() << "' with '";
+                        solution.setLabel(brokenPointIdx, static_cast<Point::Corner>(combo.at(j)));
+                        //std::cout << "checking collision on Point '" << solution.getPoint(brokenPointIdx).getName() << "' with '";
                         Point p = instance.getPoint(brokenPointIdx);
                         // walking over all neighbours of the point to check for collisions
                         for (const Point::Ptr &other : p.getNeighbours()) {
-                            std::cout << (*other).getName() << " on Corner " << static_cast<Point::Corner>(combo.at(j)) << "', ";
+                            //std::cout << (*other).getName() << " on Corner " << static_cast<Point::Corner>(combo.at(j)) << "', ";
                             // if they collide, note that and stop checking the others
                             if (solution.checkCollision(p, static_cast<Point::Corner>(combo.at(j)), (*other).getIdx())) {
                                 collided = true;
-                                std::cout << "collided" << std::endl;
+                                //std::cout << "collided" << std::endl;
                                 break;
                             }
                         }
-                        std::cout << "finished " << std::endl;
+                        //std::cout << "finished " << std::endl;
                         if (collided == true)
                             break;
                         j++;
                     }
                     if (!collided && possibleScore > bestScore) {
                         bestScore = possibleScore;
-                        for (int k = 0; j < combo.size(); ++k) {
+                        /*for (int k = 0; j < combo.size(); ++k) {
                             std::cout << combo.at(k);
                         }
-                        std::cout << "combo did not collide" << std::endl;
-                        bestCombo = combo;
+                        std::cout << "combo did not collide" << std::endl;*/
+                        bestCombo.clear();
+                        for (int k : combo) {
+                            bestCombo.push_back(k);
+                        }
                     }
                 }
 
@@ -292,14 +283,16 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
                     solution.setLabel(brokenPointIdx, static_cast<Point::Corner>(bestCombo.at(i)));
                     i++;
                 }
-                std::cout << "Point not placed: " << Point::Corner::NOT_PLACED<< std::endl;
-
-                for (int j = 0; j < bestCombo.size(); ++j) {
-                    std::cout << bestCombo.at(j);
+                if(bestScore>0) {
+                    /*std::cout << "best combo ";
+                    for (int j = 0; j < bestCombo.size(); ++j) {
+                        std::cout << bestCombo.at(j) << ", ";
+                    }
+                    std::cout << " with value " << bestScore << std::endl;*/
                 }
 
-                exit(0);
             } else {
+
                 for (int brokenPointIdx : repairPoints) {
 
                     Point p = instance.getPoint(brokenPointIdx);
@@ -346,5 +339,4 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
         }
     }
     // OVERVIEW: We tried to set new solutions for maxTabuIt many steps / while we still had candidates
-    return;
 }
