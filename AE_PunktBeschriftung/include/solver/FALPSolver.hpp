@@ -29,14 +29,17 @@ private:
 
     // comparison function to compare QElems by number of overlaps
     std::function<bool(QElem, QElem)> labelCmp = [](QElem left, QElem right) { return left.overlaps < right.overlaps; };
+    
     // priorityQ that stores QElems
     std::multiset<QElem, decltype(labelCmp) > labelQ;
 
+    // for each label, stores a list of indices of the overlapping labels
     std::vector< std::vector<int> > overlaps;
 
     // method for putting all Labels into a priority Q
     void setupLabelQ(const Instance& instance);
 
+    // method to set the labels with the least number of overlaps first
     void setBestLabels(Solution& solution);
 
     // DEBUG
@@ -48,6 +51,7 @@ public:
 
     BasicSolution solve(Instance& instance) override;
 
+    // returns the overlap-information
     std::vector< std::vector<int> >& getOverlaps();
 
 };

@@ -69,11 +69,16 @@ bool BasicSolution::isFeasible() const {
 }
 
 void BasicSolution::setLabel(int idx, Point::Corner corner) {
-    Point::Rectangle rect = instance.getPoint(idx).getCoordsForPlacement(corner);
-    placements.erase(idx);
-    placements.insert(std::make_pair(idx, rect));
 
+    placements.erase(idx);
     corners.erase(idx);
+
+    if(corner == Point::Corner::NOT_PLACED) {
+        return;
+    }
+
+    Point::Rectangle rect = instance.getPoint(idx).getCoordsForPlacement(corner);
+    placements.insert(std::make_pair(idx, rect));
     corners.insert(std::make_pair(idx, corner));
 }
 
@@ -88,7 +93,11 @@ bool BasicSolution::contains(int idx) const {
 }
 
 Point::Corner BasicSolution::getCorner(int pointIdx) const {
-    return corners.at(pointIdx);
+    try {
+        return corners.at(pointIdx);
+    }  catch (const std::out_of_range &e) {
+        return Point::Corner::NOT_PLACED;
+    }
 }
 
 bool BasicSolution::checkCollision(const Point& p, Point::Corner placement, int otherIdx) const {

@@ -1,42 +1,63 @@
 #include <solver/PopmusicSolver.hpp>
-#include <solver/FALPSolver.hpp>
+#include <solver/TrivialSolver.hpp>
 #include <solver/Utils.hpp>
 
 
 BasicSolution PopmusicSolver::solve(Instance& instance) {
 
-    // step 1: call FALPSolver for initial solution
-    FALPSolver falp;
-    this->solution = falp.solve(instance);
+    // step 1: call trivial solver for initial solution
+    TrivialSolver trivial;
+    this->solution = trivial.solve(instance);
 
-    //std::cout << "initial solving worked. Solution: " << solution << std::endl;
-
-    // step 2: TODO copy overlaps from FALPSolver into this object - maybe not necessary, take them from falp
-    this->overlaps = falp.getOverlaps();
+    // step 2: create list of overlaps
+    setupOverlaps(instance);
 
     // step 3: start popmusic procedure
-    std::set<int> waiting_list; // stores parts that still need to be tried - in the beginning, all nodes
     for(int idx = 0; idx < instance.size(); idx++) {
-        waiting_list.insert(idx);
-    }
-
-    // while there are still nodes that need improvement
-    while( !waiting_list.empty() ) {
-
+    
         // creating the subproblem: r nodes in the direct or indirect neighbourhood of seed part
-        int si = *waiting_list.begin(); // seed part
-        size_t r = 20;
-        Subproblem sub = createSubProblem(instance, r, si);
+        Subproblem sub = createSubProblem(instance, subProblemSize, idx);
 
         // start tabuSearch for this subproblem
         tabuSearch(sub);
 
-        // remove the seed part from the waiting list
-        // TODO make this conditional on whether something was changed
-        waiting_list.erase(si);
     }
 
     return solution;
+}
+
+void PopmusicSolver::setupOverlaps(const Instance& instance) {
+
+    // for all points
+    for(const Point::Ptr& p : instance.getPoints()) {
+
+        // for all label positions
+        for(int corner = Point::TOP_LEFT; corner != Point::NOT_PLACED; corner++) {
+
+            std::vector<int> overlapList; // stores the indices of the labels with which this label overlaps
+            overlapList.reserve((*p).getNeighbours().size() * 4); // reserving too much space, probably
+            
+            Point::Rectangle rect1 = (*p).getCoordsForPlacement(static_cast<Point::Corner>(corner));
+            
+            for( const Point::Ptr& neighbour : (*p).getNeighbours()) {
+
+                for(int corner2 = Point::TOP_LEFT; corner2 != Point::NOT_PLACED; corner2++) {
+
+                    Point::Rectangle rect2 = (*neighbour).getCoordsForPlacement(static_cast<Point::Corner>(corner2));
+                    if( Point::checkCollision(rect1, rect2) ) {
+                        int otherLabelIdx = getLabelIdx((*neighbour).getIdx(), static_cast<Point::Corner>(corner2));
+                        overlapList.push_back(otherLabelIdx);
+                    }
+                }
+            }
+
+            // this list migh be empty if we never overlapped,
+            // otherwise it contains the label-indices of the labels we overlapped with
+            // we can simply push back because our label-index is 0,1,2,3... automatically if we iterate in this way
+            overlapList.shrink_to_fit();
+            this->overlaps.push_back(overlapList);
+        }
+    }
 }
 
 // creates a subproblem for instance of size r, at seed point si
@@ -86,9 +107,6 @@ Subproblem PopmusicSolver::createSubProblem(const Instance& instance, size_t r, 
 }
 
 void PopmusicSolver::tabuSearch(const Subproblem& sub) {
-    
-    // copy of the solution with which we will be working
-    BasicSolution localSolution = solution;
 
     // priority Q for labels (multiset because C++ Q sucks)
     // sorting labels by #overlaps
@@ -111,7 +129,7 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
         tabuList.insert(std::make_pair(idx, -1)); 
 
         // collect all indices of nodes that are not set
-        if(!localSolution.contains(idx)) {
+        if(!solution.contains(idx)) {
             for(int corner = Point::TOP_LEFT; corner != Point::NOT_PLACED; corner++) {
                 int labelIdx = getLabelIdx(idx, static_cast<Point::Corner>(corner));
                 std::tuple<int, int> tup( labelIdx, overlaps[labelIdx].size() ); // TODO maybe use the actual number of overlaps here, not the theoretical maximum
@@ -121,19 +139,26 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
     }
     int iterations = 0;
 
-    // if we have no candidates, return empty improvements
+    // size of candidates is usually 20 - 80
+    // if we have no candidates, abort
     if(candidates.size() == 0) {
         return;
     }
     // end of setup
-    
+
+    this->maxTabuIt = candidates.size() * 1.5;    
     // while not done, select cheapest candidate from list
     while( iterations < this->maxTabuIt && !candidates.empty() ) {
         iterations++;
 
+        // storing the current value of the solution
+        int bestSolution = solution.size();
+
+        // for storing the current values of all labels we want to set
+        std::vector<std::tuple<int, Point::Corner>> labelMemory;
+
         // retrieving a candidate: a not-yet-set label with lowest number of overlaps
         std::tuple<int, int> candidate = *candidates.begin();
-        candidates.erase(candidates.begin());
 
         // parsing the label into point and corner
         int labelIdx = std::get<0>(candidate);
@@ -143,9 +168,12 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
         // If we are allowed to set that point, we do it
         if(tabuList[pointIdx] < 0) {
 
+            candidates.erase(candidates.begin());
+
             tabuList[pointIdx] = tenure; // not allowed to touch this point anymore from now on
 
-            localSolution.setLabel(pointIdx, corner);
+            labelMemory.push_back({pointIdx, solution.getCorner(pointIdx)}); // make a backup
+            solution.setLabel(pointIdx, corner);
 
             // OVERVIEW: we will now have to repair all points that clash with the new label
 
@@ -158,16 +186,17 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
                 Point::Corner otherCorner = getCornerFromLabel(otherLabel);
 
                 // ...if the point that we would cross is even in the solution and has that label placement...
-                if(localSolution.contains(otherPointIdx) && localSolution.getCorner(otherPointIdx) == otherCorner) {
+                if(solution.contains(otherPointIdx) && solution.getCorner(otherPointIdx) == otherCorner) {
                     // ...then, delete that point and add it to the list of points that need to be repaired.
-                    localSolution.resetLabel(otherPointIdx);
+                    labelMemory.push_back({otherPointIdx, solution.getCorner(otherPointIdx)});
+                    solution.resetLabel(otherPointIdx);
                     repairPoints.insert(otherPointIdx);
                 }
             }
 
             // OVERVIEW: We will now repair all broken points.
 
-            // TODO try all combinations here, or something crazy like that (maybe check how many there are, if it is too many, don't?)
+            // TODO maybe try all combinations here, or something crazy like that (maybe check how many there are, if it is too many, don't?)
             for(int brokenPointIdx : repairPoints) {
 
                 Point p = instance.getPoint(brokenPointIdx);
@@ -181,7 +210,7 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
                     for(const Point::Ptr& other : p.getNeighbours()) {
 
                         // if they collide, note that and stop checking the others
-                        if(localSolution.checkCollision(p, static_cast<Point::Corner>(corner), (*other).getIdx())) {
+                        if(solution.checkCollision(p, static_cast<Point::Corner>(corner), (*other).getIdx())) {
                             collided = true;
                             break;
                         } 
@@ -189,7 +218,7 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
                     
                     // if we never collided, set the label
                     if(!collided) {
-                        localSolution.setLabel(brokenPointIdx, static_cast<Point::Corner>(corner));
+                        solution.setLabel(brokenPointIdx, static_cast<Point::Corner>(corner));
                         break; // no need to look at the remaining corner placements
                     }
                 }
@@ -198,11 +227,17 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
             // OVERVIEW: We chose a candidate label, set that, tried to repair all the nodes that were broken and will now do this for the next candidate
             
             // If that actually improved the solution, we will set it now
-            if(localSolution.size() >= solution.size()) {
-                solution = localSolution;
+            if(solution.size() >= bestSolution) {
+                // don't worry, be happy
+            } else {
+                // start time machine (don't tell the ministry of magic)
+                for(auto tup : labelMemory) {
+                    solution.setLabel(std::get<0>(tup), std::get<1>(tup));
+                }
             }
 
         } else {
+            tabuList[pointIdx] -= 1; // trying to make this point possible
             continue; // implicitly: go to next point
         }
     }
