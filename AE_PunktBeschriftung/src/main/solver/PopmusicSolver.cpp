@@ -182,7 +182,7 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
 
             tabuList[pointIdx] = tenure; // not allowed to touch this point anymore from now on
 
-            labelMemory.push_back({pointIdx, solution.getCorner(pointIdx)}); // make a backup
+            labelMemory.emplace_back(pointIdx, solution.getCorner(pointIdx)); // make a backup
             solution.setLabel(pointIdx, corner);
 
             // OVERVIEW: we will now have to repair all points that clash with the new label
@@ -198,7 +198,7 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
                 // ...if the point that we would cross is even in the solution and has that label placement...
                 if(solution.contains(otherPointIdx) && solution.getCorner(otherPointIdx) == otherCorner) {
                     // ...then, delete that point and add it to the list of points that need to be repaired.
-                    labelMemory.push_back({otherPointIdx, solution.getCorner(otherPointIdx)});
+                    labelMemory.emplace_back(otherPointIdx, solution.getCorner(otherPointIdx));
                     solution.resetLabel(otherPointIdx);
                     repairPoints.insert(otherPointIdx);
                 }
@@ -207,29 +207,123 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
             // OVERVIEW: We will now repair all broken points.
 
             // TODO maybe try all combinations here, or something crazy like that (maybe check how many there are, if it is too many, don't?)
-            for(int brokenPointIdx : repairPoints) {
+            const int MAX_REPAIR_POINTS_OPTIMAL = 6;
 
-                Point p = instance.getPoint(brokenPointIdx);
-
-                for(int corner = Point::TOP_LEFT; corner != Point::NOT_PLACED; corner++) {
-                    
-                    // tracking whether we collided with one of the neighbours
-                    bool collided = false;
-
-                    // walking over all neighbours of the point to check for collisions
-                    for(const Point::Ptr& other : p.getNeighbours()) {
-
-                        // if they collide, note that and stop checking the others
-                        if(solution.checkCollision(p, static_cast<Point::Corner>(corner), (*other).getIdx())) {
-                            collided = true;
-                            break;
-                        } 
+            // try all combinations if number of Points to repair is small enough
+            if (repairPoints.size() <= MAX_REPAIR_POINTS_OPTIMAL) {
+                std::cout << "points to repair: " << repairPoints.size() << std::endl;
+                std::vector<int> bestCombo(repairPoints.size());
+                int bestScore = -1;
+                int numCombinations = pow(5, repairPoints.size());
+                std::cout << "number of combinations: " << numCombinations << std::endl;
+                for (int i = 0; i < numCombinations; ++i) {
+                    int comboId = i;
+                    int possibleScore = 0;
+                    //create vector of combinations
+                    std::vector<int> combo(repairPoints.size());
+                    combo.clear();
+                    while (comboId > 0) {
+                        std::cout << comboId << std::endl;
+                        combo.push_back(comboId % 5);
+                        if (Point::Corner::NOT_PLACED != static_cast<Point::Corner>(*combo.end())) {
+                            possibleScore++;
+                        }
+                        comboId /= 5;
                     }
-                    
-                    // if we never collided, set the label
-                    if(!collided) {
-                        solution.setLabel(brokenPointIdx, static_cast<Point::Corner>(corner));
-                        break; // no need to look at the remaining corner placements
+                    while (combo.size() < repairPoints.size()) {
+                        combo.push_back(0);
+                    }
+
+                    std::cout << "combination to be tested: ";
+                    for (int j = 0; j < combo.size(); ++j) {
+                        std::cout << combo.at(j) << ", ";
+                    }
+                    std::cout << std::endl;
+                    //a combination has been generated, now test it
+                    int j = 0;
+                    //set all labels
+                    for (int brokenPointIdx : repairPoints) {
+                        std::cout << "set Point " << solution.getPoint(brokenPointIdx).getName() << " to Corner " << static_cast<Point::Corner>(combo.at(j)) << std::endl;
+                        solution.setLabel(brokenPointIdx, static_cast<Point::Corner>(combo.at(j)));
+                        j++;
+                    }
+
+                    j = 0;
+                    //set all labels
+                    for (int brokenPointIdx : repairPoints) {
+                        std::cout << solution.getCorner(brokenPointIdx) << std::endl;
+                        j++;
+                    }
+
+                    //test them
+                    j=0;
+                    bool collided = false;
+                    for (int brokenPointIdx : repairPoints) {
+                        std::cout << "checking collision on Point '" << solution.getPoint(brokenPointIdx).getName() << "' with '";
+                        Point p = instance.getPoint(brokenPointIdx);
+                        // walking over all neighbours of the point to check for collisions
+                        for (const Point::Ptr &other : p.getNeighbours()) {
+                            std::cout << (*other).getName() << " on Corner " << static_cast<Point::Corner>(combo.at(j)) << "', ";
+                            // if they collide, note that and stop checking the others
+                            if (solution.checkCollision(p, static_cast<Point::Corner>(combo.at(j)), (*other).getIdx())) {
+                                collided = true;
+                                std::cout << "collided" << std::endl;
+                                break;
+                            }
+                        }
+                        std::cout << "finished " << std::endl;
+                        if (collided == true)
+                            break;
+                        j++;
+                    }
+                    if (!collided && possibleScore > bestScore) {
+                        bestScore = possibleScore;
+                        for (int k = 0; j < combo.size(); ++k) {
+                            std::cout << combo.at(k);
+                        }
+                        std::cout << "combo did not collide" << std::endl;
+                        bestCombo = combo;
+                    }
+                }
+
+                //best combination has been found... set it once again
+                int i = 0;
+                for (int brokenPointIdx : repairPoints) {
+                    solution.setLabel(brokenPointIdx, static_cast<Point::Corner>(bestCombo.at(i)));
+                    i++;
+                }
+                std::cout << "Point not placed: " << Point::Corner::NOT_PLACED<< std::endl;
+
+                for (int j = 0; j < bestCombo.size(); ++j) {
+                    std::cout << bestCombo.at(j);
+                }
+
+                exit(0);
+            } else {
+                for (int brokenPointIdx : repairPoints) {
+
+                    Point p = instance.getPoint(brokenPointIdx);
+
+                    for (int corner = Point::TOP_LEFT; corner != Point::NOT_PLACED; corner++) {
+
+                        // tracking whether we collided with one of the neighbours
+                        bool collided = false;
+
+                        // walking over all neighbours of the point to check for collisions
+                        for (const Point::Ptr &other : p.getNeighbours()) {
+
+                            // if they collide, note that and stop checking the others
+                            if (solution.checkCollision(p, static_cast<Point::Corner>(corner), (*other).getIdx())) {
+                                collided = true;
+                                break;
+                            }
+                        }
+
+                        // if we never collided, set the label
+                        if (!collided) {
+                            solution.setLabel(brokenPointIdx, static_cast<Point::Corner>(corner));
+                            break; // no need to look at the remaining corner placements
+                        }
                     }
                 }
             }
@@ -252,6 +346,5 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
         }
     }
     // OVERVIEW: We tried to set new solutions for maxTabuIt many steps / while we still had candidates
-
     return;
 }

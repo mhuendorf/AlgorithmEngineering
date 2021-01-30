@@ -14,9 +14,9 @@ endif()
 
 # tell cmake to start searching from project source dir and find gurobi
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
-find_package(GUROBI REQUIRED)
+#find_package(GUROBI REQUIRED)
 
-include_directories(${GUROBI_INCLUDE_DIRS})
+#include_directories(${GUROBI_INCLUDE_DIRS})
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -62,7 +62,7 @@ add_executable(test src/tests/main.cpp
 
 if(CXX)
     set(CMAKE_CXX_STANDARD 17)
-    target_link_libraries(test optimized ${GUROBI_CXX_LIBRARY} debug ${GUROBI_CXX_DEBUG_LIBRARY})
+    #target_link_libraries(test optimized ${GUROBI_CXX_LIBRARY} debug ${GUROBI_CXX_DEBUG_LIBRARY})
 endif()
 
 target_include_directories(test PUBLIC include)
@@ -147,7 +147,7 @@ add_executable(ilp src/main/exact.cpp
 
 if(CXX)
     set(CMAKE_CXX_STANDARD 17)
-    target_link_libraries(ilp optimized ${GUROBI_CXX_LIBRARY} debug ${GUROBI_CXX_DEBUG_LIBRARY})
+#    target_link_libraries(ilp optimized ${GUROBI_CXX_LIBRARY} debug ${GUROBI_CXX_DEBUG_LIBRARY})
 endif()
 
 target_include_directories(ilp PUBLIC include)
