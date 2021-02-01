@@ -31,11 +31,11 @@ string Point::getName() const {
     return label;
 }
 
-const std::vector<Point::Ptr>& Point::getNeighbours() const {
+const std::vector<Point*>& Point::getNeighbours() const {
     return neighbours;
 }
 
-void Point::addNeighbour(Point::Ptr other) {
+void Point::addNeighbour(Point* other) {
     neighbours.push_back(other);
 }
 

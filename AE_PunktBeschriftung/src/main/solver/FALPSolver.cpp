@@ -30,7 +30,7 @@ void FALPSolver::setupLabelQ(const Instance& instance) {
             // counts the overlaps 
             int overlapCounter = 0;
             
-            for( const Point::Ptr& neighbour : (*p).getNeighbours()) {
+            for( const Point* neighbour : (*p).getNeighbours()) {
 
                 for(int corner2 = Point::TOP_LEFT; corner2 != Point::NOT_PLACED; corner2++) {
 

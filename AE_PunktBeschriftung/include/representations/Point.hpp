@@ -26,7 +26,7 @@ private:
     int height;
     std::string label;
 
-    std::vector<Point::Ptr> neighbours;
+    std::vector<Point*> neighbours;
 
     friend std::ostream &operator<<(std::ostream &ostream, const Point &point);
 
@@ -46,9 +46,9 @@ public:
 
     bool couldCollide(const Point& other) const;
 
-    void addNeighbour(Point::Ptr other);
+    void addNeighbour(Point* other);
 
-    const std::vector<Point::Ptr>& getNeighbours() const;
+    const std::vector<Point*>& getNeighbours() const;
 
     Rectangle getCoordsForPlacement(Corner corner) const;
 

@@ -48,7 +48,7 @@ private:
 public:
 
     PopmusicSolver(Instance& instance) 
-        : instance(instance), solution(BasicSolution(instance)), maxTabuIt(50), 
+        : instance(instance), solution(BasicSolution(instance)), maxTabuIt(100), 
           tenure(5), subProblemSize(20), overlaps{} {};
 
     BasicSolution solve(Instance& instance) override;

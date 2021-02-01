@@ -39,7 +39,7 @@ void PopmusicSolver::setupOverlaps(const Instance& instance) {
             
             Point::Rectangle rect1 = (*p).getCoordsForPlacement(static_cast<Point::Corner>(corner));
             
-            for( const Point::Ptr& neighbour : (*p).getNeighbours()) {
+            for( const Point* neighbour : (*p).getNeighbours()) {
 
                 for(int corner2 = Point::TOP_LEFT; corner2 != Point::NOT_PLACED; corner2++) {
 
@@ -146,7 +146,6 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
     }
     // end of setup
 
-    this->maxTabuIt = candidates.size() * 1.5;    
     // while not done, select cheapest candidate from list
     while( iterations < this->maxTabuIt && !candidates.empty() ) {
         iterations++;
@@ -207,7 +206,7 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
                     bool collided = false;
 
                     // walking over all neighbours of the point to check for collisions
-                    for(const Point::Ptr& other : p.getNeighbours()) {
+                    for(const Point* other : p.getNeighbours()) {
 
                         // if they collide, note that and stop checking the others
                         if(solution.checkCollision(p, static_cast<Point::Corner>(corner), (*other).getIdx())) {
