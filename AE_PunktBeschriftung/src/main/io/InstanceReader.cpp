@@ -14,7 +14,6 @@ using std::string;
 
 
 void readInstance(const string& filename, Instance& instance, BasicSolution& solution) {
-
     std::fstream file;
 
     // TODO check if successful
