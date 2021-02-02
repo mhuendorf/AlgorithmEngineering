@@ -16,7 +16,7 @@ endif()
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
 find_package(GUROBI REQUIRED)
 
-include_directories(${GUROBI_INCLUDE_DIRS})
+#include_directories(${GUROBI_INCLUDE_DIRS})
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -89,6 +89,22 @@ add_executable(popmusic src/main/popmusic.cpp
 target_include_directories(popmusic PUBLIC include)
 
 target_compile_options(popmusic PRIVATE -O3 -Wall -Werror)
+
+# This will generate the popmusic solver with exact subproblem fixing:
+add_executable(popmusicexact src/main/popmusicexact.cpp
+        src/main/representations/Instance.cpp
+        src/main/representations/BasicSolution.cpp
+        src/main/representations/Solution.cpp
+        src/main/representations/Point.cpp
+        src/main/solver/FALPSolver.cpp
+        src/main/solver/PopmusicSolverExact.cpp
+        src/main/solver/Utils.cpp
+        src/main/solver/TrivialSolver.cpp
+        src/main/io/InstanceReader.cpp)
+
+target_include_directories(popmusicexact PUBLIC include)
+
+target_compile_options(popmusicexact PRIVATE -Wall -Werror)
 
 # This will generate the sa solver:
 add_executable(sa src/main/sa.cpp

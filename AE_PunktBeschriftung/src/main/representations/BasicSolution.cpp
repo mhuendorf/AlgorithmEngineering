@@ -102,7 +102,7 @@ Point::Corner BasicSolution::getCorner(int pointIdx) const {
 
 bool BasicSolution::checkCollision(const Point& p, Point::Corner placement, int otherIdx) const {
 
-    if(!contains(otherIdx)) {
+    if(!contains(otherIdx) || placement==Point::Corner::NOT_PLACED) {
         return false; // can't collide if the other one isn't even set
     }
 

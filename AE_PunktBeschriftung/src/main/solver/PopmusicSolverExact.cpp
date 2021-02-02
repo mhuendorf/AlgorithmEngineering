@@ -1,9 +1,9 @@
-#include <solver/PopmusicSolver.hpp>
+#include <solver/PopmusicSolverExact.hpp>
 #include <solver/TrivialSolver.hpp>
 #include <solver/Utils.hpp>
 
 
-BasicSolution PopmusicSolver::solve(Instance& instance) {
+BasicSolution PopmusicSolverExact::solve(Instance& instance) {
 
     // step 1: call trivial solver for initial solution
     TrivialSolver trivial;
@@ -26,7 +26,7 @@ BasicSolution PopmusicSolver::solve(Instance& instance) {
     return solution;
 }
 
-void PopmusicSolver::setupOverlaps(const Instance& instance) {
+void PopmusicSolverExact::setupOverlaps(const Instance& instance) {
 
     // for all points
     for(const Point::Ptr& p : instance.getPoints()) {
@@ -61,7 +61,7 @@ void PopmusicSolver::setupOverlaps(const Instance& instance) {
 }
 
 // creates a subproblem for instance of size r, at seed point si
-Subproblem PopmusicSolver::createSubProblem(const Instance& instance, size_t r, int si) const {
+Subproblem PopmusicSolverExact::createSubProblem(const Instance& instance, size_t r, int si) const {
 
     std::set<int> Q; // contains all nodes of the subgraph starting at si
     Q.insert(si);
@@ -106,7 +106,7 @@ Subproblem PopmusicSolver::createSubProblem(const Instance& instance, size_t r, 
     return sub;
 }
 
-void PopmusicSolver::tabuSearch(const Subproblem& sub) {
+void PopmusicSolverExact::tabuSearch(const Subproblem& sub) {
 
     // priority Q for labels (multiset because C++ Q sucks)
     // sorting labels by #overlaps
@@ -146,7 +146,7 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
     }
     // end of setup
 
-    this->maxTabuIt = candidates.size() * 1.5;    
+    this->maxTabuIt = candidates.size() * 1.5;
     // while not done, select cheapest candidate from list
     while( iterations < this->maxTabuIt && !candidates.empty() ) {
         iterations++;
@@ -195,29 +195,119 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
             }
 
             // OVERVIEW: We will now repair all broken points.
+            const int MAX_REPAIR_POINTS_OPTIMAL = 6;
 
-            // TODO maybe try all combinations here, or something crazy like that (maybe check how many there are, if it is too many, don't?)
-            for(int brokenPointIdx : repairPoints) {
+            //split points into trivial and none trivial points
+            std::vector<int> notTrivialPoints;
+            std::vector<int> trivialPoints;
+
+            //for all points to repair
+            for (int brokenPointIdx : repairPoints) {
+                //if too big to handle all combinations break early
+                if (notTrivialPoints.size() > MAX_REPAIR_POINTS_OPTIMAL) {
+                    break;
+                }
+                //get its neighbors
+                bool isTrivial = false;
+                for (const Point::Ptr &neighbor : solution.getPoint(brokenPointIdx).getNeighbours()) {
+                    //and check if they are in the list of points to fix
+                    if (std::find(repairPoints.begin(), repairPoints.end(), neighbor->getIdx()) !=
+                        repairPoints.end()) {
+                        notTrivialPoints.push_back(brokenPointIdx);
+                        isTrivial = true;
+                        break;
+                    }
+                }
+                if (!isTrivial) {
+                    trivialPoints.push_back(brokenPointIdx);
+                }
+            }
+
+            // try all combinations if number of Points to repair is small enough
+            if (notTrivialPoints.size() <= MAX_REPAIR_POINTS_OPTIMAL && !notTrivialPoints.empty()) {
+
+                std::vector<int> bestCombo(notTrivialPoints.size());
+                int bestScore = -1;
+                int numCombinations = pow(5, notTrivialPoints.size());
+                for (int i = 0; i < numCombinations; ++i) {
+                    int comboId = i;
+                    int possibleScore = 0;
+                    std::vector<int> combo(notTrivialPoints.size());
+                    combo.clear();
+                    while (comboId > 0) {
+                        combo.push_back(comboId % 5);
+                        if (Point::Corner::NOT_PLACED != static_cast<Point::Corner>(combo.at(combo.size()-1))) {
+                            possibleScore++;
+                        }
+                        comboId /= 5;
+                    }
+                    while (combo.size() < notTrivialPoints.size()) {
+                        combo.push_back(0);
+                    }
+
+                    //a combination has been generated, now test it
+                    int j = 0;
+
+                    bool collided = false;
+                    for (int brokenPointIdx : notTrivialPoints) {
+                        solution.setLabel(brokenPointIdx, static_cast<Point::Corner>(combo.at(j)));
+                        Point p = instance.getPoint(brokenPointIdx);
+                        // walking over all neighbours of the point to check for collisions
+                        for (const Point::Ptr &other : p.getNeighbours()) {
+                            // if they collide, note that and stop checking the others
+                            if (solution.checkCollision(p, static_cast<Point::Corner>(combo.at(j)), (*other).getIdx())) {
+                                collided = true;
+                                break;
+                            }
+                        }
+                        if (collided == true)
+                            break;
+                        j++;
+                    }
+                    if (!collided && possibleScore > bestScore) {
+                        bestScore = possibleScore;
+                        bestCombo.clear();
+                        for (int k : combo) {
+                            bestCombo.push_back(k);
+                        }
+                    }
+                }
+
+                //best combination has been found... set it once again
+                int i = 0;
+                for (int brokenPointIdx : notTrivialPoints) {
+                    solution.setLabel(brokenPointIdx, static_cast<Point::Corner>(bestCombo.at(i)));
+                    i++;
+                }
+
+                //if too much combinations to handle set trivial Points to all points
+            } else if (notTrivialPoints.size() > MAX_REPAIR_POINTS_OPTIMAL) {
+                trivialPoints.clear();
+                for (int idx : repairPoints)
+                    trivialPoints.push_back(idx);
+            }
+
+            for (int brokenPointIdx : trivialPoints) {
 
                 Point p = instance.getPoint(brokenPointIdx);
 
-                for(int corner = Point::TOP_LEFT; corner != Point::NOT_PLACED; corner++) {
+                for (int corner = Point::TOP_LEFT; corner != Point::NOT_PLACED; corner++) {
 
                     // tracking whether we collided with one of the neighbours
                     bool collided = false;
 
                     // walking over all neighbours of the point to check for collisions
-                    for(const Point::Ptr& other : p.getNeighbours()) {
+                    for (const Point::Ptr &other : p.getNeighbours()) {
 
                         // if they collide, note that and stop checking the others
-                        if(solution.checkCollision(p, static_cast<Point::Corner>(corner), (*other).getIdx())) {
+                        if (solution.checkCollision(p, static_cast<Point::Corner>(corner), (*other).getIdx())) {
                             collided = true;
                             break;
                         }
                     }
 
                     // if we never collided, set the label
-                    if(!collided) {
+                    if (!collided) {
                         solution.setLabel(brokenPointIdx, static_cast<Point::Corner>(corner));
                         break; // no need to look at the remaining corner placements
                     }
@@ -225,7 +315,7 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
             }
 
             // OVERVIEW: We chose a candidate label, set that, tried to repair all the nodes that were broken and will now do this for the next candidate
-
+            
             // If that actually improved the solution, we will set it now
             if(solution.size() >= bestSolution) {
                 // don't worry, be happy
@@ -242,6 +332,4 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
         }
     }
     // OVERVIEW: We tried to set new solutions for maxTabuIt many steps / while we still had candidates
-
-    return;
 }
