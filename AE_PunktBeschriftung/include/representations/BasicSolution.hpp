@@ -39,7 +39,4 @@ public:
 
     void printSolution(std::ostream &ostream) override;
 
-    void printData() const;
-
-
 };

@@ -41,7 +41,7 @@ cmake ..
 make -j4
 
 # create csv file for results
-res_file=$target_dir/varDenComp.csv
+res_file=$target_dir/symphony.csv
 touch $res_file
 headline="Name,Solver,Points,Labels,Time"
 echo $headline >> $res_file
@@ -73,9 +73,9 @@ expand_dirs () {
                 echo "Solving: "$name
 
                 # Popmusic 
-                result=$(./popmusic -in $dir -out $2/$name'_POP.txt')      # result is number of labelled 'points \t time'
+                result=$(./popmusic -in $dir -out $2/$name'_SYM.txt')      # result is number of labelled 'points \t time'
                 result=${result/$'\t'/,}                        # replacing the tab with a comma
-                print_results $result 'POP_new' $dir
+                print_results $result 'SYMPHONY' $dir
 
                 # AbA
                 #result=$(./sa -in $dir -out $2/$name'_SA.txt')      # result is number of labelled 'points \t time'

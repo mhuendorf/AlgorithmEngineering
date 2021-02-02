@@ -46,10 +46,6 @@ void BasicSolution::printSolution(std::ostream &ostream) {
     ostream << *this << std::endl;
 }
 
-void BasicSolution::printData() const {
-    std::cout << &placements << " " << &corners << std::endl;
-}
-
 bool BasicSolution::isFeasible() const {
 
     auto it = placements.cbegin();
