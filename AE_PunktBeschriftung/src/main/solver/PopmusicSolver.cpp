@@ -136,10 +136,12 @@ void PopmusicSolver::tabuSearch(const Subproblem& sub) {
                 candidates.insert( tup );
             }
         }
+        // if(candidates.size() >= this->maxCandidates) {
+        //     break;
+        // }
     }
     int iterations = 0;
 
-    // size of candidates is usually 20 - 80
     // if we have no candidates, abort
     if(candidates.size() == 0) {
         return;
