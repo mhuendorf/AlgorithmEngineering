@@ -1,9 +1,9 @@
 # Algorithm Engineering
 ## Corner Labeling Placement Problem (CLPP)
-Dieses Prokjekt befasst sich mit dem Corner Labeling Placement Problem (kurz CLPP).
-Kurz zusammengefasst geht es um das Problem Punkte einer 2D Ebene zu beschriften. Die sogenannten 'Label' die zum beschriften der Punkte verwendet werden sind dabei  Rechtecke mit wohldefinierter größe.
+Dieses Projekt befasst sich mit dem Corner Labeling Placement Problem (kurz CLPP).
+Kurz zusammengefasst geht es um das Problem, Punkte einer 2D-Ebene zu beschriften. Die sogenannten 'Label', die zum Beschriften der Punkte verwendet werden, sind dabei Rechtecke mit wohldefinierter Größe.
 
-Diese Rechtecke dürfen jedoch nur so platziert werden, dass genau eine Ecke des Labels den damit zu beschriftenden Punkt berührt. Label dürfen sich nicht überschneiden, Punkte dürfen jedoch in einem Label liegen. Ziel ist es möglichst viele Label zu plazieren, sodass das Ergebnis zulässig ist.
+Diese Rechtecke dürfen jedoch nur so platziert werden, dass genau eine Ecke des Labels den damit zu beschriftenden Punkt berührt. Label dürfen sich nicht überschneiden, Punkte dürfen jedoch innerhalb eines Labels liegen, solange sie selbst nicht gelabelt sind. Ziel ist es, möglichst viele Label zu platzieren, sodass das Ergebnis zulässig ist.
 
 
 ## Aufgabenzettel
@@ -40,7 +40,7 @@ Sei progname ein beliebiger Name für ihr Programm:
 * Der Aufruf „progname -in dat1 -out dat2“ liest die Eingabedatei dat1 ein, führt den Algorithmus aus, und schreibt die Lösung in die Datei dat2. Auf der Konsole gibt der Algorithmus zwei Zahlen—durch Tabulator (’\t’) getrennt— aus: die Anzahl der beschrifteten Punkte und die benötigte Laufzeit.
 * Der Aufruf „progname -eval dat1“ liest die Datei dat1 ein. Falls die darin be- schriebene Lösung zulässig ist, wird die Anzahl der beschrifteten Punkte auf die Konsole geschrieben; sonst der Text „ERROR: “, gefolgt von einer (hilfreichen) Fehlermeldung, warum die Lösung nicht korrekt ist.
 
-Der Algorithmus soll zu diesem Zeitpunkt noch nicht „clever“ sein; eine beliebi- ge zulässige (=überlappungsfreie) Lösung zu generieren reicht aus. Anmerkung zur Laufzeit: Messen Sie nur die Zeit zwischen nach-dem-Laden und vor-dem-Schreiben!
+Der Algorithmus soll zu diesem Zeitpunkt noch nicht „clever“ sein; eine beliebige zulässige (=überlappungsfreie) Lösung zu generieren reicht aus. Anmerkung zur Laufzeit: Messen Sie nur die Zeit zwischen nach-dem-Laden und vor-dem-Schreiben!
 
 **Zur Deadline:** Sammeln der Benchmark-Instanzen aller Gruppen
 
