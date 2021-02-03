@@ -28,8 +28,8 @@ void Instance::add(const Point::Ptr& point) {
 
         if((*point).couldCollide(*p)) {
             // note: This is a horrible idea and should be fixed, but was the simplest way of avoiding memory leaks
-            (*p).addNeighbour( std::make_shared<Point>(*point) );
-            (*point).addNeighbour( std::make_shared<Point>(*p) );
+            (*p).addNeighbour( point.get() );
+            (*point).addNeighbour( p.get() );
         }
     }
     this->points.push_back(point);
@@ -39,7 +39,7 @@ void Instance::showPoints() {
     for(const Point::Ptr& p : points) {
         std::cout << "Point " << (*p).getName() << " hat Adresse " << &(*p) << std::endl;
 
-        for(const Point::Ptr& ptr : (*p).getNeighbours()) {
+        for(const Point* ptr : (*p).getNeighbours()) {
             std::cout << "Neighbour " << (*ptr).getName() << " hat Adresse " << &(*ptr) << std::endl;
         }
     }

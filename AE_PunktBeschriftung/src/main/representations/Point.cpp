@@ -11,7 +11,7 @@ using std::vector;
 
 // Constructor: initializes points and reserves memory
 // initializing coordinates to 0,0, which is meaningless anyway as long as the placement is 0 as well
-Point::Point(int idx, long x, long y, long width, long height, string label) 
+Point::Point(int idx, int x, int y, int width, int height, string label) 
         : idx(idx), x(x), y(y), width(width), height(height), label(label) {
 }
 
@@ -19,11 +19,11 @@ int Point::getIdx() const {
     return idx;
 }
 
-long Point::getX() const {
+int Point::getX() const {
     return x;
 }
 
-long Point::getY() const {
+int Point::getY() const {
     return y;
 }
 
@@ -31,11 +31,11 @@ string Point::getName() const {
     return label;
 }
 
-const std::vector<Point::Ptr>& Point::getNeighbours() const {
+const std::vector<Point*>& Point::getNeighbours() const {
     return neighbours;
 }
 
-void Point::addNeighbour(Point::Ptr other) {
+void Point::addNeighbour(Point* other) {
     neighbours.push_back(other);
 }
 
@@ -52,10 +52,10 @@ std::ostream& operator<<(std::ostream& ostream, const Point& point) {
 
 Point::Rectangle Point::getBigRectangle() const {
 
-    long uLX = x-width;
-    long uLY = y+height;
-    long lRX = x+width; 
-    long lRY = y-height;
+    int uLX = x-width;
+    int uLY = y+height;
+    int lRX = x+width; 
+    int lRY = y-height;
 
     return Rectangle(Point2D(uLX, uLY), Point2D(lRX, lRY));
 }
@@ -67,12 +67,12 @@ bool Point::couldCollide(const Point& other) const {
 Point::Rectangle Point::getCoordsForPlacement(Corner corner) const {
 
     // calculating coords of upper left corner of box
-    long uLX = (corner == TOP_LEFT || corner == BOTTOM_LEFT) ? x : x - width;
-    long uLY = (corner == TOP_LEFT || corner == TOP_RIGHT) ? y : y + height;
+    int uLX = (corner == TOP_LEFT || corner == BOTTOM_LEFT) ? x : x - width;
+    int uLY = (corner == TOP_LEFT || corner == TOP_RIGHT) ? y : y + height;
 
     // calculating coords of lower right corner of box
-    long lRX = (corner == BOTTOM_RIGHT || corner == TOP_RIGHT) ? x : x + width;
-    long lRY = (corner == BOTTOM_RIGHT || corner == BOTTOM_LEFT) ? y : y - height;
+    int lRX = (corner == BOTTOM_RIGHT || corner == TOP_RIGHT) ? x : x + width;
+    int lRY = (corner == BOTTOM_RIGHT || corner == BOTTOM_LEFT) ? y : y - height;
 
     Point2D upperLeft(uLX, uLY);
     Point2D lowerRight(lRX, lRY);

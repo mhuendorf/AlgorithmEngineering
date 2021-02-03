@@ -10,7 +10,7 @@ class Point {
 public:
 
     using Ptr = std::shared_ptr<Point>;
-    using Point2D = std::tuple<long, long>;
+    using Point2D = std::tuple<int, int>;
     using Rectangle = std::tuple<Point2D, Point2D>;
 
     enum Corner {
@@ -20,25 +20,25 @@ public:
 private:
 
     int idx;
-    long x;
-    long y;
-    long width;
-    long height;
+    int x;
+    int y;
+    int width;
+    int height;
     std::string label;
 
-    std::vector<Point::Ptr> neighbours;
+    std::vector<Point*> neighbours;
 
     friend std::ostream &operator<<(std::ostream &ostream, const Point &point);
 
 public:
 
-    Point(int idx, long x, long y, long width, long height, std::string label);
+    Point(int idx, int x, int y, int width, int height, std::string label);
 
     int getIdx() const;
 
-    long getX() const;
+    int getX() const;
 
-    long getY() const;
+    int getY() const;
 
     std::string getName() const;
 
@@ -46,9 +46,9 @@ public:
 
     bool couldCollide(const Point& other) const;
 
-    void addNeighbour(Point::Ptr other);
+    void addNeighbour(Point* other);
 
-    const std::vector<Point::Ptr>& getNeighbours() const;
+    const std::vector<Point*>& getNeighbours() const;
 
     Rectangle getCoordsForPlacement(Corner corner) const;
 

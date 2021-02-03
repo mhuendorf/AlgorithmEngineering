@@ -53,7 +53,7 @@ bool BasicSolution::isFeasible() const {
         int idx = it->first;
         Point::Rectangle rect = it->second;
         const Point& p = instance.getPoint(idx);
-        for(const Point::Ptr& other : p.getNeighbours()) {
+        for(const Point* other : p.getNeighbours()) {
             auto finder = placements.find((*other).getIdx());
             if(placements.end() != finder) {
                 if(Point::checkCollision(rect, finder->second)) {

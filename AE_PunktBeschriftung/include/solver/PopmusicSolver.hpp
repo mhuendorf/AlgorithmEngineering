@@ -24,6 +24,7 @@ private:
     // config parameters for TabuSearch
     int maxTabuIt;
     int tenure;
+    size_t maxCandidates;
     size_t subProblemSize;
     // int minCandidateLSize;
     // int minTabuSize;
@@ -48,8 +49,8 @@ private:
 public:
 
     PopmusicSolver(Instance& instance) 
-        : instance(instance), solution(BasicSolution(instance)), maxTabuIt(50), 
-          tenure(5), subProblemSize(20), overlaps{} {};
+        : instance(instance), solution(BasicSolution(instance)), maxTabuIt(100), 
+          tenure(5), maxCandidates(300), subProblemSize(20), overlaps{} {};
 
     BasicSolution solve(Instance& instance) override;
 
